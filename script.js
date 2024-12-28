@@ -77,3 +77,24 @@ surahSelect.addEventListener('change', (event) => {
 
 // Render the first Surah by default
 renderSurah(surahSelect.value);
+// Enhance Surah rendering with a fade-in effect
+function renderSurah(surahName) {
+  const surah = quranData[surahName];
+  const contentDiv = document.getElementById('content');
+  contentDiv.innerHTML = '';  // Clear previous content
+
+  // Add fade-in effect
+  contentDiv.classList.add('fade-in');
+
+  for (const verse in surah) {
+    const verseDiv = document.createElement('div');
+    const arabicText = document.createElement('p');
+    arabicText.innerHTML = `<strong>Arabic:</strong> ${surah[verse].arabic}`;
+    const malteseText = document.createElement('p');
+    malteseText.innerHTML = `<strong>Maltese Translation:</strong> ${surah[verse].maltese}`;
+
+    verseDiv.appendChild(arabicText);
+    verseDiv.appendChild(malteseText);
+    contentDiv.appendChild(verseDiv);
+  }
+}
