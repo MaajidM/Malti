@@ -42,12 +42,20 @@ const quranData = {
   }
 };
 
-// Function to render Surah data on the page
-function renderSurah(surahName, surah) {
-  const surahSection = document.createElement('section');
-  const surahTitle = document.createElement('h2');
-  surahTitle.textContent = surahName;
-  surahSection.appendChild(surahTitle);
+// Populate the Surah dropdown
+const surahSelect = document.getElementById('surahSelect');
+for (const surahName in quranData) {
+  const option = document.createElement('option');
+  option.value = surahName;
+  option.textContent = surahName;
+  surahSelect.appendChild(option);
+}
+
+// Function to render selected Surah's verses
+function renderSurah(surahName) {
+  const surah = quranData[surahName];
+  const contentDiv = document.getElementById('content');
+  contentDiv.innerHTML = '';  // Clear previous content
 
   for (const verse in surah) {
     const verseDiv = document.createElement('div');
@@ -58,13 +66,14 @@ function renderSurah(surahName, surah) {
 
     verseDiv.appendChild(arabicText);
     verseDiv.appendChild(malteseText);
-    surahSection.appendChild(verseDiv);
+    contentDiv.appendChild(verseDiv);
   }
-
-  document.getElementById('content').appendChild(surahSection);
 }
 
-// Loop through all Surahs and render them
-for (const surahName in quranData) {
-  renderSurah(surahName, quranData[surahName]);
-}
+// Event listener for Surah selection
+surahSelect.addEventListener('change', (event) => {
+  renderSurah(event.target.value);
+});
+
+// Render the first Surah by default
+renderSurah(surahSelect.value);
