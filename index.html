@@ -141,6 +141,7 @@
         let currentPage = 1;
         const versesPerPage = 10; // Number of verses per page
         let currentSurahIndex = 0; // To track which surah we're currently displaying
+        let currentSurahName = ''; // Store the current Surah name
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
@@ -164,9 +165,27 @@
                 const button = document.createElement('button');
                 button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
                 button.textContent = surahName;
-                button.onclick = () => displaySurah(surahName);
+                button.onclick = () => loadSurah(surahName);
                 surahList.appendChild(button);
             });
+        }
+
+        // Load selected Surah and reset pagination
+        function loadSurah(surahName) {
+            currentPage = 1; // Reset page to 1 when switching Surah
+            currentSurahName = surahName;
+            const surah = quranData[surahName];
+
+            allVerses = [];
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                allVerses.push({
+                    surahName,
+                    verseNumber,
+                    verseText: verse.maltese
+                });
+            });
+
+            displayVerses();
         }
 
         // Flatten Quran data into a single array of verses
