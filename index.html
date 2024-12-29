@@ -191,20 +191,23 @@
             // Clear previous content
             verseContainer.innerHTML = '';
 
-            // Display the Surah Title at the top
-            const surahTitle = document.createElement('div');
-            surahTitle.className = 'surah-name';
-            surahTitle.innerHTML = `${allVerses[startIndex].surahName}`; // Display Surah name at the top
-            verseContainer.appendChild(surahTitle);
+            // Display the Surah Title at the top (only if it's the start of a new Surah)
+            const firstVerse = allVerses[startIndex];
+            if (startIndex === 0 || allVerses[startIndex].surahName !== allVerses[startIndex - 1].surahName) {
+                const surahTitle = document.createElement('div');
+                surahTitle.className = 'surah-name';
+                surahTitle.innerHTML = firstVerse.surahName; // Display Surah name at the top
+                verseContainer.appendChild(surahTitle);
+            }
 
             // Display the verses for the current page
+            let verseText = '';
             for (let i = startIndex; i < endIndex; i++) {
                 const verse = allVerses[i];
-                const verseElement = document.createElement('div');
-                verseElement.className = 'verse-text';
-                verseElement.innerHTML = `${verse.verseText} <sup class="verse-number">${verse.surahName} : ${verse.verseNumber}</sup>`;
-                verseContainer.appendChild(verseElement);
+                verseText += `${verse.verseText} <sup class="verse-number">${verse.verseNumber}</sup> `;
             }
+
+            verseContainer.innerHTML += verseText;
 
             // Disable/Enable buttons based on the current page
             document.getElementById('backButton').disabled = currentPage === 1;
