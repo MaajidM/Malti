@@ -42,17 +42,7 @@
     <nav class="bg-white shadow-md fixed top-0 w-full z-10">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-6">
-                <span id="currentSurah" class="font-semibold text-xl">Quran in Maltese</span>
-                <div>
-                    <button class="text-gray-700 p-2 hover:bg-gray-200 rounded" id="translationDropdown">
-                        Translation
-                    </button>
-                    <div id="translationOptions" class="hidden bg-white shadow-lg absolute mt-2 py-2 rounded-lg w-48">
-                        <button class="w-full text-left px-4 py-2 text-sm">Quran in Arabic</button>
-                        <button class="w-full text-left px-4 py-2 text-sm">Quran in English</button>
-                        <button class="w-full text-left px-4 py-2 text-sm">Quran in Maltese</button>
-                    </div>
-                </div>
+                <span id="currentSurah" class="font-semibold text-xl">Il-Quran bil-Malti</span>
             </div>
             <button id="themeToggle" class="p-2 bg-blue-600 text-white rounded-lg">🌙</button>
         </div>
@@ -95,16 +85,16 @@
     </footer>
 
     <script>
-        // Inline Quran Data
+        // Inline Quran Data (Maltese translation)
         const quranData = {
             "1. Al-Fatiha": {
-                "1": { "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
-                "2": { "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ", "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" }
+                "1": { "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
+                "2": { "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" }
             },
             "2. Al-Baqara": {
-                "1": { "arabic": "الم", "maltese": "Alif. Lam. Mim" },
-                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
-            }
+                "1": { "maltese": "Alif. Lam. Mim" },
+                "2": { "maltese": "Dan huwa l-Ktieb, bla dubju" }
+            },
             // Add the full Quran data here
         };
 
@@ -114,12 +104,9 @@
         const surahTitle = document.getElementById('surahTitle');
         const currentSurah = document.getElementById('currentSurah');
         const sidebar = document.getElementById('sidebar');
-        const menuButton = document.getElementById('menuButton');
         const themeToggle = document.getElementById('themeToggle');
         const increaseFontButton = document.getElementById('increaseFont');
         const decreaseFontButton = document.getElementById('decreaseFont');
-        const translationDropdown = document.getElementById('translationDropdown');
-        const translationOptions = document.getElementById('translationOptions');
 
         let currentFontSize = 18;
 
@@ -150,7 +137,6 @@
                 verseDiv.style.fontSize = `${currentFontSize}px`; // Set dynamic font size
                 verseDiv.innerHTML = `
                     <div class="space-y-4">
-                        <div class="text-right font-arabic text-xl" dir="rtl" lang="ar">${verse.arabic}</div>
                         <div class="text-left text-lg text-gray-800">${verse.maltese}</div>
                     </div>
                 `;
@@ -178,19 +164,9 @@
             });
         }
 
-        // Toggle sidebar visibility
-        menuButton.addEventListener('click', () => {
-            sidebar.classList.toggle('translate-x-full');
-        });
-
         // Toggle dark/light mode
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-        });
-
-        // Show Translation Options
-        translationDropdown.addEventListener('click', () => {
-            translationOptions.classList.toggle('hidden');
         });
 
         // Initialize App
