@@ -3,41 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran Imqaddes bil-Malti</title>
-    <!-- Include Inter font from Google Fonts -->
+    <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Default Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F8F9FA;
             color: rgb(18, 18, 18);
         }
 
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background-color: #121212;
-            color: #EAEAEA;
-        }
-
         .sidebar {
-            background-color: #D1D5DB; /* Changed to grey */
+            background-color: #FFFFFF;
         }
 
-        /* Header Styles */
         .header {
             background-color: #F1F3F5;
             color: #343A40;
+            text-align: center;
+            padding: 10px 20px; /* Make the header smaller */
         }
 
-        .dark-mode .header {
-            background-color: #333333;
-            color: #EAEAEA;
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        /* Footer Styles */
         .footer {
             background-color: #F1F3F5;
             text-align: center;
@@ -45,71 +36,69 @@
             color: #6C757D;
         }
 
-        .dark-mode .footer {
-            background-color: #333333;
-            color: #EAEAEA;
-        }
-
-        /* Search Bar */
-        .search-bar input {
-            padding: 8px;
-            width: 80%;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        /* Content Section Styles */
         .content {
             background-color: #FFFFFF;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             word-wrap: break-word;
-            word-break: break-all;
         }
 
-        .dark-mode .content {
-            background-color: #2D2D2D;
-        }
-
-        /* Verse Number Style */
         .verse-number {
             font-size: 0.8rem;
             color: #6C757D;
             vertical-align: super;
         }
 
-        /* Verse Text Style */
         .verse-text {
             font-weight: 400;
             font-size: 18px;
-            line-height: 36px;
+            line-height: 30px;
             color: rgb(18, 18, 18);
-        }
-
-        .dark-mode .verse-text {
-            color: #EAEAEA;
+            margin-bottom: 15px;
+            display: inline;
         }
 
         .surah-name {
             font-weight: 700;
-            font-size: 20px;
-            line-height: 24px;
+            font-size: 22px;
             color: rgb(18, 18, 18);
             text-align: center;
             margin-bottom: 20px;
+            padding-top: 10px;
         }
 
-        /* Sidebar Button Highlight */
-        .sidebar .active {
-            background-color: #A1A1AA;
-        }
-
-        /* Verse Container */
         .verse-container {
             white-space: normal;
         }
 
+        .navigation-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .active {
+            background-color: #E2F4EA; /* Soft green highlight */
+            color: #006F3C; /* Dark green text color */
+        }
+
+        /* Add subtle hover effect */
+        button:hover {
+            background-color: #E8F5E9;
+        }
+
+        /* Mobile menu toggle styles */
+        #menuButton {
+            display: block;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Sidebar visibility control */
+        .sidebar.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -117,29 +106,20 @@
     <!-- Navigation -->
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <h1 class="text-xl font-semibold text-center">Il-Quran Imqaddes bil-Malti</h1>
+            <!-- Menu Button for Mobile -->
             <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            <button id="darkModeButton" class="p-2 hover:bg-gray-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m6-12h1M4 12H3m16.485 4.485l-.707-.707m-12-12l-.707.707M4.515 19.485l.707-.707m12-12l.707.707"></path>
-                </svg>
-            </button>
+            <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
         </div>
     </nav>
 
-    <!-- Main content layout -->
     <div class="flex">
-
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
             <div class="p-4">
-                <div class="search-bar mb-4">
-                    <input type="text" id="searchInput" placeholder="Search Surahs..." onkeyup="searchSurah()">
-                </div>
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
                 </div>
@@ -152,17 +132,26 @@
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
+                <div class="navigation-buttons">
+                    <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
+                    <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 Il-Quran Imqaddes bil-Malti | Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta</p>
+        <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
+        <p class="text-xs text-center text-gray-500">
+            "Il-Qoran Imqaddes", Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta
+        </p>
     </footer>
 
     <script>
         let quranData = {};
+        let currentSurahIndex = 0;
+        let currentVerseIndex = 0;
+        const versesPerPage = 7;  // Set 7 verses per page
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
@@ -170,70 +159,106 @@
             .then(data => {
                 quranData = data;
                 loadSurahList();
-                const firstSurah = Object.keys(quranData)[0];
-                if (firstSurah) displaySurah(firstSurah);
+                displaySurah(currentSurahIndex); // Display the first Surah initially
             })
             .catch(error => {
                 console.error('Error loading Quran data:', error);
             });
 
-        // Sidebar functionality and Search
+        const surahList = document.getElementById('surahList');
+        const verseContainer = document.getElementById('verseContainer');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const sidebar = document.getElementById('sidebar');
+        const menuButton = document.getElementById('menuButton');
+
+        // Load Surah List to the Sidebar
         function loadSurahList() {
-            const surahList = document.getElementById('surahList');
-            surahList.innerHTML = '';
-            Object.keys(quranData).forEach(surahName => {
+            Object.keys(quranData).forEach((surahName, index) => {
                 const button = document.createElement('button');
                 button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
                 button.textContent = surahName;
-                button.onclick = () => displaySurah(surahName);
+                button.onclick = () => {
+                    currentSurahIndex = index;
+                    currentVerseIndex = 0;  // Reset to the first verse of the selected surah
+                    displaySurah(currentSurahIndex);
+                };
                 surahList.appendChild(button);
             });
         }
 
-        function displaySurah(surahName) {
+        // Highlight the active surah in the sidebar
+        function highlightActiveSurah() {
+            const buttons = document.querySelectorAll('#surahList button');
+            buttons.forEach((button, index) => {
+                if (index === currentSurahIndex) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        // Display the Surah and Verses for the current page
+        function displaySurah(surahIndex) {
+            const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
-            const verseContainer = document.getElementById('verseContainer');
+
+            // Clear previous content
             verseContainer.innerHTML = '';
 
+            // Display Surah name
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Display verses (7 per page)
-            let fullText = '';
-            let counter = 0;
-            Object.entries(surah).forEach(([verseNumber, verse], index) => {
-                if (counter < 7) {
-                    fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
-                    counter++;
-                }
+            // Display the current set of verses
+            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
+            verses.forEach(([verseNumber, verse]) => {
+                const verseElement = document.createElement('div');
+                verseElement.className = 'verse-text';
+                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
+                verseContainer.appendChild(verseElement);
             });
 
-            verseContainer.innerHTML += fullText;
+            highlightActiveSurah();
         }
 
-        // Dark Mode toggle
-        document.getElementById('darkModeButton').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
+        // Handle navigation buttons
+        nextButton.addEventListener('click', () => {
+            const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
+            if (currentVerseIndex + versesPerPage < Object.keys(surah).length) {
+                currentVerseIndex += versesPerPage;
+                displaySurah(currentSurahIndex);
+            } else {
+                // Move to the next Surah if the current one is finished
+                if (currentSurahIndex < Object.keys(quranData).length - 1) {
+                    currentSurahIndex++;
+                    currentVerseIndex = 0;
+                    displaySurah(currentSurahIndex);
+                }
+            }
         });
 
-        // Search Surah by name
-        function searchSurah() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const surahList = document.getElementById('surahList');
-            const surahButtons = surahList.getElementsByTagName('button');
-
-            Array.from(surahButtons).forEach(button => {
-                const surahName = button.textContent.toLowerCase();
-                if (surahName.includes(query)) {
-                    button.style.display = 'block';
-                } else {
-                    button.style.display = 'none';
+        prevButton.addEventListener('click', () => {
+            if (currentVerseIndex > 0) {
+                currentVerseIndex -= versesPerPage;
+                displaySurah(currentSurahIndex);
+            } else {
+                // Move to the previous Surah if at the start of the current one
+                if (currentSurahIndex > 0) {
+                    currentSurahIndex--;
+                    currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
+                    displaySurah(currentSurahIndex);
                 }
-            });
-        }
-    </script>
+            }
+        });
 
+        // Toggle Sidebar visibility on mobile
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
