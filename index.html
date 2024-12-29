@@ -3,31 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maltese Translation of the Quran</title>
+  <title>Maltese Quran Translation</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>Maltese Quran</h1>
+      <p class="tagline">Explore the Noble Quran in Maltese</p>
+    </header>
 
-  <header>
-    <h1>Maltese Translation of the Quran</h1>
-  </header>
+    <nav>
+      <div class="dropdown">
+        <label for="surahSelect">Select a Surah</label>
+        <select id="surahSelect">
+          <option value="" disabled selected>Choose a Surah</option>
+        </select>
+      </div>
+      <input type="text" id="searchBar" placeholder="Search verses..." />
+    </nav>
 
-  <main>
-    <div>
-      <label for="surahSelect">Choose a Surah:</label>
-      <select id="surahSelect">
-        <!-- Surah options will be added here by JavaScript -->
-      </select>
-    </div>
+    <main>
+      <div class="surah-header">
+        <h2 id="surahTitle">Please select a Surah</h2>
+      </div>
+      <div id="verseContainer" class="verse-container">
+        <!-- Verses will be dynamically loaded here -->
+      </div>
+    </main>
 
-    <div id="content">
-      <!-- Surah content will show up here -->
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2024 Maltese Quran Translation</p>
-  </footer>
+    <footer>
+      <p>&copy; 2024 Maltese Quran Translation | All Rights Reserved</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
