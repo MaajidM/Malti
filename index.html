@@ -12,37 +12,68 @@
         /* Apply Inter font to the entire page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F9FA;
+            background-color: #FAFAFA; /* Light gray background */
             color: rgb(18, 18, 18);  /* Default text color */
+            margin: 0;
+            padding: 0;
         }
 
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
+            padding-top: 20px;
+            border-right: 1px solid #E2E8F0;
+            transition: transform 0.3s ease;
+        }
+
+        /* Surah List Item */
+        .sidebar button {
+            font-size: 16px;
+            padding: 10px;
+            color: rgb(18, 18, 18);
+            text-align: left;
+            background: transparent;
+            border: none;
+            width: 100%;
+        }
+
+        .sidebar button:hover {
+            background-color: #F1F3F5;
         }
 
         /* Header Styles */
         .header {
             background-color: #F1F3F5;
-            color: #343A40;
+            color: rgb(18, 18, 18);
+            padding: 20px;
+            text-align: center;
         }
 
         /* Footer Styles */
         .footer {
             background-color: #F1F3F5;
             text-align: center;
-            padding: 10px;
-            color: #6C757D;
+            padding: 20px;
+            color: rgb(18, 18, 18);
         }
 
         /* Content Section Styles */
         .content {
             background-color: #FFFFFF;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            word-wrap: break-word;
-            word-break: break-all;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Surah Name Style */
+        .surah-name {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 24px;
+            color: rgb(18, 18, 18);
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         /* Verse Number Style */
@@ -52,55 +83,72 @@
             vertical-align: super;
         }
 
-        /* Verse Text Style - Inter font weight 400 and 18px size */
+        /* Verse Text Style */
         .verse-text {
             font-weight: 400;
             font-size: 18px;
-            line-height: 36px;  /* Adjust line height */
+            line-height: 36px;
             color: rgb(18, 18, 18);
+            white-space: pre-wrap;
         }
 
-        /* Surah Name Style - Inter font weight 700 and 20px size */
-        .surah-name {
-            font-weight: 700;
-            font-size: 20px;
-            line-height: 24px;  /* Adjust line height */
-            color: rgb(18, 18, 18);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
+        /* Ensure smooth flow of text */
         .verse-container {
             white-space: normal;
+            word-wrap: break-word;
+        }
+
+        /* Sidebar visibility toggle */
+        #sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        #sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80%;
+                position: fixed;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+            }
+
+            .content {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-100">
 
-    <!-- Navigation -->
-    <nav class="header p-4 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-            <h1 class="text-xl font-semibold">Il-Quran bil-Malti</h1>
-        </div>
-    </nav>
+    <!-- Header -->
+    <div class="header">
+        <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        <h1 class="text-2xl font-semibold">Il-Quran bil-Malti</h1>
+    </div>
 
-    <div class="flex">
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
-            <div class="p-4">
-                <div id="surahList" class="space-y-2">
-                    <!-- Surah list will be loaded here -->
-                </div>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
+        <div class="p-4">
+            <div id="surahList" class="space-y-2">
+                <!-- Surah list will be loaded here -->
             </div>
         </div>
+    </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 p-8">
+    <!-- Main Content -->
+    <div class="flex flex-col lg:flex-row">
+        <!-- Content -->
+        <div class="flex-1 p-6 lg:p-8">
             <div class="max-w-3xl mx-auto">
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
@@ -109,6 +157,7 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
     </footer>
@@ -166,10 +215,10 @@
             verseContainer.innerHTML += fullText; // Append verses after the surah name
         }
 
-        // Sidebar Toggle
+        // Sidebar Toggle for mobile view
         document.getElementById('menuButton').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('active');
         });
     </script>
 
