@@ -19,6 +19,7 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
+            transition: transform 0.3s ease-in-out;
         }
 
         /* Header Styles */
@@ -43,6 +44,7 @@
             padding: 20px;
             word-wrap: break-word;
             word-break: break-all;
+            transition: margin-left 0.3s ease-in-out; /* For smooth space adjustment */
         }
 
         /* Verse Number Style */
@@ -73,6 +75,27 @@
         .verse-container {
             white-space: normal;
         }
+
+        /* On mobile, hide sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%); /* Hide sidebar off-screen */
+            }
+            .sidebar.open {
+                transform: translateX(0); /* Show sidebar when open */
+            }
+        }
+
+        /* Sidebar for larger screens */
+        @media (min-width: 769px) {
+            .sidebar {
+                width: 16rem;
+                transform: translateX(0); /* Sidebar remains in place */
+            }
+            .content {
+                margin-left: 16rem; /* Provide space for sidebar */
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -100,7 +123,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
+        <div id="mainContent" class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
@@ -164,12 +187,18 @@
             });
 
             verseContainer.innerHTML += fullText; // Append verses after the surah name
+
+            // Automatically close sidebar on mobile
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+            }
         }
 
         // Sidebar Toggle
         document.getElementById('menuButton').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('open');
         });
     </script>
 
