@@ -38,15 +38,22 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Navigation -->
+    <!-- Top Navigation Bar -->
     <nav class="bg-white shadow-md fixed top-0 w-full z-10">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <button id="menuButton" class="p-2 hover:bg-gray-100 rounded-lg lg:hidden">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-            <span id="currentSurah" class="font-semibold text-xl">Loading...</span>
+            <div class="flex items-center space-x-6">
+                <span id="currentSurah" class="font-semibold text-xl">Quran in Maltese</span>
+                <div>
+                    <button class="text-gray-700 p-2 hover:bg-gray-200 rounded" id="translationDropdown">
+                        Translation
+                    </button>
+                    <div id="translationOptions" class="hidden bg-white shadow-lg absolute mt-2 py-2 rounded-lg w-48">
+                        <button class="w-full text-left px-4 py-2 text-sm">Quran in Arabic</button>
+                        <button class="w-full text-left px-4 py-2 text-sm">Quran in English</button>
+                        <button class="w-full text-left px-4 py-2 text-sm">Quran in Maltese</button>
+                    </div>
+                </div>
+            </div>
             <button id="themeToggle" class="p-2 bg-blue-600 text-white rounded-lg">🌙</button>
         </div>
     </nav>
@@ -55,6 +62,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="w-64 border-r bg-white h-screen overflow-y-auto transition-transform transform lg:translate-x-0 lg:block translate-x-full fixed top-0 left-0 lg:relative">
             <div class="p-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Surahs</h2>
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
                 </div>
@@ -110,6 +118,8 @@
         const themeToggle = document.getElementById('themeToggle');
         const increaseFontButton = document.getElementById('increaseFont');
         const decreaseFontButton = document.getElementById('decreaseFont');
+        const translationDropdown = document.getElementById('translationDropdown');
+        const translationOptions = document.getElementById('translationOptions');
 
         let currentFontSize = 18;
 
@@ -176,6 +186,11 @@
         // Toggle dark/light mode
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
+        });
+
+        // Show Translation Options
+        translationDropdown.addEventListener('click', () => {
+            translationOptions.classList.toggle('hidden');
         });
 
         // Initialize App
