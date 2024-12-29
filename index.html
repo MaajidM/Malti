@@ -38,29 +38,15 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Header -->
-    <header class="bg-blue-600 text-white py-4 text-center shadow-md">
-        <h1 class="text-4xl font-semibold">Il-Quran bil-Malti</h1>
-        <p class="mt-2 text-lg">A digital version of the Quran with Maltese translation.</p>
-    </header>
-
     <!-- Navigation -->
     <nav class="bg-white shadow-md fixed top-0 w-full z-10">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <button id="menuButton" class="p-2 hover:bg-gray-100 rounded-lg lg:hidden">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <span id="currentSurah" class="font-semibold text-xl">Loading...</span>
-            </div>
-            <input 
-                type="text" 
-                id="searchInput"
-                placeholder="Search verses..." 
-                class="px-4 py-2 border rounded-lg hidden lg:block"
-            >
+            <button id="menuButton" class="p-2 hover:bg-gray-100 rounded-lg lg:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <span id="currentSurah" class="font-semibold text-xl">Loading...</span>
             <button id="themeToggle" class="p-2 bg-blue-600 text-white rounded-lg">🌙</button>
         </div>
     </nav>
@@ -78,9 +64,18 @@
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
-                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-8">Loading...</h1>
+                <!-- Surah Title -->
+                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-4">Loading...</h1>
+                
+                <!-- Font Size Controls -->
+                <div class="flex justify-end mb-6">
+                    <button id="increaseFont" class="px-3 py-2 bg-blue-500 text-white rounded-lg text-sm">A+</button>
+                    <button id="decreaseFont" class="ml-2 px-3 py-2 bg-blue-500 text-white rounded-lg text-sm">A-</button>
+                </div>
+
+                <!-- Verses will be loaded here -->
                 <div id="verseContainer" class="space-y-6">
-                    <!-- Verses will be loaded here -->
+                    <!-- Verses content will be added here -->
                 </div>
             </div>
         </div>
@@ -110,10 +105,13 @@
         const verseContainer = document.getElementById('verseContainer');
         const surahTitle = document.getElementById('surahTitle');
         const currentSurah = document.getElementById('currentSurah');
-        const searchInput = document.getElementById('searchInput');
         const sidebar = document.getElementById('sidebar');
         const menuButton = document.getElementById('menuButton');
         const themeToggle = document.getElementById('themeToggle');
+        const increaseFontButton = document.getElementById('increaseFont');
+        const decreaseFontButton = document.getElementById('decreaseFont');
+
+        let currentFontSize = 18;
 
         // Load Surah List
         function loadSurahList() {
@@ -139,6 +137,7 @@
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 const verseDiv = document.createElement('div');
                 verseDiv.className = 'bg-white p-4 rounded-lg shadow-sm hover:shadow transition-all ease-in-out';
+                verseDiv.style.fontSize = `${currentFontSize}px`; // Set dynamic font size
                 verseDiv.innerHTML = `
                     <div class="space-y-4">
                         <div class="text-right font-arabic text-xl" dir="rtl" lang="ar">${verse.arabic}</div>
@@ -149,16 +148,25 @@
             });
         }
 
-        // Search functionality
-        searchInput.addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const verseElements = document.querySelectorAll('#verseContainer > div');
-            
-            verseElements.forEach(element => {
-                const malteseText = element.querySelector('div:nth-child(2)').textContent.toLowerCase();
-                element.style.display = malteseText.includes(searchText) ? 'block' : 'none';
-            });
+        // Font size increase/decrease functionality
+        increaseFontButton.addEventListener('click', () => {
+            currentFontSize += 2;
+            updateFontSize();
         });
+
+        decreaseFontButton.addEventListener('click', () => {
+            if (currentFontSize > 14) {
+                currentFontSize -= 2;
+                updateFontSize();
+            }
+        });
+
+        function updateFontSize() {
+            const verseElements = document.querySelectorAll('#verseContainer > div');
+            verseElements.forEach(element => {
+                element.style.fontSize = `${currentFontSize}px`;
+            });
+        }
 
         // Toggle sidebar visibility
         menuButton.addEventListener('click', () => {
