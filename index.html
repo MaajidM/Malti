@@ -18,15 +18,6 @@
                 </button>
                 <span id="currentSurah" class="font-semibold">Loading...</span>
             </div>
-            
-            <div class="flex items-center space-x-2">
-                <input 
-                    type="text" 
-                    id="searchInput"
-                    placeholder="Search verses..." 
-                    class="px-4 py-2 border rounded-lg"
-                >
-            </div>
         </div>
     </nav>
 
@@ -52,27 +43,23 @@
     </div>
 
     <script>
-        // Load your JSON file
-        async function loadQuranData() {
-            try {
-                const response = await fetch('quran.json');
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error loading Quran data:', error);
-                alert('Error loading Quran data. Please check your JSON file.');
+        const quranData = {
+            "1. Al-Fatiha": {
+                "1": { "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
+                "2": { "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ", "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" },
+                "3": { "arabic": "ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "maltese": "Kollu Ħniena, il-Ħanin" },
+                "4": { "arabic": "مَٰلِكِ يَوْمِ ٱلدِّينِ", "maltese": "Is-Sultan ta' Jum il-Ħaqq" }
+            },
+            "2. Al-Baqara": {
+                "1": { "arabic": "الم", "maltese": "Alif. Lam. Mim" },
+                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
             }
-        }
+        };
 
-        let quranData = null;
         let currentSurah = null;
 
-        // Initialize the page
-        async function initializePage() {
-            quranData = await loadQuranData();
-            if (!quranData) return;
-
-            // Populate surah list
+        function initializePage() {
+            // Populate Surah List
             const surahList = document.getElementById('surahList');
             Object.keys(quranData).forEach(surahName => {
                 const button = document.createElement('button');
@@ -82,23 +69,22 @@
                 surahList.appendChild(button);
             });
 
-            // Display first surah
+            // Display the first Surah by default
             const firstSurah = Object.keys(quranData)[0];
             displaySurah(firstSurah);
         }
 
-        // Display selected surah
         function displaySurah(surahName) {
             const surah = quranData[surahName];
             currentSurah = surahName;
 
-            // Update titles
+            // Update Titles
             document.getElementById('surahTitle').textContent = surahName;
             document.getElementById('currentSurah').textContent = surahName;
 
-            // Display verses
+            // Display Verses
             const verseContainer = document.getElementById('verseContainer');
-            verseContainer.innerHTML = '';
+            verseContainer.innerHTML = ''; // Clear previous content
 
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 const verseDiv = document.createElement('div');
@@ -107,10 +93,6 @@
                     <div class="space-y-4">
                         <div class="flex">
                             <span class="text-gray-500 mr-4">${verseNumber}</span>
-                            <p class="text-lg text-right font-arabic" dir="rtl" lang="ar">${verse.arabic}</p>
-                        </div>
-                        <div class="flex">
-                            <span class="text-gray-500 mr-4"></span>
                             <p class="text-lg">${verse.maltese}</p>
                         </div>
                     </div>
@@ -119,23 +101,12 @@
             });
         }
 
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const verseElements = document.querySelectorAll('#verseContainer > div');
-            
-            verseElements.forEach(element => {
-                const malteseName = element.querySelector('p:last-child').textContent.toLowerCase();
-                element.style.display = malteseName.includes(searchText) ? 'block' : 'none';
-            });
-        });
-
-        // Toggle sidebar
+        // Toggle Sidebar
         document.getElementById('menuButton').addEventListener('click', () => {
             document.getElementById('sidebar').classList.toggle('hidden');
         });
 
-        // Start the application
+        // Initialize Page
         initializePage();
     </script>
 </body>
