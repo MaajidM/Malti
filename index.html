@@ -4,49 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
 
-    <!-- Navigation Header -->
-    <header class="bg-blue-600 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-semibold">Il-Quran bil-Malti</h1>
-            <input id="searchInput" type="text" placeholder="Search verses..." class="px-4 py-2 rounded-md bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <span id="currentSurah" class="font-semibold text-xl">Loading...</span>
+            </div>
         </div>
-    </header>
+    </nav>
 
     <div class="flex">
-
         <!-- Sidebar -->
-        <nav id="sidebar" class="w-64 bg-white border-r p-4 hidden lg:block">
-            <h2 class="text-lg font-semibold mb-4">Surahs</h2>
-            <div id="surahList" class="space-y-2">
-                <!-- Dynamic Surah List -->
+        <div id="sidebar" class="w-64 border-r bg-white h-screen overflow-y-auto">
+            <div class="p-4">
+                <div id="surahList" class="space-y-2">
+                    <!-- Surah list will be loaded here -->
+                </div>
             </div>
-        </nav>
+        </div>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6">
-            <h2 id="surahTitle" class="text-3xl font-bold mb-6">Select a Surah</h2>
-            <div id="verseContainer" class="space-y-6">
-                <!-- Dynamic Verse Content -->
+        <div class="flex-1 p-8">
+            <div class="max-w-3xl mx-auto">
+                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-8">Loading...</h1>
+                <div id="verseContainer" class="space-y-6">
+                    <!-- Verses will be loaded here -->
+                </div>
             </div>
-        </main>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white p-4 text-center">
-        <p>&copy; 2024 Il-Quran bil-Malti</p>
-    </footer>
-
     <script>
-        // Quran Data (Inline JSON)
+        // Inline Quran Data
         const quranData = {
             "1. Al-Fatiha": {
                 "1": { "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
@@ -54,21 +47,21 @@
             },
             "2. Al-Baqara": {
                 "1": { "arabic": "الم", "maltese": "Alif. Lam. Mim" },
-                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
+                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
             }
-            // Add more surahs here
+            // Add the full Quran data here
         };
 
-        // DOM Elements
+        // Populate Surah List
         const surahList = document.getElementById('surahList');
         const verseContainer = document.getElementById('verseContainer');
         const surahTitle = document.getElementById('surahTitle');
+        const currentSurah = document.getElementById('currentSurah');
 
-        // Load Surah List
         function loadSurahList() {
             Object.keys(quranData).forEach(surahName => {
                 const button = document.createElement('button');
-                button.className = 'w-full text-left p-2 hover:bg-gray-200 rounded';
+                button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
                 button.textContent = surahName;
                 button.onclick = () => displaySurah(surahName);
                 surahList.appendChild(button);
@@ -78,13 +71,16 @@
         // Display Surah and Verses
         function displaySurah(surahName) {
             const surah = quranData[surahName];
-            surahTitle.textContent = `Surah: ${surahName}`;
+
+            // Update titles
+            surahTitle.textContent = surahName;
+            currentSurah.textContent = surahName;
 
             // Display verses
             verseContainer.innerHTML = ''; // Clear previous content
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 const verseDiv = document.createElement('div');
-                verseDiv.className = 'bg-white p-4 rounded-lg shadow hover:shadow-lg';
+                verseDiv.className = 'bg-white p-4 rounded-lg shadow-sm hover:shadow';
                 verseDiv.innerHTML = `
                     <div class="space-y-4">
                         <div class="text-right font-arabic" dir="rtl" lang="ar">${verse.arabic}</div>
@@ -95,25 +91,11 @@
             });
         }
 
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            const verses = document.querySelectorAll('#verseContainer > div');
-            verses.forEach(verse => {
-                const malteseText = verse.querySelector('div:last-child').textContent.toLowerCase();
-                verse.style.display = malteseText.includes(query) ? 'block' : 'none';
-            });
-        });
-
-        // Sidebar toggle (for mobile)
-        document.getElementById('menuButton').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('hidden');
-        });
-
         // Initialize App
         loadSurahList();
-        displaySurah(Object.keys(quranData)[0]);  // Default first surah
-    </script>
+        const firstSurah = Object.keys(quranData)[0];
+        if (firstSurah) displaySurah(firstSurah);
 
+    </script>
 </body>
 </html>
