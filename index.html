@@ -8,59 +8,41 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F8F9FA;
-        }
-        .sidebar {
-            background-color: #FFFFFF;
-        }
-        .header {
-            background-color: #F1F3F5;
-            color: #343A40;
-        }
-        .footer {
-            background-color: #F1F3F5;
-            text-align: center;
-            padding: 10px;
-            color: #6C757D;
-        }
-        .content {
-            background-color: #FFFFFF;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            white-space: pre-wrap; /* Ensures the text wraps appropriately */
-        }
-        .verse-number {
-            font-size: 0.8rem;
-            color: #6C757D;
-            vertical-align: super;
-        }
-        .verse-text {
-            font-size: 1.1rem;
-            color: #343A40;
         }
         .verse-container {
-            white-space: pre-line;
+            white-space: nowrap;
+            overflow-wrap: break-word;
+        }
+        .verse {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #333;
+        }
+        .verse-number {
+            font-size: 0.9rem;
+            color: gray;
+        }
+        .maltese-text {
+            display: inline;
+            margin-left: 10px;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
     <!-- Navigation -->
-    <nav class="header p-4 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-            <h1 class="text-xl font-semibold">Il-Quran bil-Malti</h1>
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <span class="font-semibold text-xl">Il-Quran bil-Malti</span>
+            </div>
         </div>
     </nav>
 
     <div class="flex">
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
+        <div id="sidebar" class="w-64 border-r bg-white h-screen overflow-y-auto">
             <div class="p-4">
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
@@ -71,25 +53,59 @@
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
-                <div id="verseContainer" class="content space-y-6">
+                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-8">Loading...</h1>
+                <div id="verseContainer" class="space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
-    </footer>
-
     <script>
-        let quranData = {};
-
-        // Fetch the external Quran data from a JSON file
+        // Fetch the Quran data from an external JSON file
         fetch('quran.json')
             .then(response => response.json())
-            .then(data => {
-                quranData = data;
+            .then(quranData => {
+                // Populate Surah List
+                const surahList = document.getElementById('surahList');
+                const verseContainer = document.getElementById('verseContainer');
+                const surahTitle = document.getElementById('surahTitle');
+
+                // Function to load Surah list into the sidebar
+                function loadSurahList() {
+                    Object.keys(quranData).forEach(surahName => {
+                        const button = document.createElement('button');
+                        button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
+                        button.textContent = surahName;
+                        button.onclick = () => displaySurah(surahName);
+                        surahList.appendChild(button);
+                    });
+                }
+
+                // Function to display the Surah and its verses
+                function displaySurah(surahName) {
+                    const surah = quranData[surahName];
+
+                    // Update titles
+                    surahTitle.textContent = surahName;
+
+                    // Display verses
+                    verseContainer.innerHTML = ''; // Clear previous content
+                    Object.entries(surah).forEach(([verseNumber, verse]) => {
+                        const verseDiv = document.createElement('div');
+                        verseDiv.className = 'verse-container';
+                        verseDiv.innerHTML = `
+                            <div class="verse">
+                                <span class="verse-number">(${verseNumber})</span>
+                                <span class="arabic-text">${verse.arabic}</span>
+                                <span class="maltese-text">${verse.maltese}</span>
+                            </div>
+                        `;
+                        verseContainer.appendChild(verseDiv);
+                    });
+                }
+
+                // Initialize the app by loading the Surah list
                 loadSurahList();
                 const firstSurah = Object.keys(quranData)[0];
                 if (firstSurah) displaySurah(firstSurah);
@@ -97,44 +113,6 @@
             .catch(error => {
                 console.error('Error loading Quran data:', error);
             });
-
-        // Populate Surah List
-        const surahList = document.getElementById('surahList');
-        const verseContainer = document.getElementById('verseContainer');
-
-        function loadSurahList() {
-            Object.keys(quranData).forEach(surahName => {
-                const button = document.createElement('button');
-                button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
-                button.textContent = surahName;
-                button.onclick = () => displaySurah(surahName);
-                surahList.appendChild(button);
-            });
-        }
-
-        // Display Surah and Verses
-        function displaySurah(surahName) {
-            const surah = quranData[surahName];
-
-            // Clear previous content
-            verseContainer.innerHTML = '';
-
-            // Create a block of text with continuous flow
-            let fullText = '';
-            Object.entries(surah).forEach(([verseNumber, verse]) => {
-                // Add each verse with a small superscript verse number
-                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup> </span>`;
-            });
-
-            verseContainer.innerHTML = fullText;
-        }
-
-        // Sidebar Toggle
-        document.getElementById('menuButton').addEventListener('click', () => {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
-        });
     </script>
-
 </body>
 </html>
