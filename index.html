@@ -1,3 +1,14 @@
+To address both issues:
+
+1. **Continuous Flow for Verses**: 
+   - We can display the verses continuously without line breaks by ensuring each verse is part of a continuous flow, but this depends on how we're rendering the verses in the page. I'll remove unnecessary breaks between verses, making sure they flow continuously.
+   
+2. **Sidebar Highlight**: 
+   - We can add a highlighted effect on the sidebar depending on the surah you are currently viewing. This can be done by adding a class to the active surah button when the user navigates to that surah.
+
+### Updated Code:
+
+```html
 <!DOCTYPE html>
 <html lang="mt">
 <head>
@@ -43,7 +54,7 @@
             line-height: 30px;  /* Increased line height */
             color: rgb(18, 18, 18);
             margin-bottom: 15px; /* Space between verses */
-            display: block;
+            display: inline; /* Ensure verses flow continuously */
         }
         .surah-name {
             font-weight: 700;
@@ -69,6 +80,10 @@
             color: rgb(18, 18, 18);
             margin-top: 20px;
             margin-bottom: 40px;
+        }
+        .active {
+            background-color: #D1E7DD;
+            color: #006F3C;
         }
     </style>
 </head>
@@ -158,6 +173,18 @@
             });
         }
 
+        // Highlight the active surah in the sidebar
+        function highlightActiveSurah() {
+            const buttons = document.querySelectorAll('#surahList button');
+            buttons.forEach((button, index) => {
+                if (index === currentSurahIndex) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
         // Display the Surah and Verses for the current page
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
@@ -182,6 +209,9 @@
 
             // Append all verses as a block of text
             verseContainer.innerHTML += versesText;
+
+            // Highlight the active surah in the sidebar
+            highlightActiveSurah();
 
             // Enable/Disable navigation buttons based on position
             prevButton.disabled = currentVerseIndex === 0 && surahIndex === 0;
@@ -214,21 +244,4 @@
             if (currentVerseIndex > 0) {
                 currentVerseIndex -= versesPerPage;
             } else {
-                if (currentSurahIndex > 0) {
-                    currentSurahIndex--;
-                    const prevSurah = quranData[Object.keys(quranData)[currentSurahIndex]];
-                    currentVerseIndex = Object.keys(prevSurah).length - versesPerPage;
-                }
-            }
-
-            displaySurah(currentSurahIndex);
-        });
-
-        // Toggle Sidebar visibility on mobile
-        menuButton.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-        });
-    </script>
-
-</body>
-</html>
+                if (currentSurahIndex >
