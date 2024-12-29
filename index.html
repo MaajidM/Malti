@@ -1,234 +1,111 @@
-<!DOCTYPE html>
-<html lang="mt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran bil-Malti</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --text-color: #333;
-            --light-gray: #f5f6f7;
-            --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+import React, { useState } from 'react';
+import { Menu, ChevronLeft, ChevronRight, Search, Book, Share2, Settings } from 'lucide-react';
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+const QuranReader = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(1);
+  
+  // Sample data - replace with your actual Quran data
+  const sampleVerses = [
+    { number: 1, text: "F'isem Alla, il-Ħanin, ir-Raħman" },
+    { number: 2, text: "It-tifħir kollu lil Alla, Sid id-dinja kollha" },
+    { number: 3, text: "Il-Ħanin, ir-Raħman" },
+  ];
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-                        url('/api/placeholder/1920/1080') center/cover no-repeat fixed;
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h1, h2, h3 {
-            font-family: 'Lora', serif;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .controls {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .dropdown, .search {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        select, input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            background-color: white;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .verses-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .verse-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .verse-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        .verse-number {
-            font-family: 'Lora', serif;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .verse-text {
-            line-height: 1.8;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-            }
-
-            .dropdown, .search {
-                width: 100%;
-            }
-
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Il-Quran bil-Malti</h1>
-        <p>Traduzzjoni Maltija tal-Quran Imqaddes</p>
-    </header>
-
-    <main>
-        <div class="controls">
-            <div class="dropdown">
-                <select id="surahSelect">
-                    <option value="">Agħżel Surah...</option>
-                </select>
+  return (
+    <div className="h-screen flex flex-col bg-white">
+      {/* Top Navigation Bar */}
+      <nav className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button 
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <Menu size={24} />
+          </button>
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold">Al-Fatihah 1</span>
+            <div className="flex space-x-1">
+              <button className="p-1 hover:bg-gray-100 rounded-lg">
+                <ChevronLeft size={20} />
+              </button>
+              <button className="p-1 hover:bg-gray-100 rounded-lg">
+                <ChevronRight size={20} />
+              </button>
             </div>
-            <div class="search">
-                <input type="text" id="searchInput" placeholder="Fittex fil-versi...">
+          </div>
+        </div>
+        
+        <div className="flex items-center space-x-3">
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Search size={20} />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Book size={20} />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Share2 size={20} />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Settings size={20} />
+          </button>
+        </div>
+      </nav>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <div className={`w-80 border-r border-gray-200 bg-white transform transition-transform duration-300 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } fixed h-full z-20 lg:relative lg:translate-x-0`}>
+          <div className="p-4">
+            <input
+              type="text"
+              placeholder="Search chapters..."
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="mt-4 space-y-1">
+              {[...Array(114)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedChapter(idx + 1)}
+                  className={`w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 ${
+                    selectedChapter === idx + 1 ? 'bg-gray-100' : ''
+                  }`}
+                >
+                  {idx + 1}. Surah Name
+                </button>
+              ))}
             </div>
+          </div>
         </div>
 
-        <div class="verses-container" id="versesContainer">
-            <!-- Verses will be dynamically inserted here -->
+        {/* Main Content */}
+        <div className="flex-1 overflow-auto">
+          <div className="max-w-3xl mx-auto px-4 py-8">
+            <h1 className="text-3xl font-semibold text-center mb-8">Al-Fatihah</h1>
+            <div className="space-y-6">
+              {sampleVerses.map((verse) => (
+                <div
+                  key={verse.number}
+                  className="group relative hover:bg-gray-50 p-4 rounded-lg transition-colors duration-200"
+                >
+                  <div className="flex items-start space-x-4">
+                    <span className="text-sm text-gray-500 mt-1">{verse.number}</span>
+                    <p className="flex-1 text-lg leading-relaxed">{verse.text}</p>
+                  </div>
+                  <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <button className="p-1 hover:bg-gray-200 rounded-lg">
+                      <Share2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  );
+};
 
-    <footer>
-        <p>&copy; 2024 Il-Quran bil-Malti. Id-Drittijiet Kollha Riservati.</p>
-    </footer>
-
-    <script>
-        // Sample JSON data structure (to be replaced with actual data)
-        const quranData = {
-            surahs: [
-                {
-                    id: 1,
-                    name: "Al-Fatiha",
-                    verses: [
-                        {
-                            number: 1,
-                            text: "F'isem Alla, il-Ħanin, ir-Raħman"
-                        },
-                        {
-                            number: 2,
-                            text: "It-tifħir kollu lil Alla, Sid id-dinja kollha"
-                        }
-                    ]
-                }
-            ]
-        };
-
-        // Populate Surah dropdown
-        const surahSelect = document.getElementById('surahSelect');
-        const searchInput = document.getElementById('searchInput');
-        const versesContainer = document.getElementById('versesContainer');
-
-        function populateSurahs() {
-            quranData.surahs.forEach(surah => {
-                const option = document.createElement('option');
-                option.value = surah.id;
-                option.textContent = `${surah.id}. ${surah.name}`;
-                surahSelect.appendChild(option);
-            });
-        }
-
-        function displayVerses(surahId, searchTerm = '') {
-            versesContainer.innerHTML = '';
-            const surah = quranData.surahs.find(s => s.id === parseInt(surahId));
-            
-            if (!surah) return;
-
-            surah.verses
-                .filter(verse => verse.text.toLowerCase().includes(searchTerm.toLowerCase()))
-                .forEach(verse => {
-                    const verseCard = document.createElement('div');
-                    verseCard.className = 'verse-card';
-                    verseCard.innerHTML = `
-                        <div class="verse-number">Vers ${verse.number}</div>
-                        <div class="verse-text">${verse.text}</div>
-                    `;
-                    versesContainer.appendChild(verseCard);
-                });
-        }
-
-        surahSelect.addEventListener('change', (e) => {
-            if (e.target.value) {
-                displayVerses(e.target.value, searchInput.value);
-            }
-        });
-
-        searchInput.addEventListener('input', (e) => {
-            if (surahSelect.value) {
-                displayVerses(surahSelect.value, e.target.value);
-            }
-        });
-
-        // Initialize the page
-        populateSurahs();
-    </script>
-</body>
-</html>
+export default QuranReader;
