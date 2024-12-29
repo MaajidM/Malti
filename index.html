@@ -160,7 +160,7 @@
             let fullText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 // Add each verse with a small superscript verse number and continuous text flow
-                fullText += <span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> ;
+                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
             });
 
             verseContainer.innerHTML += fullText; // Append verses after the surah name
