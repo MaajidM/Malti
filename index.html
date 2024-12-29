@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
     <!-- Include Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -66,6 +66,8 @@
             font-size: 20px;
             line-height: 24px;  /* Adjust line height */
             color: rgb(18, 18, 18);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .verse-container {
@@ -148,6 +150,12 @@
             // Clear previous content
             verseContainer.innerHTML = '';
 
+            // Add Surah name above the text in the middle
+            const surahElement = document.createElement('div');
+            surahElement.className = 'surah-name';
+            surahElement.textContent = surahName;  // Surah name as the title
+            verseContainer.appendChild(surahElement);
+
             // Create a block of text with continuous flow
             let fullText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
@@ -155,7 +163,7 @@
                 fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
             });
 
-            verseContainer.innerHTML = fullText;
+            verseContainer.innerHTML += fullText; // Append verses after the surah name
         }
 
         // Sidebar Toggle
