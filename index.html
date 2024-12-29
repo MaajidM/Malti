@@ -3,56 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli</title>
+    <title>Il-Quran Imqaddes bil-Malti</title>
 
     <!-- Favicon Link -->
     <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
-    
+
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F5F5F5; /* Light gray background */
-            color: #333333; /* Dark gray text */
+            background-color: #F5F5F5;
+            color: #333333;
         }
 
         .sidebar {
-            background-color: #FAFAFA; /* Slightly lighter gray for sidebar */
-            color: #333333; /* Dark gray text */
+            background-color: #FAFAFA;
+            color: #333333;
         }
 
         .header {
-            background-color: #FFFFFF; /* White background for header */
-            color: #333333; /* Dark gray text */
+            background-color: #FFFFFF;
+            color: #333333;
             text-align: center;
-            padding: 10px 20px; /* Make the header smaller */
+            padding: 10px 20px;
         }
 
         .footer {
-            background-color: #FFFFFF; /* White background for footer */
+            background-color: #FFFFFF;
             text-align: center;
             padding: 10px;
-            color: #333333; /* Dark gray text */
+            color: #333333;
         }
 
         .content {
-            background-color: #FFFFFF; /* White background for content area */
-            color: #333333; /* Dark gray text */
-            border: 1px solid #E0E0E0; /* Light gray border */
+            background-color: #FFFFFF;
+            color: #333333;
+            border: 1px solid #E0E0E0;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            word-wrap: break-word;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .verse-number {
-            font-family: 'Inter', sans-serif; /* Inter font */
-            font-weight: 400; /* Normal weight */
-            font-size: 14px; /* Font size */
-            line-height: 36px; /* Line height */
-            color: rgb(119, 122, 123); /* Color */
-            vertical-align: super; /* Make the verse number appear as superscript */
+            font-size: 14px;
+            color: rgb(119, 122, 123);
+            vertical-align: super;
         }
 
         .verse-text {
@@ -73,10 +71,6 @@
             padding-top: 10px;
         }
 
-        .verse-container {
-            white-space: normal;
-        }
-
         .navigation-buttons {
             margin-top: 20px;
             display: flex;
@@ -84,23 +78,20 @@
         }
 
         .active {
-            background-color: #E2F4EA; /* Soft green highlight */
-            color: #006F3C; /* Dark green text color */
+            background-color: #E2F4EA;
+            color: #006F3C;
         }
 
-        /* Add subtle hover effect */
         button:hover {
             background-color: #E8F5E9;
         }
 
-        /* Mobile menu toggle styles */
         #menuButton {
             display: block;
             cursor: pointer;
             margin-right: 10px;
         }
 
-        /* Sidebar visibility control */
         .sidebar.hidden {
             display: none;
         }
@@ -108,7 +99,7 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Navigation -->
+    <!-- Header -->
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <!-- Menu Button for Mobile -->
@@ -117,26 +108,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            
             <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
-
             <!-- Surah and Verse Selectors -->
             <div class="flex items-center space-x-4">
-                <!-- Surah Selector -->
-                <div class="relative">
-                    <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
-                        <option value="" disabled selected>Select Surah</option>
-                        <!-- Surah options will be loaded dynamically -->
-                    </select>
-                </div>
-
-                <!-- Verse Selector -->
-                <div class="relative">
-                    <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
-                        <option value="" disabled selected>Select Verse</option>
-                        <!-- Verse options will be loaded dynamically -->
-                    </select>
-                </div>
+                <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
+                    <option value="" disabled selected>Select Surah</option>
+                    <!-- Surah options will be populated here -->
+                </select>
+                <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
+                    <option value="" disabled selected>Select Verse</option>
+                    <!-- Verse options will be populated here -->
+                </select>
             </div>
         </div>
     </nav>
@@ -145,18 +127,14 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
             <div class="p-4">
-                <div id="surahList" class="space-y-2">
-                    <!-- Surah list will be loaded here -->
-                </div>
+                <div id="surahList" class="space-y-2"></div>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
-                <div id="verseContainer" class="content space-y-6">
-                    <!-- Verses will be loaded here -->
-                </div>
+                <div id="verseContainer" class="content space-y-6"></div>
                 <div class="navigation-buttons">
                     <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
                     <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
@@ -176,23 +154,20 @@
     </footer>
 
     <script>
-        let quranData = {};  // Quran data will be loaded here
+        let quranData = {};
         let currentSurahIndex = 0;
         let currentVerseIndex = 0;
-        const versesPerPage = 7;  // Set 7 verses per page
+        const versesPerPage = 7;
 
-        // Fetch the Quran data from the JSON file
         fetch('quran.json')
             .then(response => response.json())
             .then(data => {
                 quranData = data;
-                loadSurahList(); // Load Surah options into the selector
-                loadSurahOptions(); // Load Surah options into the header selector
-                displaySurah(currentSurahIndex); // Display the first Surah initially
+                loadSurahList();
+                loadSurahOptions();
+                displaySurah(currentSurahIndex);
             })
-            .catch(error => {
-                console.error('Error loading Quran data:', error);
-            });
+            .catch(error => console.error('Error loading Quran data:', error));
 
         const surahList = document.getElementById('surahList');
         const verseContainer = document.getElementById('verseContainer');
@@ -203,7 +178,6 @@
         const surahSelector = document.getElementById('surahSelector');
         const verseSelector = document.getElementById('verseSelector');
 
-        // Load Surah List to the Sidebar
         function loadSurahList() {
             Object.keys(quranData).forEach((surahName, index) => {
                 const button = document.createElement('button');
@@ -211,14 +185,13 @@
                 button.textContent = surahName;
                 button.onclick = () => {
                     currentSurahIndex = index;
-                    currentVerseIndex = 0;  // Reset to the first verse of the selected surah
+                    currentVerseIndex = 0;
                     displaySurah(currentSurahIndex);
                 };
                 surahList.appendChild(button);
             });
         }
 
-        // Load Surah options to the header selector
         function loadSurahOptions() {
             Object.keys(quranData).forEach((surahName, index) => {
                 const option = document.createElement('option');
@@ -228,9 +201,8 @@
             });
         }
 
-        // Load Verse options based on selected Surah
         function loadVerseOptions(surahIndex) {
-            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>'; // Reset verse options
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
             const surah = quranData[Object.keys(quranData)[surahIndex]];
             Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
@@ -240,22 +212,18 @@
             });
         }
 
-        // Display the Surah and Verses for the current page
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
 
-            // Clear previous content
             verseContainer.innerHTML = '';
 
-            // Display Surah name
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Display the current set of verses
-            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
+            const verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
                 verseElement.className = 'verse-text';
@@ -266,14 +234,12 @@
             loadVerseOptions(surahIndex);
         }
 
-        // Handle navigation buttons
         nextButton.addEventListener('click', () => {
             const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
             if (currentVerseIndex + versesPerPage < Object.keys(surah).length) {
                 currentVerseIndex += versesPerPage;
                 displaySurah(currentSurahIndex);
             } else {
-                // Move to the next Surah if the current one is finished
                 if (currentSurahIndex < Object.keys(quranData).length - 1) {
                     currentSurahIndex++;
                     currentVerseIndex = 0;
@@ -287,7 +253,6 @@
                 currentVerseIndex -= versesPerPage;
                 displaySurah(currentSurahIndex);
             } else {
-                // Move to the previous Surah if at the start of the current one
                 if (currentSurahIndex > 0) {
                     currentSurahIndex--;
                     currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
@@ -296,20 +261,17 @@
             }
         });
 
-        // Handle Surah change from the header selector
         surahSelector.addEventListener('change', () => {
             currentSurahIndex = parseInt(surahSelector.value);
             currentVerseIndex = 0;
             displaySurah(currentSurahIndex);
         });
 
-        // Handle Verse change from the header selector
         verseSelector.addEventListener('change', () => {
             currentVerseIndex = parseInt(verseSelector.value) - 1;
             displaySurah(currentSurahIndex);
         });
 
-        // Toggle Sidebar visibility on mobile
         menuButton.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
         });
