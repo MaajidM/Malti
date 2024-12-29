@@ -18,6 +18,14 @@
         .font-arabic {
             font-family: 'Noto Sans Arabic', sans-serif;
         }
+        .verse-number {
+            font-size: 0.8rem;
+            color: #6b7280; /* Gray color for verse number */
+            vertical-align: super; /* Superscript */
+        }
+        .continuous-text {
+            white-space: pre-line; /* Preserve formatting with line breaks */
+        }
         .dark-mode {
             background-color: #1a202c;
             color: #f7fafc;
@@ -40,11 +48,10 @@
 
     <!-- Top Navigation Bar -->
     <nav class="bg-white shadow-md fixed top-0 w-full z-10">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-6">
-                <span id="currentSurah" class="font-semibold text-xl">Il-Quran bil-Malti</span>
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-center">
+                <span class="font-semibold text-3xl">Il-Quran bil-Malti</span>
             </div>
-            <button id="themeToggle" class="p-2 bg-blue-600 text-white rounded-lg">🌙</button>
         </div>
     </nav>
 
@@ -62,9 +69,6 @@
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
-                <!-- Surah Title -->
-                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-4">Il-Quran bil-Malti</h1>
-                
                 <!-- Verses will be loaded here -->
                 <div id="verseContainer" class="space-y-6">
                     <!-- Verses content will be added here -->
@@ -95,12 +99,8 @@
         // DOM elements
         const surahList = document.getElementById('surahList');
         const verseContainer = document.getElementById('verseContainer');
-        const surahTitle = document.getElementById('surahTitle');
-        const currentSurah = document.getElementById('currentSurah');
-        const sidebar = document.getElementById('sidebar');
-        const themeToggle = document.getElementById('themeToggle');
 
-        // Load Surah List
+        // Load Surah List (showing names in Maltese only)
         function loadSurahList() {
             Object.keys(quranData).forEach(surahName => {
                 const button = document.createElement('button');
@@ -111,13 +111,9 @@
             });
         }
 
-        // Display Surah and Verses in a continuous flow
+        // Display Surah and Verses in a continuous flow with verse number in gray and superscript
         function displaySurah(surahName) {
             const surah = quranData[surahName];
-
-            // Update titles
-            surahTitle.textContent = surahName;
-            currentSurah.textContent = surahName;
 
             // Display verses in a continuous flow
             verseContainer.innerHTML = ''; // Clear previous content
@@ -125,17 +121,12 @@
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 verseText += `
                     <div class="text-lg text-gray-800">
-                        <span class="text-gray-500">(${verseNumber})</span> ${verse.maltese}
+                        <span class="verse-number">(${verseNumber})</span> ${verse.maltese}
                     </div>
                 `;
             });
             verseContainer.innerHTML = verseText;
         }
-
-        // Toggle dark/light mode
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-        });
 
         // Initialize App
         loadSurahList();
