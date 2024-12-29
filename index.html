@@ -140,6 +140,7 @@
         let allVerses = [];
         let currentPage = 1;
         const versesPerPage = 10; // Number of verses per page
+        let currentSurahIndex = 0; // To track which surah we're currently displaying
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
