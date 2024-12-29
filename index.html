@@ -8,35 +8,36 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F8F9FA; /* Light background for the entire page */
+            background-color: #F8F9FA;
         }
         .sidebar {
-            background-color: #FFFFFF; /* White background for the sidebar */
+            background-color: #FFFFFF;
         }
         .header {
-            background-color: #F1F3F5; /* Light gray for header */
-            color: #343A40; /* Dark text color */
+            background-color: #F1F3F5;
+            color: #343A40;
         }
         .footer {
-            background-color: #F1F3F5; /* Matching footer with the header */
+            background-color: #F1F3F5;
             text-align: center;
             padding: 10px;
-            color: #6C757D; /* Light gray text */
+            color: #6C757D;
         }
         .content {
             background-color: #FFFFFF;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            white-space: pre-wrap; /* Ensures the text wraps appropriately */
         }
         .verse-number {
             font-size: 0.8rem;
-            color: #6C757D; /* Gray color for verse numbers */
+            color: #6C757D;
             vertical-align: super;
         }
         .verse-text {
             font-size: 1.1rem;
-            color: #343A40; /* Dark text for readability */
+            color: #343A40;
         }
         .verse-container {
             white-space: pre-line;
@@ -117,19 +118,14 @@
             // Clear previous content
             verseContainer.innerHTML = '';
 
-            // Display verses in continuous flow
-            Object.entries(surah).forEach(([verseNumber, verse], index) => {
-                const verseDiv = document.createElement('div');
-                verseDiv.className = 'text-gray-800';
-
-                // Create verse text with continuous flow and gray superscript for verse number
-                const verseText = `
-                    <span class="verse-text">${verse.maltese}</span><sup class="verse-number">${verseNumber}</sup> 
-                `;
-
-                verseDiv.innerHTML = verseText;
-                verseContainer.appendChild(verseDiv);
+            // Create a block of text with continuous flow
+            let fullText = '';
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                // Add each verse with a small superscript verse number
+                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup> </span>`;
             });
+
+            verseContainer.innerHTML = fullText;
         }
 
         // Initialize App
