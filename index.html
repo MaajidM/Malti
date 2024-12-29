@@ -4,9 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
+
+    <!-- Font Links -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Noto+Sans+Arabic&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-arabic {
+            font-family: 'Noto Sans Arabic', sans-serif;
+        }
+        .dark-mode {
+            background-color: #1a202c;
+            color: #f7fafc;
+        }
+        .dark-mode .bg-white {
+            background-color: #2d3748;
+        }
+        .dark-mode .text-gray-500 {
+            color: #cbd5e0;
+        }
+        .dark-mode .text-gray-800 {
+            color: #e2e8f0;
+        }
+        .dark-mode .border-gray-300 {
+            border-color: #4a5568;
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-4 text-center shadow-md">
+        <h1 class="text-4xl font-semibold">Il-Quran bil-Malti</h1>
+        <p class="mt-2 text-lg">A digital version of the Quran with Maltese translation.</p>
+    </header>
 
     <!-- Navigation -->
     <nav class="bg-white shadow-md fixed top-0 w-full z-10">
@@ -25,6 +61,7 @@
                 placeholder="Search verses..." 
                 class="px-4 py-2 border rounded-lg hidden lg:block"
             >
+            <button id="themeToggle" class="p-2 bg-blue-600 text-white rounded-lg">🌙</button>
         </div>
     </nav>
 
@@ -76,6 +113,7 @@
         const searchInput = document.getElementById('searchInput');
         const sidebar = document.getElementById('sidebar');
         const menuButton = document.getElementById('menuButton');
+        const themeToggle = document.getElementById('themeToggle');
 
         // Load Surah List
         function loadSurahList() {
@@ -125,6 +163,11 @@
         // Toggle sidebar visibility
         menuButton.addEventListener('click', () => {
             sidebar.classList.toggle('translate-x-full');
+        });
+
+        // Toggle dark/light mode
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
         });
 
         // Initialize App
