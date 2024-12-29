@@ -24,7 +24,9 @@
             vertical-align: super; /* Superscript */
         }
         .continuous-text {
-            white-space: pre-line; /* Preserve formatting with line breaks */
+            white-space: nowrap; /* Prevent line breaks */
+            display: inline; /* Keep text in one line */
+            margin-right: 5px;
         }
         .dark-mode {
             background-color: #1a202c;
@@ -111,18 +113,18 @@
             });
         }
 
-        // Display Surah and Verses in a continuous flow with verse number in gray and superscript
+        // Display Surah and Verses in continuous flow with verse number in gray and superscript
         function displaySurah(surahName) {
             const surah = quranData[surahName];
 
-            // Display verses in a continuous flow
+            // Display verses in a continuous flow (inline, no line breaks)
             verseContainer.innerHTML = ''; // Clear previous content
             let verseText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 verseText += `
-                    <div class="text-lg text-gray-800">
-                        <span class="verse-number">(${verseNumber})</span> ${verse.maltese}
-                    </div>
+                    <span class="continuous-text text-lg text-gray-800">
+                        ${verse.maltese}<sup class="verse-number">(${verseNumber})</sup>
+                    </span>
                 `;
             });
             verseContainer.innerHTML = verseText;
