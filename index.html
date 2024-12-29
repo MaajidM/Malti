@@ -32,10 +32,14 @@
         .verse-number {
             font-size: 0.8rem;
             color: #6C757D; /* Gray color for verse numbers */
+            vertical-align: super;
         }
         .verse-text {
             font-size: 1.1rem;
             color: #343A40; /* Dark text for readability */
+        }
+        .verse-container {
+            white-space: pre-line;
         }
     </style>
 </head>
@@ -110,16 +114,20 @@
         function displaySurah(surahName) {
             const surah = quranData[surahName];
 
+            // Clear previous content
+            verseContainer.innerHTML = '';
+
             // Display verses in continuous flow
-            verseContainer.innerHTML = ''; // Clear previous content
-            Object.entries(surah).forEach(([verseNumber, verse]) => {
+            Object.entries(surah).forEach(([verseNumber, verse], index) => {
                 const verseDiv = document.createElement('div');
                 verseDiv.className = 'text-gray-800';
-                verseDiv.innerHTML = `
-                    <p class="verse-text">
-                        ${verse.maltese} <sup class="verse-number">${verseNumber}</sup>
-                    </p>
+
+                // Create verse text with continuous flow and gray superscript for verse number
+                const verseText = `
+                    <span class="verse-text">${verse.maltese}</span><sup class="verse-number">${verseNumber}</sup> 
                 `;
+
+                verseDiv.innerHTML = verseText;
                 verseContainer.appendChild(verseDiv);
             });
         }
