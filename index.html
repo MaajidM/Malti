@@ -12,19 +12,23 @@
             background-color: #F8F9FA;
             color: rgb(18, 18, 18);
         }
+
         .sidebar {
             background-color: #FFFFFF;
         }
+
         .header {
             background-color: #F1F3F5;
             color: #343A40;
         }
+
         .footer {
             background-color: #F1F3F5;
             text-align: center;
             padding: 10px;
             color: #6C757D;
         }
+
         .content {
             background-color: #FFFFFF;
             border-radius: 10px;
@@ -32,19 +36,22 @@
             padding: 20px;
             word-wrap: break-word;
         }
+
         .verse-number {
             font-size: 0.8rem;
             color: #6C757D;
             vertical-align: super;
         }
+
         .verse-text {
             font-weight: 400;
             font-size: 18px;
-            line-height: 30px;  /* Increased line height */
+            line-height: 30px;
             color: rgb(18, 18, 18);
-            margin-bottom: 15px; /* Space between verses */
-            display: inline; /* Ensure verses flow continuously */
+            margin-bottom: 15px;
+            display: inline;
         }
+
         .surah-name {
             font-weight: 700;
             font-size: 22px;
@@ -53,18 +60,27 @@
             margin-bottom: 20px;
             padding-top: 10px;
         }
+
         .verse-container {
             white-space: normal;
         }
+
         .navigation-buttons {
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
         }
+
         .active {
-            background-color: #D1E7DD;
-            color: #006F3C;
+            background-color: #E2F4EA; /* Soft green highlight */
+            color: #006F3C; /* Dark green text color */
         }
+
+        /* Add subtle hover effect */
+        button:hover {
+            background-color: #E8F5E9;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -172,65 +188,52 @@
             // Clear previous content
             verseContainer.innerHTML = '';
 
-            // Add Surah name header
+            // Display Surah name
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Get the verses to display
-            let versesToDisplay = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
-            let versesText = '';
-
-            versesToDisplay.forEach(([verseNumber, verse]) => {
-                versesText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span>`;
+            // Display the current set of verses
+            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
+            verses.forEach(([verseNumber, verse]) => {
+                const verseElement = document.createElement('div');
+                verseElement.className = 'verse-text';
+                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
+                verseContainer.appendChild(verseElement);
             });
 
-            // Append all verses as a block of text
-            verseContainer.innerHTML += versesText;
-
-            // Highlight the active surah in the sidebar
             highlightActiveSurah();
-
-            // Enable/Disable navigation buttons based on position
-            prevButton.disabled = currentVerseIndex === 0 && surahIndex === 0;
-            nextButton.disabled = (currentVerseIndex + versesPerPage) >= Object.keys(surah).length &&
-                                  surahIndex === Object.keys(quranData).length - 1;
         }
 
-        // Next button functionality
+        // Handle navigation buttons
         nextButton.addEventListener('click', () => {
-            const surahName = Object.keys(quranData)[currentSurahIndex];
-            const surah = quranData[surahName];
-            const verseCount = Object.keys(surah).length;
-
-            // Check if we're at the end of the current surah
-            if (currentVerseIndex + versesPerPage < verseCount) {
+            const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
+            if (currentVerseIndex + versesPerPage < Object.keys(surah).length) {
                 currentVerseIndex += versesPerPage;
+                displaySurah(currentSurahIndex);
             } else {
-                // Move to next surah
+                // Move to the next Surah if the current one is finished
                 if (currentSurahIndex < Object.keys(quranData).length - 1) {
                     currentSurahIndex++;
                     currentVerseIndex = 0;
+                    displaySurah(currentSurahIndex);
                 }
             }
-
-            displaySurah(currentSurahIndex);
         });
 
-        // Previous button functionality
         prevButton.addEventListener('click', () => {
             if (currentVerseIndex > 0) {
                 currentVerseIndex -= versesPerPage;
+                displaySurah(currentSurahIndex);
             } else {
+                // Move to the previous Surah if at the start of the current one
                 if (currentSurahIndex > 0) {
                     currentSurahIndex--;
-                    const prevSurah = quranData[Object.keys(quranData)[currentSurahIndex]];
-                    currentVerseIndex = Object.keys(prevSurah).length - versesPerPage;
+                    currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
+                    displaySurah(currentSurahIndex);
                 }
             }
-
-            displaySurah(currentSurahIndex);
         });
 
         // Toggle Sidebar visibility on mobile
@@ -238,6 +241,5 @@
             sidebar.classList.toggle('hidden');
         });
     </script>
-
 </body>
 </html>
