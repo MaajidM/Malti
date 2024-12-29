@@ -19,15 +19,6 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
-            transition: transform 0.3s ease-in-out;
-            position: fixed; /* Fixed positioning for better control */
-            height: 100vh; /* Full screen height */
-            width: 16rem; /* Sidebar width */
-            left: -16rem; /* Initially hidden off-screen */
-        }
-
-        .sidebar.open {
-            transform: translateX(0); /* Sidebar slides in */
         }
 
         /* Header Styles */
@@ -52,8 +43,6 @@
             padding: 20px;
             word-wrap: break-word;
             word-break: break-all;
-            transition: margin-left 0.3s ease-in-out; /* For smooth space adjustment */
-            margin-left: 0;
         }
 
         /* Verse Number Style */
@@ -84,32 +73,6 @@
         .verse-container {
             white-space: normal;
         }
-
-        /* On mobile, hide sidebar */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%); /* Hide sidebar off-screen */
-            }
-            .sidebar.open {
-                transform: translateX(0); /* Show sidebar when open */
-            }
-
-            /* Main content takes up full width on mobile */
-            .content {
-                margin-left: 0;
-            }
-        }
-
-        /* Sidebar for larger screens */
-        @media (min-width: 769px) {
-            .sidebar {
-                width: 16rem;
-                transform: translateX(0); /* Sidebar remains in place */
-            }
-            .content {
-                margin-left: 16rem; /* Provide space for sidebar */
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -128,7 +91,7 @@
 
     <div class="flex">
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar hidden lg:block border-r h-screen overflow-y-auto">
+        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
             <div class="p-4">
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
@@ -137,7 +100,7 @@
         </div>
 
         <!-- Main Content -->
-        <div id="mainContent" class="flex-1 p-8">
+        <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
@@ -201,18 +164,12 @@
             });
 
             verseContainer.innerHTML += fullText; // Append verses after the surah name
-
-            // Automatically close sidebar on mobile
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
-            }
         }
 
-        // Sidebar Toggle Button (Mobile)
+        // Sidebar Toggle
         document.getElementById('menuButton').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
+            sidebar.classList.toggle('hidden');
         });
     </script>
 
