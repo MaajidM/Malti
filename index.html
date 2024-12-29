@@ -139,6 +139,15 @@
         .sidebar.hidden {
             display: none;
         }
+
+        .dark-mode-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -153,7 +162,10 @@
                 </svg>
             </button>
             <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
-            <button id="darkModeToggle" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Toggle Dark Mode</button>
+            <button id="darkModeToggle" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 flex items-center">
+                <span>Toggle Dark Mode</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/182/182292.png" alt="dark mode icon" class="dark-mode-icon">
+            </button>
         </div>
     </nav>
 
@@ -185,6 +197,9 @@
         <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
         <p class="text-xs text-center text-gray-500">
             "Il-Qoran Imqaddes", Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta
+        </p>
+        <p class="text-xs text-center text-gray-500">
+            For more information, visit <a href="https://quran.com" target="_blank" class="text-blue-500 underline">Quran.com</a>
         </p>
     </footer>
 
