@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
-    <!-- Include Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -41,10 +40,10 @@
         .verse-text {
             font-weight: 400;
             font-size: 18px;
-            line-height: 28px;
+            line-height: 30px;  /* Increased line height */
             color: rgb(18, 18, 18);
-            margin-bottom: 10px;
-            display: inline-block;
+            margin-bottom: 15px; /* Space between verses */
+            display: block;
         }
         .surah-name {
             font-weight: 700;
@@ -61,6 +60,15 @@
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
+        }
+        /* Center the title */
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: rgb(18, 18, 18);
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
     </style>
 </head>
@@ -91,6 +99,7 @@
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
+                <div class="title">Il-Quran bil-Malti</div>
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
@@ -113,7 +122,7 @@
         let quranData = {};
         let currentSurahIndex = 0;
         let currentVerseIndex = 0;
-        const versesPerPage = 7;
+        const versesPerPage = 6;  // Set 6 verses per page
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
