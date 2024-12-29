@@ -17,19 +17,9 @@
             color: #333333; /* Dark gray text */
         }
 
-        .dark-mode {
-            background-color: #1E1E1E; /* Dark background */
-            color: #FFFFFF; /* Light text */
-        }
-
         .sidebar {
             background-color: #FAFAFA; /* Slightly lighter gray for sidebar */
             color: #333333; /* Dark gray text */
-        }
-
-        .sidebar.dark-mode {
-            background-color: #333333; /* Dark sidebar */
-            color: #FFFFFF; /* Light text */
         }
 
         .header {
@@ -39,21 +29,11 @@
             padding: 10px 20px; /* Make the header smaller */
         }
 
-        .header.dark-mode {
-            background-color: #333333; /* Dark header */
-            color: #FFFFFF; /* Light text */
-        }
-
         .footer {
             background-color: #FFFFFF; /* White background for footer */
             text-align: center;
             padding: 10px;
             color: #333333; /* Dark gray text */
-        }
-
-        .footer.dark-mode {
-            background-color: #333333; /* Dark footer */
-            color: #FFFFFF; /* Light text */
         }
 
         .content {
@@ -66,20 +46,13 @@
             word-wrap: break-word;
         }
 
-        .content.dark-mode {
-            background-color: #2A2A2A; /* Dark content area */
-            color: #FFFFFF; /* Light text */
-            border-color: #555555; /* Darker border */
-        }
-
         .verse-number {
-            font-size: 0.8rem;
-            color: #6C757D;
-            vertical-align: super;
-        }
-
-        .verse-number.dark-mode {
-            color: #AAAAAA; /* Light gray for dark mode */
+            font-family: 'Inter', sans-serif; /* Inter font */
+            font-weight: 400; /* Normal weight */
+            font-size: 14px; /* Font size */
+            line-height: 36px; /* Line height */
+            color: rgb(119, 122, 123); /* Color */
+            vertical-align: super; /* Make the verse number appear as superscript */
         }
 
         .verse-text {
@@ -91,10 +64,6 @@
             display: inline;
         }
 
-        .verse-text.dark-mode {
-            color: #FFFFFF; /* Light text */
-        }
-
         .surah-name {
             font-weight: 700;
             font-size: 22px;
@@ -102,10 +71,6 @@
             text-align: center;
             margin-bottom: 20px;
             padding-top: 10px;
-        }
-
-        .surah-name.dark-mode {
-            color: #FFFFFF; /* Light text */
         }
 
         .verse-container {
@@ -139,15 +104,6 @@
         .sidebar.hidden {
             display: none;
         }
-
-        .dark-mode-icon {
-            width: 24px;
-            height: 24px;
-            display: inline-block;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
-
     </style>
 </head>
 <body class="bg-gray-50">
@@ -162,9 +118,6 @@
                 </svg>
             </button>
             <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
-            <button id="darkModeToggle" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 flex items-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/182/182292.png" alt="dark mode icon" class="dark-mode-icon">
-            </button>
         </div>
     </nav>
 
@@ -226,7 +179,6 @@
         const nextButton = document.getElementById('nextButton');
         const sidebar = document.getElementById('sidebar');
         const menuButton = document.getElementById('menuButton');
-        const darkModeToggle = document.getElementById('darkModeToggle');
 
         // Load Surah List to the Sidebar
         function loadSurahList() {
@@ -314,18 +266,6 @@
         // Toggle Sidebar visibility on mobile
         menuButton.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
-        });
-
-        // Toggle Dark Mode
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            sidebar.classList.toggle('dark-mode');
-            document.querySelector('.header').classList.toggle('dark-mode');
-            document.querySelector('.footer').classList.toggle('dark-mode');
-            document.querySelectorAll('.content').forEach(element => element.classList.toggle('dark-mode'));
-            document.querySelectorAll('.verse-number').forEach(element => element.classList.toggle('dark-mode'));
-            document.querySelectorAll('.verse-text').forEach(element => element.classList.toggle('dark-mode'));
-            document.querySelectorAll('.surah-name').forEach(element => element.classList.toggle('dark-mode'));
         });
     </script>
 </body>
