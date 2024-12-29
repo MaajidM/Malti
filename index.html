@@ -41,16 +41,25 @@
         .verse-text {
             font-weight: 400;
             font-size: 18px;
-            line-height: 36px;
+            line-height: 28px; /* Adjust line height for smooth reading */
             color: rgb(18, 18, 18);
+            margin-bottom: 10px; /* Add spacing between verses */
         }
         .surah-name {
             font-weight: 700;
-            font-size: 20px;
-            line-height: 24px;
+            font-size: 22px;
             color: rgb(18, 18, 18);
             text-align: center;
             margin-bottom: 20px;
+            padding-top: 10px; /* Add some space at the top */
+        }
+        .verse-container {
+            white-space: normal; /* Allow the text to wrap naturally */
+        }
+        .navigation-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -84,7 +93,7 @@
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
-                <div class="flex justify-between mt-4">
+                <div class="navigation-buttons">
                     <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
                     <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
                 </div>
@@ -118,87 +127,4 @@
             });
 
         const surahList = document.getElementById('surahList');
-        const verseContainer = document.getElementById('verseContainer');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-
-        function loadSurahList() {
-            Object.keys(quranData).forEach((surahName, index) => {
-                const button = document.createElement('button');
-                button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
-                button.textContent = surahName;
-                button.onclick = () => {
-                    currentSurahIndex = index;
-                    currentVerseIndex = 0;  // Reset to the first verse of the selected surah
-                    displaySurah(currentSurahIndex);
-                };
-                surahList.appendChild(button);
-            });
-        }
-
-        function displaySurah(surahIndex) {
-            const surahName = Object.keys(quranData)[surahIndex];
-            const surah = quranData[surahName];
-
-            // Clear previous content
-            verseContainer.innerHTML = '';
-
-            // Add Surah name header
-            const surahElement = document.createElement('div');
-            surahElement.className = 'surah-name';
-            surahElement.textContent = surahName;
-            verseContainer.appendChild(surahElement);
-
-            // Get the verses to display
-            const versesToDisplay = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
-            versesToDisplay.forEach(([verseNumber, verse]) => {
-                const verseElement = document.createElement('div');
-                verseElement.className = 'verse-text';
-                verseElement.innerHTML = `${verse.maltese}<sup class="verse-number">${verseNumber}</sup>`;
-                verseContainer.appendChild(verseElement);
-            });
-
-            // Enable/Disable navigation buttons based on position
-            prevButton.disabled = currentVerseIndex === 0 && surahIndex === 0;
-            nextButton.disabled = (currentVerseIndex + versesPerPage) >= Object.keys(surah).length &&
-                                  surahIndex === Object.keys(quranData).length - 1;
-        }
-
-        // Next button functionality
-        nextButton.addEventListener('click', () => {
-            const surahName = Object.keys(quranData)[currentSurahIndex];
-            const surah = quranData[surahName];
-            const verseCount = Object.keys(surah).length;
-
-            // Check if we're at the end of the current surah
-            if (currentVerseIndex + versesPerPage < verseCount) {
-                currentVerseIndex += versesPerPage;
-            } else {
-                // Move to next surah
-                if (currentSurahIndex < Object.keys(quranData).length - 1) {
-                    currentSurahIndex++;
-                    currentVerseIndex = 0;
-                }
-            }
-
-            displaySurah(currentSurahIndex);
-        });
-
-        // Previous button functionality
-        prevButton.addEventListener('click', () => {
-            if (currentVerseIndex > 0) {
-                currentVerseIndex -= versesPerPage;
-            } else {
-                if (currentSurahIndex > 0) {
-                    currentSurahIndex--;
-                    const prevSurah = quranData[Object.keys(quranData)[currentSurahIndex]];
-                    currentVerseIndex = Object.keys(prevSurah).length - versesPerPage;
-                }
-            }
-
-            displaySurah(currentSurahIndex);
-        });
-    </script>
-
-</body>
-</html>
+     
