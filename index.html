@@ -4,45 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet"> <!-- Noto Serif Font -->
+    <!-- Include Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> 
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
+        /* Apply Inter font to the entire page */
         body {
-            font-family: 'Noto Serif', serif; /* Apply Noto Serif font */
+            font-family: 'Inter', sans-serif;
             background-color: #F8F9FA;
+            color: rgb(18, 18, 18);  /* Default text color */
         }
+
+        /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
         }
+
+        /* Header Styles */
         .header {
             background-color: #F1F3F5;
             color: #343A40;
         }
+
+        /* Footer Styles */
         .footer {
             background-color: #F1F3F5;
             text-align: center;
             padding: 10px;
             color: #6C757D;
         }
+
+        /* Content Section Styles */
         .content {
             background-color: #FFFFFF;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            word-wrap: break-word;  /* Ensure words wrap to new lines */
-            word-break: break-all;  /* Prevents overflow and breaks long words */
+            word-wrap: break-word;
+            word-break: break-all;
         }
+
+        /* Verse Number Style */
         .verse-number {
             font-size: 0.8rem;
             color: #6C757D;
             vertical-align: super;
         }
+
+        /* Verse Text Style - Inter font weight 400 and 18px size */
         .verse-text {
-            font-size: 1.1rem;
-            color: #343A40;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 36px;  /* Adjust line height */
+            color: rgb(18, 18, 18);
         }
+
+        /* Surah Name Style - Inter font weight 700 and 20px size */
+        .surah-name {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 24px;  /* Adjust line height */
+            color: rgb(18, 18, 18);
+        }
+
         .verse-container {
-            white-space: normal;  /* Allow normal text wrapping */
+            white-space: normal;
         }
     </style>
 </head>
