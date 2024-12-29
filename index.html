@@ -1,111 +1,142 @@
-import React, { useState } from 'react';
-import { Menu, ChevronLeft, ChevronRight, Search, Book, Share2, Settings } from 'lucide-react';
-
-const QuranReader = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedChapter, setSelectedChapter] = useState(1);
-  
-  // Sample data - replace with your actual Quran data
-  const sampleVerses = [
-    { number: 1, text: "F'isem Alla, il-Ħanin, ir-Raħman" },
-    { number: 2, text: "It-tifħir kollu lil Alla, Sid id-dinja kollha" },
-    { number: 3, text: "Il-Ħanin, ir-Raħman" },
-  ];
-
-  return (
-    <div className="h-screen flex flex-col bg-white">
-      {/* Top Navigation Bar */}
-      <nav className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg"
-          >
-            <Menu size={24} />
-          </button>
-          <div className="flex items-center space-x-2">
-            <span className="font-semibold">Al-Fatihah 1</span>
-            <div className="flex space-x-1">
-              <button className="p-1 hover:bg-gray-100 rounded-lg">
-                <ChevronLeft size={20} />
-              </button>
-              <button className="p-1 hover:bg-gray-100 rounded-lg">
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
-            <Search size={20} />
-          </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
-            <Book size={20} />
-          </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
-            <Share2 size={20} />
-          </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
-            <Settings size={20} />
-          </button>
-        </div>
-      </nav>
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <div className={`w-80 border-r border-gray-200 bg-white transform transition-transform duration-300 ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed h-full z-20 lg:relative lg:translate-x-0`}>
-          <div className="p-4">
-            <input
-              type="text"
-              placeholder="Search chapters..."
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <div className="mt-4 space-y-1">
-              {[...Array(114)].map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedChapter(idx + 1)}
-                  className={`w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 ${
-                    selectedChapter === idx + 1 ? 'bg-gray-100' : ''
-                  }`}
-                >
-                  {idx + 1}. Surah Name
+<!DOCTYPE html>
+<html lang="mt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il-Quran bil-Malti</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button id="menuButton" class="p-2 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                 </button>
-              ))}
+                <span id="currentSurah" class="font-semibold">Loading...</span>
             </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 overflow-auto">
-          <div className="max-w-3xl mx-auto px-4 py-8">
-            <h1 className="text-3xl font-semibold text-center mb-8">Al-Fatihah</h1>
-            <div className="space-y-6">
-              {sampleVerses.map((verse) => (
-                <div
-                  key={verse.number}
-                  className="group relative hover:bg-gray-50 p-4 rounded-lg transition-colors duration-200"
+            
+            <div class="flex items-center space-x-2">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Search verses..." 
+                    class="px-4 py-2 border rounded-lg"
                 >
-                  <div className="flex items-start space-x-4">
-                    <span className="text-sm text-gray-500 mt-1">{verse.number}</span>
-                    <p className="flex-1 text-lg leading-relaxed">{verse.text}</p>
-                  </div>
-                  <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <button className="p-1 hover:bg-gray-200 rounded-lg">
-                      <Share2 size={16} />
-                    </button>
-                  </div>
-                </div>
-              ))}
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
-};
+    </nav>
 
-export default QuranReader;
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="hidden lg:block w-64 border-r bg-white h-screen overflow-y-auto">
+            <div class="p-4">
+                <div id="surahList" class="space-y-2">
+                    <!-- Surahs will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <div class="max-w-3xl mx-auto">
+                <h1 id="surahTitle" class="text-3xl font-bold text-center mb-8">Loading...</h1>
+                <div id="verseContainer" class="space-y-6">
+                    <!-- Verses will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load your JSON file
+        async function loadQuranData() {
+            try {
+                const response = await fetch('quran.json');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading Quran data:', error);
+                alert('Error loading Quran data. Please check your JSON file.');
+            }
+        }
+
+        let quranData = null;
+        let currentSurah = null;
+
+        // Initialize the page
+        async function initializePage() {
+            quranData = await loadQuranData();
+            if (!quranData) return;
+
+            // Populate surah list
+            const surahList = document.getElementById('surahList');
+            Object.keys(quranData).forEach(surahName => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
+                button.textContent = surahName;
+                button.onclick = () => displaySurah(surahName);
+                surahList.appendChild(button);
+            });
+
+            // Display first surah
+            const firstSurah = Object.keys(quranData)[0];
+            displaySurah(firstSurah);
+        }
+
+        // Display selected surah
+        function displaySurah(surahName) {
+            const surah = quranData[surahName];
+            currentSurah = surahName;
+
+            // Update titles
+            document.getElementById('surahTitle').textContent = surahName;
+            document.getElementById('currentSurah').textContent = surahName;
+
+            // Display verses
+            const verseContainer = document.getElementById('verseContainer');
+            verseContainer.innerHTML = '';
+
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                const verseDiv = document.createElement('div');
+                verseDiv.className = 'bg-white p-4 rounded-lg shadow-sm hover:shadow';
+                verseDiv.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <span class="text-gray-500 mr-4">${verseNumber}</span>
+                            <p class="text-lg text-right font-arabic" dir="rtl" lang="ar">${verse.arabic}</p>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-500 mr-4"></span>
+                            <p class="text-lg">${verse.maltese}</p>
+                        </div>
+                    </div>
+                `;
+                verseContainer.appendChild(verseDiv);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchText = e.target.value.toLowerCase();
+            const verseElements = document.querySelectorAll('#verseContainer > div');
+            
+            verseElements.forEach(element => {
+                const malteseName = element.querySelector('p:last-child').textContent.toLowerCase();
+                element.style.display = malteseName.includes(searchText) ? 'block' : 'none';
+            });
+        });
+
+        // Toggle sidebar
+        document.getElementById('menuButton').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('hidden');
+        });
+
+        // Start the application
+        initializePage();
+    </script>
+</body>
+</html>
