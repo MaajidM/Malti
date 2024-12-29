@@ -38,11 +38,11 @@
         // Variable to hold the Quran data after fetching it
         let quranData = {};
 
-        // Function to fetch the Quran JSON data
+        // Function to fetch the Quran JSON data from GitHub Pages
         async function fetchQuranData() {
             try {
-                // Replace with the actual path to your JSON file
-                const response = await fetch('quran.json');  // Fetch the JSON file
+                // Fetch the quran.json file from GitHub Pages
+                const response = await fetch('https://maajidm.github.io/Malti/quran.json'); // Update URL
                 quranData = await response.json();  // Parse the JSON data
                 console.log(quranData);  // Optional: To check the structure of the data in the console
             } catch (error) {
