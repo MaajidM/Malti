@@ -1,85 +1,123 @@
-/* General body and page styling */
+/* General Body Styling */
 body {
-  font-family: 'Roboto', sans-serif; /* You can use Google Fonts to import */
-  background-color: #f8f8f8; /* Light background */
-  color: #333; /* Dark text for readability */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
+  background: url('assets/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
 }
 
-/* Header Styling */
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
 header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 header h1 {
-  font-family: 'Open Sans', sans-serif; /* Use a clean, bold font for the header */
-  color: #2a2a2a; /* Dark color for header text */
-  font-size: 36px;
-  text-transform: uppercase;
+  font-family: 'Lora', serif;
+  font-size: 2.5rem;
+  color: #01796F;
 }
 
-/* Surah Dropdown Styling */
-select {
-  font-size: 18px;
-  padding: 10px;
-  background-color: #ffffff;
-  border: 2px solid #dcdcdc;
-  border-radius: 5px;
-  margin-bottom: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+header .tagline {
+  font-size: 1.2rem;
+  color: #555;
 }
 
-select:focus {
-  border-color: #a3a3a3;
-  background-color: #f0f0f0;
-}
-
-/* Content section for verses */
-#content {
-  max-width: 800px;
-  width: 100%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-}
-
-#content div {
+/* Navigation Bar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+nav .dropdown {
+  flex: 1;
+  margin-right: 10px;
+}
+
+nav label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+nav select, nav input {
+  width: 100%;
   padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
 }
 
-#content p {
-  margin: 10px 0;
+nav input {
+  flex: 2;
+  margin-left: 10px;
 }
 
-#content p strong {
-  color: #0056b3; /* Accent color for 'Arabic' and 'Maltese' labels */
-  font-weight: bold;
+/* Surah Header */
+.surah-header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-#content p:first-of-type {
-  font-size: 18px;
-  font-family: 'Noto Naskh Arabic', serif; /* Arabic font */
+.surah-header h2 {
+  font-family: 'Lora', serif;
+  color: #01796F;
+  font-size: 2rem;
 }
 
-#content p:last-of-type {
-  font-size: 16px;
-  font-family: 'Arial', sans-serif; /* Default sans-serif for Maltese */
+/* Verse Container */
+.verse-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-/* Footer Styling */
+.verse-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.verse-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.verse-card p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.verse-card strong {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #01796F;
+}
+
+/* Footer */
 footer {
   text-align: center;
-  margin-top: 50px;
-  color: #999;
-  font-size: 14px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #777;
 }
