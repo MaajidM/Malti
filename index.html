@@ -19,8 +19,6 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
-            overflow-y-auto;
-            height: 100%;
         }
 
         /* Header Styles */
@@ -72,40 +70,8 @@
             margin-bottom: 20px;
         }
 
-        /* Loading Indicator */
-        #loading {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
-
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Scroll to Top Button */
-        #scrollToTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #F1F3F5;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-        }
-
-        #scrollToTop:hover {
-            background-color: #343A40;
-            color: white;
-        }
-
-        /* Sidebar Scroll */
-        .sidebar-content {
-            max-height: 80vh;
-            overflow-y: auto;
+        .verse-container {
+            white-space: normal;
         }
     </style>
 </head>
@@ -125,8 +91,8 @@
 
     <div class="flex">
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen">
-            <div class="p-4 sidebar-content">
+        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
+            <div class="p-4">
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
                 </div>
@@ -143,10 +109,6 @@
         </div>
     </div>
 
-    <!-- Scroll to Top Button -->
-    <button id="scrollToTop" onclick="scrollToTop()">↑</button>
-
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
     </footer>
@@ -166,9 +128,6 @@
             .catch(error => {
                 console.error('Error loading Quran data:', error);
             });
-
-        // Loading indicator logic
-        document.getElementById('loading').style.display = 'block';
 
         // Populate Surah List
         const surahList = document.getElementById('surahList');
@@ -201,13 +160,10 @@
             let fullText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 // Add each verse with a small superscript verse number and continuous text flow
-                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
+                fullText += <span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> ;
             });
 
             verseContainer.innerHTML += fullText; // Append verses after the surah name
-
-            // Hide the loading indicator once the data is loaded
-            document.getElementById('loading').style.display = 'none';
         }
 
         // Sidebar Toggle
@@ -215,21 +171,6 @@
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('hidden');
         });
-
-        // Scroll to Top functionality
-        window.onscroll = function() {
-            const scrollToTopButton = document.getElementById('scrollToTop');
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollToTopButton.style.display = 'block';
-            } else {
-                scrollToTopButton.style.display = 'none';
-            }
-        };
-
-        function scrollToTop() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
     </script>
 
 </body>
