@@ -1,56 +1,66 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Example Quran data in JSON format
-  const quranData = {
-    "1. Al-Fatiha": {
-      "1": {
-        "arabic": "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
-        "maltese": "F'IsemAlla, Kollu Ħniena, il-Ħanin"
-      },
-      "2": {
-        "arabic": "ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ",
-        "maltese": "t-tifħirlil Alla, Sid il-ħolqien"
-      }
-    },
-    "2. Al-Baqara": {
-      "1": {
-        "arabic": "الٓمٓ",
-        "maltese": "Alif. Lam. Mim"
-      }
-    }
-  };
-
+document.addEventListener('DOMContentLoaded', () => {
   const surahSelect = document.getElementById('surahSelect');
-  const contentDiv = document.getElementById('content');
+  const surahTitle = document.getElementById('surahTitle');
+  const verseContainer = document.getElementById('verseContainer');
+  const searchBar = document.getElementById('searchBar');
 
-  // Step 1: Populate the surah dropdown
-  for (const surahName in quranData) {
-    const option = document.createElement('option');
-    option.value = surahName;
-    option.textContent = surahName;
-    surahSelect.appendChild(option);
-  }
+  let quranData = {};
 
-  // Step 2: Render Surah verses (only Maltese translation) when selected
-  function renderSurah(surahName) {
-    const surah = quranData[surahName];
-    contentDiv.innerHTML = '';  // Clear any existing content
+  // Fetch Quran data
+  fetch('quran.json')
+    .then(response => response.json())
+    .then(data => {
+      quranData = data;
+      populateSurahDropdown(quranData);
+    });
 
-    // Add each verse's Maltese translation to the page
-    for (const verse in surah) {
-      const verseDiv = document.createElement('div');
-      const malteseText = document.createElement('p');
-      malteseText.innerHTML = `<strong>Maltese Translation:</strong> ${surah[verse].maltese}`;
-
-      verseDiv.appendChild(malteseText);
-      contentDiv.appendChild(verseDiv);
+  // Populate Surah dropdown
+  function populateSurahDropdown(data) {
+    for (const surah in data) {
+      const option = document.createElement('option');
+      option.value = surah;
+      option.textContent = surah;
+      surahSelect.appendChild(option);
     }
   }
 
-  // Step 3: Handle when a Surah is selected
-  surahSelect.addEventListener('change', function() {
-    renderSurah(surahSelect.value);
+  // Render selected Surah
+  surahSelect.addEventListener('change', () => {
+    const selectedSurah = surahSelect.value;
+    renderSurah(selectedSurah, quranData[selectedSurah]);
   });
 
-  // Render the first Surah initially
-  renderSurah(surahSelect.value);
+  // Render verses
+  function renderSurah(surahName, verses) {
+    surahTitle.textContent = surahName;
+    verseContainer.innerHTML = '';
+
+    for (const [verseNum, verse] of Object.entries(verses)) {
+      const card = document.createElement('div');
+      card.classList.add('verse-card');
+      card.innerHTML = `<strong>Verse ${verseNum}</strong><p>${verse.maltese}</p>`;
+      verseContainer.appendChild(card);
+    }
+  }
+
+  // Search functionality
+  searchBar.addEventListener('input', () => {
+    const searchText = searchBar.value.toLowerCase();
+    const selectedSurah = surahSelect.value;
+
+    if (!selectedSurah) return;
+
+    const verses = quranData[selectedSurah];
+    const filtered = Object.entries(verses).filter(([_, verse]) =>
+      verse.maltese.toLowerCase().includes(searchText)
+    );
+
+    verseContainer.innerHTML = '';
+    filtered.forEach(([verseNum, verse]) => {
+      const card = document.createElement('div');
+      card.classList.add('verse-card');
+      card.innerHTML = `<strong>Verse ${verseNum}</strong><p>${verse.maltese}</p>`;
+      verseContainer.appendChild(card);
+    });
+  });
 });
