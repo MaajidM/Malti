@@ -4,67 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il-Quran bil-Malti</title>
-
-    <!-- Font Links (Crisp font like Bible.com) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #F8F9FA; /* Light background for the entire page */
         }
-        .font-arabic {
-            font-family: 'Noto Sans Arabic', sans-serif;
+        .sidebar {
+            background-color: #FFFFFF; /* White background for the sidebar */
+        }
+        .header {
+            background-color: #F1F3F5; /* Light gray for header */
+            color: #343A40; /* Dark text color */
+        }
+        .footer {
+            background-color: #F1F3F5; /* Matching footer with the header */
+            text-align: center;
+            padding: 10px;
+            color: #6C757D; /* Light gray text */
+        }
+        .content {
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
         .verse-number {
             font-size: 0.8rem;
-            color: #6b7280; /* Gray color for verse number */
-            vertical-align: super; /* Superscript */
+            color: #6C757D; /* Gray color for verse numbers */
         }
-        .continuous-text {
-            white-space: nowrap; /* Prevent line breaks */
-            display: inline; /* Keep text in one line */
-            margin-right: 5px;
-        }
-        .dark-mode {
-            background-color: #1a202c;
-            color: #f7fafc;
-        }
-        .dark-mode .bg-white {
-            background-color: #2d3748;
-        }
-        .dark-mode .text-gray-500 {
-            color: #cbd5e0;
-        }
-        .dark-mode .text-gray-800 {
-            color: #e2e8f0;
-        }
-        .dark-mode .border-gray-300 {
-            border-color: #4a5568;
+        .verse-text {
+            font-size: 1.1rem;
+            color: #343A40; /* Dark text for readability */
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <!-- Top Navigation Bar -->
-    <nav class="bg-blue-800 text-white shadow-md fixed top-0 w-full z-10">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <button id="menuButton" class="text-white p-2 lg:hidden">
+    <!-- Navigation -->
+    <nav class="header p-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+            <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            <span class="font-bold text-xl">Il-Quran bil-Malti</span>
+            <h1 class="text-xl font-semibold">Il-Quran bil-Malti</h1>
         </div>
     </nav>
 
-    <div class="flex pt-16">
+    <div class="flex">
         <!-- Sidebar -->
-        <div id="sidebar" class="w-64 border-r bg-white h-screen overflow-y-auto transition-transform transform lg:translate-x-0 lg:block translate-x-full fixed top-0 left-0 lg:relative">
+        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
             <div class="p-4">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Surahs</h2>
                 <div id="surahList" class="space-y-2">
                     <!-- Surah list will be loaded here -->
                 </div>
@@ -74,37 +66,36 @@
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
-                <div id="verseContainer" class="space-y-6">
-                    <!-- Verses content will be added here -->
+                <div id="verseContainer" class="content space-y-6">
+                    <!-- Verses will be loaded here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-blue-800 py-4 text-center mt-8 text-white">
-        <p>&copy; 2024 Il-Quran bil-Malti. All rights reserved.</p>
+    <footer class="footer">
+        <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
     </footer>
 
     <script>
-        // Inline Quran Data (Maltese translation)
+        // Inline Quran Data
         const quranData = {
             "1. Al-Fatiha": {
-                "1": { "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
-                "2": { "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" }
+                "1": { "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
+                "2": { "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ", "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" },
+                "3": { "arabic": "الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "Kollu Ħniena, il-Ħanin" }
             },
             "2. Al-Baqara": {
-                "1": { "maltese": "Alif. Lam. Mim" },
-                "2": { "maltese": "Dan huwa l-Ktieb, bla dubju" }
-            },
-            // Add the full Quran data here
+                "1": { "arabic": "الم", "maltese": "Alif. Lam. Mim" },
+                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
+            }
+            // Add more surahs and verses as needed
         };
 
-        // DOM elements
+        // Populate Surah List
         const surahList = document.getElementById('surahList');
         const verseContainer = document.getElementById('verseContainer');
 
-        // Load Surah List (showing names in Maltese only)
         function loadSurahList() {
             Object.keys(quranData).forEach(surahName => {
                 const button = document.createElement('button');
@@ -115,21 +106,22 @@
             });
         }
 
-        // Display Surah and Verses in continuous flow with verse number in gray and superscript
+        // Display Surah and Verses
         function displaySurah(surahName) {
             const surah = quranData[surahName];
 
-            // Display verses in a continuous flow (inline, no line breaks)
+            // Display verses in continuous flow
             verseContainer.innerHTML = ''; // Clear previous content
-            let verseText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
-                verseText += `
-                    <span class="continuous-text text-lg text-gray-800">
-                        ${verse.maltese}<sup class="verse-number">(${verseNumber})</sup>
-                    </span>
+                const verseDiv = document.createElement('div');
+                verseDiv.className = 'text-gray-800';
+                verseDiv.innerHTML = `
+                    <p class="verse-text">
+                        ${verse.maltese} <sup class="verse-number">${verseNumber}</sup>
+                    </p>
                 `;
+                verseContainer.appendChild(verseDiv);
             });
-            verseContainer.innerHTML = verseText;
         }
 
         // Initialize App
@@ -137,10 +129,12 @@
         const firstSurah = Object.keys(quranData)[0];
         if (firstSurah) displaySurah(firstSurah);
 
-        // Toggle Sidebar
+        // Sidebar Toggle
         document.getElementById('menuButton').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('translate-x-full');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
         });
     </script>
+
 </body>
 </html>
