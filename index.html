@@ -73,6 +73,22 @@
         .verse-container {
             white-space: normal;
         }
+
+        /* Button Styles for Next/Back */
+        .pagination-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination-button:disabled {
+            background-color: #6C757D;
+            cursor: not-allowed;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -105,6 +121,12 @@
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
+
+                <!-- Pagination Buttons -->
+                <div class="flex justify-between mt-6">
+                    <button id="backButton" class="pagination-button" onclick="changePage(-1)" disabled>Back</button>
+                    <button id="nextButton" class="pagination-button" onclick="changePage(1)">Next</button>
+                </div>
             </div>
         </div>
     </div>
@@ -115,6 +137,8 @@
 
     <script>
         let quranData = {};
+        let currentPage = 1;
+        const versesPerPage = 5; // Number of verses per page
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
@@ -143,7 +167,7 @@
             });
         }
 
-        // Display Surah and Verses
+        // Display Surah and Verses with Pagination
         function displaySurah(surahName) {
             const surah = quranData[surahName];
 
@@ -156,14 +180,28 @@
             surahElement.textContent = surahName;  // Surah name as the title
             verseContainer.appendChild(surahElement);
 
-            // Create a block of text with continuous flow
-            let fullText = '';
-            Object.entries(surah).forEach(([verseNumber, verse]) => {
-                // Add each verse with a small superscript verse number and continuous text flow
-                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
+            // Create a list of verses
+            const verses = Object.entries(surah).map(([verseNumber, verse]) => {
+                return `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span>`;
             });
 
-            verseContainer.innerHTML += fullText; // Append verses after the surah name
+            // Calculate the starting and ending index for the current page
+            const startIndex = (currentPage - 1) * versesPerPage;
+            const endIndex = Math.min(currentPage * versesPerPage, verses.length);
+
+            // Display verses for the current page
+            verseContainer.innerHTML += verses.slice(startIndex, endIndex).join(' ');
+
+            // Disable/Enable buttons based on the current page
+            document.getElementById('backButton').disabled = currentPage === 1;
+            document.getElementById('nextButton').disabled = currentPage * versesPerPage >= verses.length;
+        }
+
+        // Change Page (Next/Back)
+        function changePage(direction) {
+            currentPage += direction;
+            const surahName = Object.keys(quranData)[0]; // Get the first surah (or any selected surah)
+            displaySurah(surahName);
         }
 
         // Sidebar Toggle
