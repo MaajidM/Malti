@@ -117,7 +117,27 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
+            
             <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
+
+            <!-- Surah and Verse Selectors -->
+            <div class="flex items-center space-x-4">
+                <!-- Surah Selector -->
+                <div class="relative">
+                    <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
+                        <option value="" disabled selected>Select Surah</option>
+                        <!-- Surah options will be loaded dynamically -->
+                    </select>
+                </div>
+
+                <!-- Verse Selector -->
+                <div class="relative">
+                    <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
+                        <option value="" disabled selected>Select Verse</option>
+                        <!-- Verse options will be loaded dynamically -->
+                    </select>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -156,17 +176,18 @@
     </footer>
 
     <script>
-        let quranData = {};
+        let quranData = {};  // Quran data will be loaded here
         let currentSurahIndex = 0;
         let currentVerseIndex = 0;
         const versesPerPage = 7;  // Set 7 verses per page
 
-        // Fetch the external Quran data from a JSON file
+        // Fetch the Quran data from the JSON file
         fetch('quran.json')
             .then(response => response.json())
             .then(data => {
                 quranData = data;
-                loadSurahList();
+                loadSurahList(); // Load Surah options into the selector
+                loadSurahOptions(); // Load Surah options into the header selector
                 displaySurah(currentSurahIndex); // Display the first Surah initially
             })
             .catch(error => {
@@ -179,6 +200,8 @@
         const nextButton = document.getElementById('nextButton');
         const sidebar = document.getElementById('sidebar');
         const menuButton = document.getElementById('menuButton');
+        const surahSelector = document.getElementById('surahSelector');
+        const verseSelector = document.getElementById('verseSelector');
 
         // Load Surah List to the Sidebar
         function loadSurahList() {
@@ -195,15 +218,25 @@
             });
         }
 
-        // Highlight the active surah in the sidebar
-        function highlightActiveSurah() {
-            const buttons = document.querySelectorAll('#surahList button');
-            buttons.forEach((button, index) => {
-                if (index === currentSurahIndex) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
+        // Load Surah options to the header selector
+        function loadSurahOptions() {
+            Object.keys(quranData).forEach((surahName, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = surahName;
+                surahSelector.appendChild(option);
+            });
+        }
+
+        // Load Verse options based on selected Surah
+        function loadVerseOptions(surahIndex) {
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>'; // Reset verse options
+            const surah = quranData[Object.keys(quranData)[surahIndex]];
+            Object.keys(surah).forEach((verseNumber) => {
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = `Verse ${verseNumber}`;
+                verseSelector.appendChild(option);
             });
         }
 
@@ -230,7 +263,7 @@
                 verseContainer.appendChild(verseElement);
             });
 
-            highlightActiveSurah();
+            loadVerseOptions(surahIndex);
         }
 
         // Handle navigation buttons
@@ -261,6 +294,19 @@
                     displaySurah(currentSurahIndex);
                 }
             }
+        });
+
+        // Handle Surah change from the header selector
+        surahSelector.addEventListener('change', () => {
+            currentSurahIndex = parseInt(surahSelector.value);
+            currentVerseIndex = 0;
+            displaySurah(currentSurahIndex);
+        });
+
+        // Handle Verse change from the header selector
+        verseSelector.addEventListener('change', () => {
+            currentVerseIndex = parseInt(verseSelector.value) - 1;
+            displaySurah(currentSurahIndex);
         });
 
         // Toggle Sidebar visibility on mobile
