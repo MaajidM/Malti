@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran to PDF</title>
+    <style>
+        /* Basic styling for the PDF content */
+        .verse-text {
+            font-size: 18px;
+            line-height: 30px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .verse-number {
+            font-size: 14px;
+            vertical-align: super;
+            color: rgb(119, 122, 123); /* Light gray color */
+        }
+
+        .surah-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="generatePdf">Generate PDF</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // Variable to hold the Quran data after fetching it
+        let quranData = {};
+
+        // Function to fetch the Quran JSON data
+        async function fetchQuranData() {
+            try {
+                // Replace with the actual path to your JSON file
+                const response = await fetch('quran.json');  // Fetch the JSON file
+                quranData = await response.json();  // Parse the JSON data
+                console.log(quranData);  // Optional: To check the structure of the data in the console
+            } catch (error) {
+                console.error('Error fetching Quran data:', error);
+            }
+        }
+
+        // Function to generate the PDF
+        async function generatePdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let yPosition = 10;  // Starting position on the page for text
+
+            // Check if data is loaded
+            if (Object.keys(quranData).length === 0) {
+                alert("Quran data is not loaded yet.");
+                return;
+            }
+
+            // Loop through Surahs
+            for (const surah in quranData) {
+                const surahData = quranData[surah];
+
+                // Add Surah Name (Big, Bold Text)
+                doc.setFontSize(22);
+                doc.text(surah, 10, yPosition);  // X: 10, Y: yPosition
+                yPosition += 20;  // Add space after Surah name
+
+                // Loop through each verse in the Surah
+                for (const verseNumber in surahData) {
+                    const verseText = surahData[verseNumber].maltese;
+
+                    // Add Verse Text (Normal Size)
+                    doc.setFontSize(18);
+                    doc.text(verseText, 10, yPosition);  // X: 10, Y: yPosition
+                    yPosition += 10;
+
+                    // Add Verse Number (Smaller Size, Superscript)
+                    doc.setFontSize(14);
+                    doc.text(verseNumber, 100, yPosition - 5);  // X: 100, Y: superscript position
+                    yPosition += 15;
+
+                    // If yPosition is too low (end of page), add a new page
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 10;  // Reset Y position
+                    }
+                }
+            }
+
+            // Save the PDF
+            doc.save('quran_maltese.pdf');
+        }
+
+        // Event listener to trigger PDF generation when the button is clicked
+        document.getElementById('generatePdf').addEventListener('click', generatePdf);
+
+        // Fetch the Quran data as soon as the page loads
+        fetchQuranData();
+    </script>
+
+</body>
+</html>
