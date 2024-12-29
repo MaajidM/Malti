@@ -83,19 +83,20 @@
     </footer>
 
     <script>
-        // Inline Quran Data
-        const quranData = {
-            "1. Al-Fatiha": {
-                "1": { "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "F'Isem Alla, Kollu Ħniena, il-Ħanin" },
-                "2": { "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ", "maltese": "T-tifħir lil Alla, Sid il-Ħolqien" },
-                "3": { "arabic": "الرَّحْمَٰنِ الرَّحِيمِ", "maltese": "Kollu Ħniena, il-Ħanin" }
-            },
-            "2. Al-Baqara": {
-                "1": { "arabic": "الم", "maltese": "Alif. Lam. Mim" },
-                "2": { "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ", "maltese": "Dan huwa l-Ktieb, bla dubju" }
-            }
-            // Add more surahs and verses as needed
-        };
+        let quranData = {};
+
+        // Fetch the external Quran data from a JSON file
+        fetch('quran.json')
+            .then(response => response.json())
+            .then(data => {
+                quranData = data;
+                loadSurahList();
+                const firstSurah = Object.keys(quranData)[0];
+                if (firstSurah) displaySurah(firstSurah);
+            })
+            .catch(error => {
+                console.error('Error loading Quran data:', error);
+            });
 
         // Populate Surah List
         const surahList = document.getElementById('surahList');
@@ -127,11 +128,6 @@
 
             verseContainer.innerHTML = fullText;
         }
-
-        // Initialize App
-        loadSurahList();
-        const firstSurah = Object.keys(quranData)[0];
-        if (firstSurah) displaySurah(firstSurah);
 
         // Sidebar Toggle
         document.getElementById('menuButton').addEventListener('click', () => {
