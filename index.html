@@ -34,13 +34,20 @@
             font-size: 0.8rem;
             color: #6C757D;
             vertical-align: super;
+            margin-left: 5px;
         }
         .verse-text {
             font-size: 1.1rem;
             color: #343A40;
+            line-height: 1.8; /* Adjusts the line height for better text flow */
         }
         .verse-container {
             white-space: pre-line;
+        }
+        /* Improved spacing for continuous text flow */
+        .verse-block {
+            display: inline-block;
+            margin-bottom: 0.2rem; /* Small gap between verses */
         }
     </style>
 </head>
@@ -123,7 +130,11 @@
             let fullText = '';
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 // Add each verse with a small superscript verse number
-                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup> </span>`;
+                fullText += `
+                    <span class="verse-block">
+                        <span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span>
+                    </span>
+                `;
             });
 
             verseContainer.innerHTML = fullText;
