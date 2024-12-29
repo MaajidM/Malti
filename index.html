@@ -129,7 +129,7 @@
                 button.textContent = surahName;
                 button.onclick = () => {
                     currentSurahIndex = index;
-                    currentVerseIndex = 0;  // Reset to the first verse
+                    currentVerseIndex = 0;  // Reset to the first verse of the selected surah
                     displaySurah(currentSurahIndex);
                 };
                 surahList.appendChild(button);
@@ -143,13 +143,13 @@
             // Clear previous content
             verseContainer.innerHTML = '';
 
-            // Add Surah name
+            // Add Surah name header
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Display verses
+            // Get the verses to display
             const versesToDisplay = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             versesToDisplay.forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
