@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Malti Quran</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-     <style>
+    <style>
         :root {
             --primary-color: #2D3748;
             --background-color: #FFFFFF;
@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Noto Sans', sans-serif;
             background-color: var(--background-color);
             color: var(--text-primary);
             margin: 0;
@@ -118,13 +118,13 @@
             background-color: rgba(74, 144, 226, 0.05);
         }
 
-       .verse-number {
-        font-size: 0.75rem;
-        color: var(--accent-color);
-        font-weight: 600;
-        vertical-align: super;
-        margin-left: 0.25rem;
-    }
+        .verse-number {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            vertical-align: super;
+            margin-left: 0.25rem;
+        }
 
         .footer {
             text-align: center;
@@ -179,7 +179,6 @@
                 const data = await response.json();
                 quranData = data;
                 initializeSurahSelector();
-                displaySurah(Object.keys(data)[0]);
             } catch (error) {
                 verseContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
                 console.error(error);
@@ -187,35 +186,49 @@
         }
 
         function initializeSurahSelector() {
-            surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
+            surahSelector.innerHTML = '<option value="" disabled selected>Select Surah</option>';
             Object.keys(quranData).forEach((surahName) => {
                 const option = document.createElement('option');
                 option.value = surahName;
                 option.textContent = surahName;
                 surahSelector.appendChild(option);
             });
+            surahSelector.disabled = false;
         }
 
-       function displaySurah(surahName) {
-    const surah = quranData[surahName];
-    if (!surah) return;
+        function displaySurah(surahName) {
+            const surah = quranData[surahName];
+            if (!surah) return;
 
-    const content = `
-        <div class="surah-name">${surahName}</div>
-        ${Object.entries(surah).map(([verseNumber, verse]) => `
-            <div class="verse-text" id="verse-${verseNumber}">
-                ${verse.maltese}<sup class="verse-number">${verseNumber}</sup>
-            </div>
-        `).join('')}
-    `;
-    
-    verseContainer.innerHTML = content;
-});
+            const verses = Object.entries(surah);
+            verseSelector.innerHTML = `<option value="" disabled selected>Select Verse</option>`;
+            verses.forEach(([verseNumber]) => {
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = `Verse ${verseNumber}`;
+                verseSelector.appendChild(option);
+            });
+            verseSelector.disabled = false;
+
+            const content = `
+                <div class="surah-name">${surahName}</div>
+                ${verses.map(([verseNumber, verse]) => `
+                    <div class="verse-text" id="verse-${verseNumber}">
+                        ${verse.maltese}<sup class="verse-number">${verseNumber}</sup>
+                    </div>
+                `).join('')}
+            `;
+            verseContainer.innerHTML = content;
         }
 
         surahSelector.addEventListener('change', () => {
             const surahName = surahSelector.value;
             displaySurah(surahName);
+        });
+
+        verseSelector.addEventListener('change', () => {
+            const verseNumber = verseSelector.value;
+            document.getElementById(`verse-${verseNumber}`).scrollIntoView({ behavior: 'smooth' });
         });
 
         loadData();
