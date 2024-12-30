@@ -98,21 +98,6 @@
             background-color: #F0F0F0;
         }
 
-        /* Progress Bar */
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        .progress-bar-inner {
-            height: 100%;
-            background-color: #4caf50;
-            border-radius: 5px;
-            width: 0;
-        }
     </style>
 </head>
 <body>
@@ -129,11 +114,6 @@
             <select id="verseSelector" class="p-2 border rounded-md" disabled>
                 <option value="" disabled selected>Select Verse</option>
             </select>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="progress-bar">
-            <div id="progressBarInner" class="progress-bar-inner"></div>
         </div>
     </nav>
 
@@ -216,17 +196,6 @@
                 verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
                 verseContainer.appendChild(verseElement);
             });
-
-            // Update progress bar based on the current Surah index
-            updateProgressBar(surahIndex, Object.keys(quranData).length);
-        }
-
-        // Update the progress bar
-        function updateProgressBar(currentSurahIndex, totalSurahCount) {
-            const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
-            const totalVersesInSurah = Object.keys(surah).length;
-            const progress = (currentVerseIndex / totalVersesInSurah) * 100;
-            document.getElementById('progressBarInner').style.width = `${progress}%`;
         }
 
         // Handle Surah selection change
@@ -246,9 +215,6 @@
             if (verseElement) {
                 verseElement.scrollIntoView({ behavior: 'smooth' });
             }
-
-            // Update the progress bar for the selected verse
-            updateProgressBar(currentSurahIndex, Object.keys(quranData).length);
         });
 
         // Load data when the page is ready
