@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="mt">
 <head>
-      <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Malti Quran - Quran translated into Maltese, providing verse-by-verse translation with easy navigation.">
     <meta name="keywords" content="Quran, Malti Quran, Quran translation, Quran in Maltese, Islamic, Quran study">
     <meta name="author" content="Il-Quran bil-Malti">
     <meta property="og:title" content="Malti Quran">
     <meta property="og:description" content="Explore the Quran in Maltese, with easy navigation and verse translations.">
-    <meta property="og:image" content="path_to_image.jpg"> <!-- Replace with the actual image URL -->
-    <meta property="og:url" content="https://maltiquran.com"> <!-- Replace with the actual URL -->
+    <meta property="og:image" content="path_to_image.jpg">
+    <meta property="og:url" content="https://maltiquran.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Malti Quran">
     <meta name="twitter:description" content="Explore the Quran in Maltese, with easy navigation and verse translations.">
-    <meta name="twitter:image" content="path_to_image.jpg"> <!-- Replace with the actual image URL -->
+    <meta name="twitter:image" content="path_to_image.jpg">
     <meta name="theme-color" content="#ffffff">
     <title>Malti Quran</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Replace with your favicon URL -->
-    <title>Malti Quran</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         :root {
             --primary-color: #2D3748;
@@ -146,6 +144,18 @@
             border-top: 1px solid var(--border-color);
         }
 
+        .error {
+            color: #E53E3E;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
         @media (max-width: 768px) {
             .verse-selector {
                 flex-direction: column;
@@ -191,12 +201,13 @@
             try {
                 const response = await fetch('./quran.json');
                 if (!response.ok) throw new Error('Failed to fetch Quran data.');
-                const data = await response.json();
-                quranData = data;
+                quranData = await response.json();
                 initializeSurahSelector();
-                displaySurah(Object.keys(data)[0]);
+                if (Object.keys(quranData).length > 0) {
+                    displaySurah(Object.keys(quranData)[0]);
+                }
             } catch (error) {
-                verseContainer.innerHTML = <div class="error">Error: ${error.message}</div>;
+                verseContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
                 console.error(error);
             }
         }
@@ -210,52 +221,53 @@
                 surahSelector.appendChild(option);
             });
             surahSelector.disabled = false;
+            if (Object.keys(quranData).length > 0) {
+                surahSelector.value = Object.keys(quranData)[0];
+            }
         }
 
         function displaySurah(surahName) {
             const surah = quranData[surahName];
             if (!surah) return;
 
-            const content = 
+            let content = `
                 <div class="surah-name">${surahName}</div>
-                ${Object.entries(surah).map(([verseNumber, verse]) => 
+                ${Object.entries(surah).map(([verseNumber, verse]) => `
                     <div class="verse-text" id="verse-${verseNumber}">
                         ${verse.Translation || "Translation missing"}
                         <sup class="verse-number">${verseNumber}</sup>
                     </div>
-                ).join('')}
-            ;
+                `).join('')}
+            `;
             
             verseContainer.innerHTML = content;
 
             // Update verse selector
-            verseSelector.innerHTML = <option value="" disabled selected>Select Verse</option>;
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
             Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber;
-                option.textContent = Verse ${verseNumber};
+                option.textContent = `Verse ${verseNumber}`;
                 verseSelector.appendChild(option);
             });
             verseSelector.disabled = false;
         }
 
-        // Event listener for verse selector (optional)
         verseSelector.addEventListener('change', () => {
             const verseNumber = verseSelector.value;
-            const selectedVerse = document.getElementById(verse-${verseNumber});
+            const selectedVerse = document.getElementById(`verse-${verseNumber}`);
             if (selectedVerse) {
                 selectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
 
-        // Initialize and load data
-        loadData();
-
-        // Event listener for Surah selector
         surahSelector.addEventListener('change', () => {
             const surahName = surahSelector.value;
             displaySurah(surahName);
         });
+
+        // Initialize and load data
+        loadData();
     </script>
 </body>
-</html> 
+</html>
