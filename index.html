@@ -3,166 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran Imqaddes bil-Malti – Maltese Quran</title>
+    <meta name="description" content="Il-Quran Imqaddes bil-Malti – A Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
+    <meta name="keywords" content="Quran, Quran translation, Quran in Maltese, Il-Quran Imqaddes">
+    <meta name="author" content="Dr. Muhammad S. Khatib, Dr. Ali F. Dalli">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Il-Quran Imqaddes bil-Malti – Maltese Translation of the Quran">
+    <meta property="og:description" content="Explore the Quran's verses in Maltese through the translation of Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
+    <meta name="theme-color" content="#FFFFFF">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <title>Il-Quran Imqaddes bil-Malti</title>
+
     <style>
+        :root {
+            --primary-color: #333333;
+            --background-color: #FFFFFF;
+            --border-color: #E0E0E0;
+            --accent-color: #4A90E2;
+            --text-primary: #333333;
+            --text-secondary: #6B7280;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
-            background-color: #FFFFFF;
-            color: #333333;
+            line-height: 1.5;
         }
 
-        /* Floating Header Styles */
         .header {
-            background-color: #FFFFFF;
-            padding: 10px 20px;
-            border-bottom: 1px solid #E0E0E0;
+            background-color: var(--background-color);
+            padding: 1rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
             position: sticky;
             top: 0;
-            z-index: 1000;
-            text-align: center;
+            z-index: 100;
         }
 
-        .header h1 {
+        .site-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .verse-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+
+        select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            min-width: 200px;
+            cursor: pointer;
+        }
+
+        select:disabled {
+            background-color: #F0F0F0;
+            cursor: not-allowed;
+        }
+
+        select:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            contain: content;
+        }
+
+        .surah-name {
             font-size: 1.5rem;
             font-weight: 700;
-            margin: 0;
-        }
-
-        .selectors {
-            margin-top: 10px;
-        }
-
-        .selectors select {
-            padding: 8px;
-            margin: 0 5px;
-            border: 1px solid #E0E0E0;
-            border-radius: 4px;
-        }
-
-        /* Verse Container Styles */
-        .verse-container {
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
         }
 
         .verse-text {
-            display: inline;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .verse-text:focus {
+            outline: none;
+            background-color: rgba(74, 144, 226, 0.1);
         }
 
         .verse-number {
-            font-size: 0.85rem;
-            color: #888888;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
             vertical-align: super;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .error {
+            color: #DC2626;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: var(--background-color);
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #E5E7EB;
+                --background-color: #1F2937;
+                --border-color: #4B5563;
+                --text-primary: #F3F4F6;
+                --text-secondary: #D1D5DB;
+                --shadow-color: rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .verse-selector {
+                flex-direction: column;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .verse-text {
+                font-size: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .header {
+                position: static;
+                box-shadow: none;
+            }
+
+            .verse-selector, .footer {
+                display: none;
+            }
+
+            .content {
+                margin: 0;
+                padding: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <div class="header">
-        <h1>Il-Quran Imqaddes bil-Malti</h1>
-        <div class="selectors">
-            <select id="surahSelector">
+    <nav class="header">
+        <div class="site-title">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</div>
+        <div class="verse-selector">
+            <select id="surahSelector" aria-label="Select Surah">
                 <option value="" disabled selected>Select Surah</option>
             </select>
-            <select id="verseSelector" disabled>
+            <select id="verseSelector" aria-label="Select Verse" disabled>
                 <option value="" disabled selected>Select Verse</option>
             </select>
         </div>
-    </div>
+    </nav>
 
-    <!-- Verse Content -->
-    <div id="verseContainer" class="verse-container"></div>
+    <main class="content" id="verseContainer">
+        <div class="loading">Loading Quran data...</div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Il-Quran bil-Malti | Open Source</p>
+        <p>"Il-Qoran Imqaddes", Maltese translation by Dr. Muhammad S. Khatib & Dr. Ali F. Dalli (2008)</p>
+        <p>Published by the Islamic Centre of Malta</p>
+        <p>For more information, visit <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a></p>
+    </footer>
 
     <script>
+        // Cache DOM elements
+        const surahSelector = document.getElementById('surahSelector');
+        const verseSelector = document.getElementById('verseSelector');
+        const verseContainer = document.getElementById('verseContainer');
+
+        // State management
         let quranData = {};
         let currentSurahIndex = 0;
+        let currentVerseIndex = 0;
 
-        // Fetch Quran Data
-        function loadData() {
-            fetch('quran.json')
-                .then(response => response.json())
-                .then(data => {
-                    quranData = data;
-                    populateSurahSelector();
-                    displaySurah(currentSurahIndex); // Display the first surah by default
-                })
-                .catch(err => {
-                    console.error('Error loading Quran data:', err);
-                    alert('Failed to load Quran data.');
-                });
+        // Local storage keys
+        const CACHE_KEY = 'quranDataCache';
+        const CACHE_TIMESTAMP_KEY = 'quranDataTimestamp';
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        async function initializeApp() {
+            try {
+                await loadData();
+                setupEventListeners();
+                setupServiceWorker();
+            } catch (error) {
+                console.error('Failed to initialize app:', error);
+                showError('Failed to initialize the application');
+            }
         }
 
-        // Populate Surah Selector
-        function populateSurahSelector() {
-            const surahSelector = document.getElementById('surahSelector');
-            const surahNames = Object.keys(quranData);
+        // Data loading with caching
+        async function loadData() {
+            try {
+                const cachedData = await loadFromCache();
+                if (cachedData) {
+                    quranData = cachedData;
+                    loadSurahList();
+                    displaySurah(currentSurahIndex);
+                    return;
+                }
 
-            surahNames.forEach((name, index) => {
+                const response = await fetch('quran.json');
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                if (!data || Object.keys(data).length === 0) {
+                    throw new Error('Invalid data format');
+                }
+
+                quranData = data;
+                await saveToCache(data);
+                loadSurahList();
+                displaySurah(currentSurahIndex);
+            } catch (error) {
+                throw new Error(`Failed to load Quran data: ${error.message}`);
+            }
+        }
+
+        // Cache management
+        async function loadFromCache() {
+            const timestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+            const cachedData = localStorage.getItem(CACHE_KEY);
+            
+            if (!timestamp || !cachedData) return null;
+            
+            if (Date.now() - parseInt(timestamp) > CACHE_DURATION) {
+                localStorage.removeItem(CACHE_KEY);
+                localStorage.removeItem(CACHE_TIMESTAMP_KEY);
+                return null;
+            }
+            
+            return JSON.parse(cachedData);
+        }
+
+        async function saveToCache(data) {
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+                localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+            } catch (error) {
+                console.warn('Failed to cache data:', error);
+            }
+        }
+
+        // UI Updates
+        function loadSurahList() {
+            const fragment = document.createDocumentFragment();
+            Object.keys(quranData).forEach((surahName, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                option.textContent = name;
-                surahSelector.appendChild(option);
+                option.textContent = surahName;
+                fragment.appendChild(option);
             });
-
-            populateVerseSelector(0); // Initialize verse selector
+            surahSelector.appendChild(fragment);
+            loadVerseOptions(currentSurahIndex);
         }
 
-        // Populate Verse Selector
-        function populateVerseSelector(surahIndex) {
-            const verseSelector = document.getElementById('verseSelector');
+        function loadVerseOptions(surahIndex) {
             verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
             const surah = quranData[Object.keys(quranData)[surahIndex]];
-
-            Object.keys(surah).forEach(verseNumber => {
+            const fragment = document.createDocumentFragment();
+            
+            Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber;
                 option.textContent = `Verse ${verseNumber}`;
-                verseSelector.appendChild(option);
+                fragment.appendChild(option);
             });
-
+            
+            verseSelector.appendChild(fragment);
             verseSelector.disabled = false;
         }
 
-        // Display Surah Content
         function displaySurah(surahIndex) {
-            const verseContainer = document.getElementById('verseContainer');
-            verseContainer.innerHTML = ''; // Clear previous content
-
+            const fragment = document.createDocumentFragment();
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
 
-            Object.entries(surah).forEach(([verseNumber, verseContent]) => {
-                const verseSpan = document.createElement('span');
-                verseSpan.className = 'verse-text';
-                verseSpan.id = `verse-${verseNumber}`;
-                verseSpan.innerHTML = `${verseContent.maltese} <span class="verse-number">${verseNumber}</span> `;
-                verseContainer.appendChild(verseSpan);
+            const surahElement = document.createElement('div');
+            surahElement.className = 'surah-name';
+            surahElement.textContent = surahName;
+            fragment.appendChild(surahElement);
+
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                const verseElement = document.createElement('div');
+                verseElement.className = 'verse-text';
+                verseElement.id = `verse-${verseNumber}`;
+                verseElement.tabIndex = 0;
+                verseElement.setAttribute('role', 'article');
+                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
+                fragment.appendChild(verseElement);
             });
+
+            verseContainer.innerHTML = '';
+            verseContainer.appendChild(fragment);
         }
 
         // Event Listeners
-        document.getElementById('surahSelector').addEventListener('change', (e) => {
+        function setupEventListeners() {
+            surahSelector.addEventListener('change', handleSurahChange);
+            verseSelector.addEventListener('change', handleVerseChange);
+            window.addEventListener('popstate', handlePopState);
+        }
+
+        const handleSurahChange = debounce((e) => {
             currentSurahIndex = parseInt(e.target.value);
-            populateVerseSelector(currentSurahIndex);
+            currentVerseIndex = 0;
             displaySurah(currentSurahIndex);
-        });
+            loadVerseOptions(currentSurahIndex);
+            updateURL();
+        }, 250);
 
-        document.getElementById('verseSelector').addEventListener('change', (e) => {
-            const verseId = `verse-${e.target.value}`;
-            const verseElement = document.getElementById(verseId);
+        const handleVerseChange = debounce((e) => {
+            const verseNumber = e.target.value;
+            scrollToVerse(verseNumber);
+            updateURL();
+        }, 250);
+
+        // Navigation
+        function scrollToVerse(verseNumber) {
+            const verseElement = document.getElementById(`verse-${verseNumber}`);
             if (verseElement) {
-                verseElement.scrollIntoView({ behavior: 'smooth' });
+                verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                verseElement.focus();
             }
-        });
+        }
 
-        // Load data when the page is ready
-        loadData();
-    </script>
-</body>
-</html>
+        function updateURL() {
+            const url = new URL(window.location);
+            url.searchParams.set('surah', currentSurahIndex);
+            if (verseSelector.value) {
+                url.searchParams.set('verse', verseSelector.value);
+            }
+            history.pushState({}, '', url);
+        }
+
+        function handlePopState() {
+            const params = new URLSearchParams(window.location.search);
+            const surah = params.get('surah');
+            const verse = params.get('verse');
+            
+            if (surah) {
+                currentSurahIndex = parseInt(surah);
+                displaySurah(currentSurahIndex);
+                loadVerseOptions(currentSurahIndex);
+                
+                if (verse) {
+                    verseSelector.value = verse;
+                    scrollToVerse(verse);
+                }
+            }
+        }
+
+        // Utility functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showError(message) {
+            verseContainer.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        // Service Worker
+        async function setupServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    await navigator.serviceWorker.register('/sw.js');
+                    console.log('Service Worker registered');
+                } catch (error) {
+                    console.warn('Service Worker registration failed:', error);
+                }
+            }
+        }
