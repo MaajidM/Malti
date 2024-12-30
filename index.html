@@ -89,14 +89,18 @@
             background-color: #E8F5E9;
         }
 
+        .surah-verse-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
         #menuButton {
             display: block;
             cursor: pointer;
             margin-right: 10px;
-        }
-
-        .sidebar.hidden {
-            display: none;
         }
     </style>
 </head>
@@ -104,30 +108,31 @@
 
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <!-- Centered Heading -->
             <h1 class="text-xl font-semibold text-center w-full">Il-Quran Imqaddes bil-Malti</h1>
-            
-            <!-- Surah and Verse Selectors -->
-            <div class="flex items-center space-x-4 mt-4">
-                <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
-                    <option value="" disabled selected>Select Surah</option>
-                </select>
-                <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
-                    <option value="" disabled selected>Select Verse</option>
-                </select>
-            </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="flex-1 p-8">
-        <div class="max-w-3xl mx-auto">
-            <div id="verseContainer" class="content space-y-6">
-                <!-- Verses will be loaded here -->
-            </div>
-            <div class="navigation-buttons">
-                <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
-                <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
+    <div class="flex flex-col items-center">
+        <!-- Surah and Verse Selectors -->
+        <div class="surah-verse-container">
+            <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
+                <option value="" disabled selected>Select Surah</option>
+            </select>
+            <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
+                <option value="" disabled selected>Select Verse</option>
+            </select>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <div class="max-w-3xl mx-auto">
+                <div id="verseContainer" class="content space-y-6">
+                    <!-- Verses will be loaded here -->
+                </div>
+                <div class="navigation-buttons">
+                    <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
+                    <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
+                </div>
             </div>
         </div>
     </div>
