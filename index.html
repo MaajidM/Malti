@@ -53,11 +53,38 @@
     padding: 20px;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     word-wrap: break-word;
-    width: auto; /* Automatically adjust width */
-    max-width: 90%; /* Ensure it doesn't exceed the width of its parent container */
-    min-width: 0; /* Prevents the box from shrinking below a certain point */
+    width: 100%; /* Allow the container to take up full width */
+    max-width: 100%; /* Ensure it doesn't exceed the width of its parent container */
     margin: 0 auto; /* Center the content */
 }
+
+.verse-text {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 10px; /* Adjust margin to keep verses closely spaced */
+    word-wrap: break-word; /* Ensure long words break if necessary */
+}
+
+.surah-name {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.verse-number {
+    font-size: 14px;
+    color: rgb(119, 122, 123);
+    vertical-align: super;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 
         .surah-name {
             font-weight: 700;
