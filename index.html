@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Il-Quran Imqaddes bil-Malti – A Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli. Explore the Quran's verses and their translations in Maltese.">
     <title>Il-Quran Imqaddes bil-Malti – Maltese Quran</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -16,9 +15,10 @@
             color: #333333;
         }
 
+        /* Header Styles */
         .header {
             background-color: #FFFFFF;
-            padding: 10px;
+            padding: 10px 20px;
             border-bottom: 1px solid #E0E0E0;
             position: sticky;
             top: 0;
@@ -27,18 +27,36 @@
 
         .header h1 {
             font-size: 1.5rem; /* Site title size */
+            margin: 0;
+        }
+
+        .surah-name {
+            font-weight: 600;
+            font-size: 1.25rem; /* Surah name size smaller than site title */
+            text-align: center;
+            margin: 20px 0;
         }
 
         .verse-selector {
+            display: flex;
+            gap: 10px;
             margin-top: 10px;
         }
 
+        select {
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Content Styles */
         .content {
             padding: 20px;
             line-height: 1.8;
             font-size: 18px;
             max-width: 700px;
-            margin: 0 auto;
+            margin: 20px auto;
             word-wrap: break-word;
         }
 
@@ -47,26 +65,12 @@
             color: rgb(119, 122, 123);
             vertical-align: super;
         }
-
-        .surah-name {
-            font-weight: 600;
-            font-size: 1.25rem; /* Surah name size smaller than the site title */
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        select {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <nav class="header">
-        <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
+        <h1>Il-Quran Imqaddes bil-Malti</h1>
         <div class="verse-selector">
             <select id="surahSelector">
                 <option value="" disabled selected>Select Surah</option>
@@ -91,36 +95,35 @@
         let quranData = {};
         let currentSurahIndex = 0;
 
-        // Function to load Quran data
+        // Load Quran data
         function loadData() {
             fetch('quran.json')
                 .then(response => response.json())
                 .then(data => {
                     quranData = data;
-                    loadSurahList();
-                    displaySurah(currentSurahIndex); // Display the first Surah by default
+                    populateSurahList();
+                    displaySurah(currentSurahIndex); // Display the first Surah
                 })
-                .catch(error => {
-                    console.error('Error loading Quran data:', error);
-                    alert('Failed to load Quran data.');
-                });
+                .catch(error => console.error('Error loading Quran data:', error));
         }
 
-        // Load Surah list
-        function loadSurahList() {
+        // Populate Surah list
+        function populateSurahList() {
             const surahNames = Object.keys(quranData);
-            surahNames.forEach((surahName, index) => {
+            surahNames.forEach((name, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                option.textContent = surahName;
-                surahSelector.appendChild(option);
+                option.textContent = name;
+                document.getElementById('surahSelector').appendChild(option);
             });
         }
 
-        // Load Verse list for selected Surah
-        function loadVerseList(surahIndex) {
+        // Populate Verse list
+        function populateVerseList(surahIndex) {
+            const verseSelector = document.getElementById('verseSelector');
             verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
             const surah = quranData[Object.keys(quranData)[surahIndex]];
+
             Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber;
@@ -130,44 +133,36 @@
             verseSelector.disabled = false;
         }
 
-        // Display selected Surah's content in continuous flow
+        // Display Surah content in continuous flow
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
-            const verses = Object.entries(surah);
+            const verseContainer = document.getElementById('verseContainer');
 
-            // Clear container and add Surah name
-            verseContainer.innerHTML = '';
-            const surahTitle = document.createElement('div');
-            surahTitle.className = 'surah-name';
-            surahTitle.textContent = surahName;
-            verseContainer.appendChild(surahTitle);
-
-            // Add verses in continuous flow
-            const verseText = document.createElement('div');
-            verses.forEach(([verseNumber, verse]) => {
-                verseText.innerHTML += `${verse.maltese} <sup class="verse-number">${verseNumber}</sup> `;
-            });
-            verseContainer.appendChild(verseText);
+            verseContainer.innerHTML = `<div class="surah-name">${surahName}</div>`;
+            const content = Object.entries(surah)
+                .map(([verseNumber, verse]) => `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`)
+                .join(' ');
+            verseContainer.innerHTML += `<div>${content}</div>`;
         }
 
         // Handle Surah selection
-        surahSelector.addEventListener('change', (e) => {
+        document.getElementById('surahSelector').addEventListener('change', (e) => {
             currentSurahIndex = parseInt(e.target.value);
             displaySurah(currentSurahIndex);
-            loadVerseList(currentSurahIndex);
+            populateVerseList(currentSurahIndex);
         });
 
         // Handle Verse selection
-        verseSelector.addEventListener('change', (e) => {
-            const selectedVerse = parseInt(e.target.value);
-            const verseElement = document.getElementById(`verse-${selectedVerse}`);
+        document.getElementById('verseSelector').addEventListener('change', (e) => {
+            const verseNumber = e.target.value;
+            const verseElement = document.querySelector(`.verse-number:contains(${verseNumber})`);
             if (verseElement) {
                 verseElement.scrollIntoView({ behavior: 'smooth' });
             }
         });
 
-        // Load data when the page loads
+        // Initialize on page load
         loadData();
     </script>
 </body>
