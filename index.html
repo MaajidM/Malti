@@ -10,7 +10,6 @@
 
     <script async src="https://cdn.vercel.com/analytics.js"></script>
 
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -172,7 +171,12 @@
 
         // Fetch Quran data
         fetch('quran.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
                 quranData = data;
                 loadSurahList(); // Populate Surah Selector
@@ -180,6 +184,7 @@
             })
             .catch(error => {
                 console.error('Error loading Quran data:', error);
+                alert('Failed to load Quran data. Please check the console for details.');
             });
 
         const surahSelector = document.getElementById('surahSelector');
@@ -207,7 +212,7 @@
             Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber;
-                option.textContent = Verse ${verseNumber};
+                option.textContent = `Verse ${verseNumber}`;
                 verseSelector.appendChild(option);
             });
             verseSelector.disabled = false; // Enable Verse Selector
@@ -229,7 +234,7 @@
             verses.forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
                 verseElement.className = 'verse-text';
-                verseElement.innerHTML = ${verse.maltese} <sup class="verse-number">${verseNumber}</sup>;
+                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
                 verseContainer.appendChild(verseElement);
             });
 
@@ -295,3 +300,4 @@
         });
     </script>
 </body>
+</html>
