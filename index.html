@@ -106,6 +106,38 @@
         select:disabled {
             background-color: #F0F0F0;
         }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .header, .footer {
+                padding: 8px;
+            }
+            .verse-text {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .surah-name {
+                font-size: 18px;
+            }
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 1024px) {
+            .verse-text {
+                font-size: 18px;
+                line-height: 28px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content {
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
