@@ -3,269 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran Imqaddes bil-Malti</title>
-    <meta name="description" content="Discover the Holy Quran in Maltese, with authentic translations and verse navigation.">
-    <meta name="keywords" content="Quran, Quran in Maltese, Islamic teachings, Surah, verses">
-    <meta name="author" content="Islamic Centre of Malta">
-    <meta name="language" content="mt">
-
-    <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
+    <title>Il-Quran bil-Malti</title>
+    <!-- Include Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Apply Inter font to the entire page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            background-color: #F8F9FA;
+            color: rgb(18, 18, 18);  /* Default text color */
         }
 
-        /* Header / Menu Bar */
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #FFFFFF;
+        }
+
+        /* Header Styles */
         .header {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #F1F3F5;
+            color: #343A40;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #F1F3F5;
             text-align: center;
-            padding: 15px 0;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        /* Surah Selector */
-        .surah-selector {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .surah-selector select {
             padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            color: #6C757D;
         }
 
-        /* Container for Quran content */
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            max-width: 800px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            text-align: center;
+        /* Content Section Styles */
+        .content {
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            word-wrap: break-word;
+            word-break: break-all;
         }
 
-        /* Surah Title */
-        .surah-name {
-            font-weight: 700;
-            font-size: 20px;
-            line-height: 24px;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        /* Verse Styling */
-        .verse-text {
-            font-weight: 400;
-            font-size: 18px;
-            line-height: 36px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        /* Verse Number Styling */
+        /* Verse Number Style */
         .verse-number {
-            font-size: 14px;
-            color: #aaa;
+            font-size: 0.8rem;
+            color: #6C757D;
             vertical-align: super;
         }
 
-        /* Navigation Buttons */
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        /* Verse Text Style - Inter font weight 400 and 18px size */
+        .verse-text {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 36px;  /* Adjust line height */
+            color: rgb(18, 18, 18);
         }
 
-        .navigation-buttons button {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s ease;
+        /* Surah Name Style - Inter font weight 700 and 20px size */
+        .surah-name {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 24px;  /* Adjust line height */
+            color: rgb(18, 18, 18);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .navigation-buttons button:hover {
-            background-color: #45a049;
-        }
-
-        /* Responsive Layout */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .navigation-buttons button {
-                margin: 5px;
-            }
+        .verse-container {
+            white-space: normal;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
 
-    <!-- Header/Menu Bar -->
-    <div class="header">
-        Il-Quran Imqaddes bil-Malti
+    <!-- Navigation -->
+    <nav class="header p-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+            <button id="menuButton" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <h1 class="text-xl font-semibold">Il-Quran bil-Malti</h1>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar w-64 hidden lg:block border-r h-screen overflow-y-auto">
+            <div class="p-4">
+                <div id="surahList" class="space-y-2">
+                    <!-- Surah list will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <div class="max-w-3xl mx-auto">
+                <div id="verseContainer" class="content space-y-6">
+                    <!-- Verses will be loaded here -->
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Surah Selector -->
-    <div class="surah-selector">
-        <select id="surahSelector" onchange="changeSurah()">
-            <option value="1">1. Al-Fatiha</option>
-            <option value="2">2. Al-Baqara</option>
-            <option value="3">3. Aali 'Imran</option>
-            <!-- Add more Surahs as needed -->
-        </select>
-    </div>
-
-    <!-- Quran Container -->
-    <div class="container" id="verseContainer">
-        <!-- Surah Title -->
-        <div class="surah-name" id="surahTitle">
-            1. Al-Fatiha
-        </div>
-
-        <!-- Verses (Initial content) -->
-        <div class="verse-text" id="verse1">
-            F'IsemAlla, Kollu Ħniena, il-Ħanin <sup class="verse-number">1</sup>
-        </div>
-        <div class="verse-text" id="verse2">
-            t-tifħirlil Alla, Sid il-ħolqien <sup class="verse-number">2</sup>
-        </div>
-        <div class="verse-text" id="verse3">
-            Kollu Ħniena, il-Ħanin <sup class="verse-number">3</sup>
-        </div>
-        <div class="verse-text" id="verse4">
-            is-Sultan ta' Jum il-Ħaqq <sup class="verse-number">4</sup>
-        </div>
-        <div class="verse-text" id="verse5">
-            Lilekingimu, u lilek nitolbu għajnuna <sup class="verse-number">5</sup>
-        </div>
-        <div class="verse-text" id="verse6">
-            Mexxina fit-triq id-dritta <sup class="verse-number">6</sup>
-        </div>
-        <div class="verse-text" id="verse7">
-            triq dawk li xħett fuqhom il-grazzja tiegħek, u mhux ta' dawk li (gibdu) l-għadab (tiegħek) fuqhom, u lanqas tal- mitlufin <sup class="verse-number">7</sup>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="navigation-buttons">
-            <button id="prevButton" onclick="navigate('prev')">Previous</button>
-            <button id="nextButton" onclick="navigate('next')">Next</button>
-        </div>
-    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
+    </footer>
 
     <script>
-        // Surah verses data (this can be dynamically loaded)
-        const versesData = {
-            1: [
-                "F'IsemAlla, Kollu Ħniena, il-Ħanin",
-                "t-tifħirlil Alla, Sid il-ħolqien",
-                "Kollu Ħniena, il-Ħanin",
-                "is-Sultan ta' Jum il-Ħaqq",
-                "Lilekingimu, u lilek nitolbu għajnuna",
-                "Mexxina fit-triq id-dritta",
-                "triq dawk li xħett fuqhom il-grazzja tiegħek, u mhux ta' dawk li (gibdu) l-għadab (tiegħek) fuqhom, u lanqas tal- mitlufin"
-            ],
-            2: [
-                "Verse 1 for Surah 2",
-                "Verse 2 for Surah 2",
-                "Verse 3 for Surah 2",
-                // Add more verses for Surah 2 here
-            ],
-            3: [
-                "Verse 1 for Surah 3",
-                "Verse 2 for Surah 3",
-                "Verse 3 for Surah 3",
-                // Add more verses for Surah 3 here
-            ]
-        };
+        let quranData = {};
 
-        let currentSurah = 1;
-        let currentVerse = 0;
+        // Fetch the external Quran data from a JSON file
+        fetch('quran.json')
+            .then(response => response.json())
+            .then(data => {
+                quranData = data;
+                loadSurahList();
+                const firstSurah = Object.keys(quranData)[0];
+                if (firstSurah) displaySurah(firstSurah);
+            })
+            .catch(error => {
+                console.error('Error loading Quran data:', error);
+            });
 
-        // Change Surah based on user selection
-        function changeSurah() {
-            const surahSelector = document.getElementById('surahSelector');
-            const selectedSurah = parseInt(surahSelector.value);
-            currentSurah = selectedSurah;
-            currentVerse = 0; // Reset verse to first verse
-            updateVerse();
+        // Populate Surah List
+        const surahList = document.getElementById('surahList');
+        const verseContainer = document.getElementById('verseContainer');
+
+        function loadSurahList() {
+            Object.keys(quranData).forEach(surahName => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-2 hover:bg-gray-100 rounded';
+                button.textContent = surahName;
+                button.onclick = () => displaySurah(surahName);
+                surahList.appendChild(button);
+            });
         }
 
-        // Update verse content based on currentSurah and currentVerse
-        function updateVerse() {
-            const verseContainer = document.getElementById('verseContainer');
-            const surahTitle = document.getElementById('surahTitle');
-            const verses = versesData[currentSurah];
-            
-            surahTitle.innerHTML = `${currentSurah}. ${getSurahName(currentSurah)}`;
-            
-            // Display current verse
-            const verseTexts = verseContainer.getElementsByClassName('verse-text');
-            for (let i = 0; i < verseTexts.length; i++) {
-                if (i < verses.length) {
-                    verseTexts[i].innerHTML = `${verses[i]} <sup class="verse-number">${i + 1}</sup>`;
-                } else {
-                    verseTexts[i].style.display = 'none'; // Hide extra verses if there are no more
-                }
-            }
+        // Display Surah and Verses
+        function displaySurah(surahName) {
+            const surah = quranData[surahName];
+
+            // Clear previous content
+            verseContainer.innerHTML = '';
+
+            // Add Surah name above the text in the middle
+            const surahElement = document.createElement('div');
+            surahElement.className = 'surah-name';
+            surahElement.textContent = surahName;  // Surah name as the title
+            verseContainer.appendChild(surahElement);
+
+            // Create a block of text with continuous flow
+            let fullText = '';
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                // Add each verse with a small superscript verse number and continuous text flow
+                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
+            });
+
+            verseContainer.innerHTML += fullText; // Append verses after the surah name
         }
 
-        // Get Surah name based on Surah number
-        function getSurahName(surahNumber) {
-            const surahNames = [
-                "Al-Fatiha",
-                "Al-Baqara",
-                "Aali 'Imran"
-                // Add more Surah names as required
-            ];
-            return surahNames[surahNumber - 1];
-        }
-
-        // Navigate between verses
-        function navigate(direction) {
-            const verses = versesData[currentSurah];
-            if (direction === 'next' && currentVerse < verses.length - 1) {
-                currentVerse++;
-            } else if (direction === 'prev' && currentVerse > 0) {
-                currentVerse--;
-            }
-            updateVerse();
-        }
-
-        // Initialize the page with the first Surah (Al-Fatiha)
-        updateVerse();
+        // Sidebar Toggle
+        document.getElementById('menuButton').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        });
     </script>
 
 </body>
