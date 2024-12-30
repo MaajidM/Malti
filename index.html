@@ -16,11 +16,21 @@
             color: #333333;
         }
 
-        .header, .footer {
+        .header {
             background-color: #FFFFFF;
-            text-align: center;
             padding: 10px;
             border-bottom: 1px solid #E0E0E0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 1.5rem; /* Site title size */
+        }
+
+        .verse-selector {
+            margin-top: 10px;
         }
 
         .content {
@@ -39,8 +49,8 @@
         }
 
         .surah-name {
-            font-weight: 700;
-            font-size: 20px;
+            font-weight: 600;
+            font-size: 1.25rem; /* Surah name size smaller than the site title */
             text-align: center;
             margin-bottom: 20px;
         }
@@ -57,9 +67,12 @@
     <!-- Header Section -->
     <nav class="header">
         <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
-        <div>
+        <div class="verse-selector">
             <select id="surahSelector">
                 <option value="" disabled selected>Select Surah</option>
+            </select>
+            <select id="verseSelector" disabled>
+                <option value="" disabled selected>Select Verse</option>
             </select>
         </div>
     </nav>
@@ -69,8 +82,7 @@
         <div id="verseContainer" class="content"></div>
     </main>
 
-    <!-- Footer Section -->
-    <footer class="footer">
+    <footer class="footer text-center py-2 border-t">
         <p>&copy; 2024 Il-Quran bil-Malti | Open Source</p>
         <p class="text-xs">"Il-Qoran Imqaddes", Maltese translation by Dr. Muhammad S. Khatib & Dr. Ali F. Dalli (2008).</p>
     </footer>
@@ -105,7 +117,20 @@
             });
         }
 
-        // Display Surah content in continuous flow
+        // Load Verse list for selected Surah
+        function loadVerseList(surahIndex) {
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
+            const surah = quranData[Object.keys(quranData)[surahIndex]];
+            Object.keys(surah).forEach((verseNumber) => {
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = `Verse ${verseNumber}`;
+                verseSelector.appendChild(option);
+            });
+            verseSelector.disabled = false;
+        }
+
+        // Display selected Surah's content in continuous flow
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
@@ -130,9 +155,19 @@
         surahSelector.addEventListener('change', (e) => {
             currentSurahIndex = parseInt(e.target.value);
             displaySurah(currentSurahIndex);
+            loadVerseList(currentSurahIndex);
         });
 
-        // Load Quran data on page load
+        // Handle Verse selection
+        verseSelector.addEventListener('change', (e) => {
+            const selectedVerse = parseInt(e.target.value);
+            const verseElement = document.getElementById(`verse-${selectedVerse}`);
+            if (verseElement) {
+                verseElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Load data when the page loads
         loadData();
     </script>
 </body>
