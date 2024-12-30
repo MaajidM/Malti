@@ -235,4 +235,69 @@
             verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
             const surah = quranData[Object.keys(quranData)[surahIndex]];
             Object.keys(surah).forEach((verseNumber) => {
-                const option = document.createElement
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = verseNumber;
+                verseSelector.appendChild(option);
+            });
+            verseSelector.disabled = false;
+        }
+
+        // Display the current surah and verses
+        function displaySurah(index) {
+            const surahName = Object.keys(quranData)[index];
+            const surahVerses = Object.values(quranData)[index];
+
+            verseContainer.innerHTML = `<h2 class="surah-name">${surahName}</h2>`;
+
+            const verseKeys = Object.keys(surahVerses);
+            const start = currentVerseIndex;
+            const end = Math.min(currentVerseIndex + versesPerPage, verseKeys.length);
+
+            for (let i = start; i < end; i++) {
+                const verseNumber = verseKeys[i];
+                const verseText = surahVerses[verseNumber];
+                verseContainer.innerHTML += `<p class="verse-text"><span class="verse-number">${verseNumber}</span> ${verseText}</p>`;
+            }
+
+            prevButton.disabled = currentVerseIndex === 0;
+            nextButton.disabled = end === verseKeys.length;
+        }
+
+        // Navigate to the next set of verses
+        nextButton.addEventListener('click', () => {
+            const surahVerses = Object.values(quranData)[currentSurahIndex];
+            const verseKeys = Object.keys(surahVerses);
+            if (currentVerseIndex + versesPerPage < verseKeys.length) {
+                currentVerseIndex += versesPerPage;
+                displaySurah(currentSurahIndex);
+            }
+        });
+
+        // Navigate to the previous set of verses
+        prevButton.addEventListener('click', () => {
+            if (currentVerseIndex > 0) {
+                currentVerseIndex -= versesPerPage;
+                displaySurah(currentSurahIndex);
+            }
+        });
+
+        // Surah Selector Event Listener
+        surahSelector.addEventListener('change', (event) => {
+            currentSurahIndex = parseInt(event.target.value);
+            currentVerseIndex = 0;
+            loadVerseOptions(currentSurahIndex);
+            displaySurah(currentSurahIndex);
+        });
+
+        // Verse Selector Event Listener
+        verseSelector.addEventListener('change', (event) => {
+            const selectedVerse = parseInt(event.target.value);
+            currentVerseIndex = Math.max(0, selectedVerse - 1);
+            displaySurah(currentSurahIndex);
+        });
+
+    </script>
+
+</body>
+</html>
