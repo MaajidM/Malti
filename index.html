@@ -67,8 +67,9 @@
             font-weight: 400;
             font-size: 18px;
             line-height: 30px;
-            margin-bottom: 10px; /* Adjust margin to keep verses closely spaced */
-            word-wrap: break-word; /* Ensure long words break if necessary */
+            margin-bottom: 0; /* Remove margin between verses */
+            white-space: nowrap; /* Prevent line breaks in the verse text */
+            word-wrap: normal; /* Prevent word breaking */
         }
 
         .surah-name {
@@ -196,20 +197,23 @@
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
-            const verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
-
+            verseContainer.innerHTML = ''; // Clear previous content
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
-            verseContainer.innerHTML = '';
             verseContainer.appendChild(surahElement);
 
+            // Concatenate all the verses and display them in a continuous flow
+            let versesText = '';
+            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
-                const verseElement = document.createElement('div');
-                verseElement.className = 'verse-text';
-                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
-                verseContainer.appendChild(verseElement);
+                versesText += `${verse.maltese} <sup class="verse-number">${verseNumber}</sup> `;
             });
+            
+            const verseElement = document.createElement('div');
+            verseElement.className = 'verse-text';
+            verseElement.innerHTML = versesText; // Combine all verses
+            verseContainer.appendChild(verseElement);
         }
 
         surahSelector.addEventListener('change', (e) => {
