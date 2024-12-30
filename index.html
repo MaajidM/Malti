@@ -222,8 +222,10 @@
         }
 
         // Update the progress bar
-        function updateProgressBar(current, total) {
-            const progress = (current / total) * 100;
+        function updateProgressBar(currentSurahIndex, totalSurahCount) {
+            const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
+            const totalVersesInSurah = Object.keys(surah).length;
+            const progress = (currentVerseIndex / totalVersesInSurah) * 100;
             document.getElementById('progressBarInner').style.width = `${progress}%`;
         }
 
@@ -244,6 +246,9 @@
             if (verseElement) {
                 verseElement.scrollIntoView({ behavior: 'smooth' });
             }
+
+            // Update the progress bar for the selected verse
+            updateProgressBar(currentSurahIndex, Object.keys(quranData).length);
         });
 
         // Load data when the page is ready
