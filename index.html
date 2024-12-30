@@ -181,69 +181,64 @@
         
         let quranData = {};
 
-        async function loadData() {
-            try {
-                const response = await fetch('quran.json'); // Ensure this is a public URL
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const data = await response.json();
-                quranData = data;
-                initializeSurahSelector();
-                displaySurah(Object.keys(data)[0]);
-            } catch (error) {
-                verseContainer.innerHTML = `<div class="error">Failed to load Quran data: ${error.message}</div>`;
-            }
-        }
+async function loadData() {
+    try {
+        const response = await fetch('quran.json');
+        if (!response.ok) throw new Error(`Failed to load Quran data: ${response.status}`);
+        const data = await response.json();
+        quranData = data;
+        initializeSurahSelector();
+        displaySurah(Object.keys(data)[0]);
+    } catch (error) {
+        verseContainer.innerHTML = `<div class="error">Failed to load Quran data: ${error.message}</div>`;
+        console.error(error);
+    }
+}
 
-        function initializeSurahSelector() {
-            surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
-            Object.keys(quranData).forEach((surahName) => {
-                const option = document.createElement('option');
-                option.value = surahName;
-                option.textContent = surahName;
-                surahSelector.appendChild(option);
-            });
-            surahSelector.value = Object.keys(quranData)[0];
-            updateVerseSelector(Object.keys(quranData)[0]);
-        }
+function initializeSurahSelector() {
+    surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
+    Object.keys(quranData).forEach((surahName) => {
+        const option = document.createElement('option');
+        option.value = surahName;
+        option.textContent = surahName;
+        surahSelector.appendChild(option);
+    });
+    surahSelector.value = Object.keys(quranData)[0];
+    updateVerseSelector(Object.keys(quranData)[0]);
+}
 
-        function updateVerseSelector(surahName) {
-            const surah = quranData[surahName];
-            verseSelector.innerHTML = '<option value="" disabled>Select Verse</option>';
-            
-            if (surah) {
-                Object.keys(surah).forEach(verseNumber => {
-                    const option = document.createElement('option');
-                    option.value = verseNumber;
-                    option.textContent = `Verse ${verseNumber}`;
-                    verseSelector.appendChild(option);
-                });
-                verseSelector.disabled = false;
-            }
-        }
+function updateVerseSelector(surahName) {
+    const surah = quranData[surahName];
+    verseSelector.innerHTML = '<option value="" disabled>Select Verse</option>';
+    
+    if (surah) {
+        Object.keys(surah).forEach((verseNumber) => {
+            const option = document.createElement('option');
+            option.value = verseNumber;
+            option.textContent = `Verse ${verseNumber}`;
+            verseSelector.appendChild(option);
+        });
+        verseSelector.disabled = false;
+    }
+}
 
-        function displaySurah(surahName) {
-            const surah = quranData[surahName];
-            if (!surah) return;
+surahSelector.addEventListener('change', (e) => {
+    const selectedSurah = e.target.value;
+    updateVerseSelector(selectedSurah);
+    displaySurah(selectedSurah);
+});
 
-            const content = `
-                <div class="surah-name">${surahName}</div>
-                ${Object.entries(surah).map(([verseNumber, verse]) => `
-                    <div class="verse-text" id="verse-${verseNumber}">
-                        ${verse.maltese}
-                        <sup class="verse-number">${verseNumber}</sup>
-                    </div>
-                `).join('')}
-            `;
-            
-            verseContainer.innerHTML = content;
-        }
+verseSelector.addEventListener('change', (e) => {
+    scrollToVerse(e.target.value);
+});
 
-        function scrollToVerse(verseNumber) {
-            const verseElement = document.getElementById(`verse-${verseNumber}`);
-            if (verseElement) {
-                verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+function scrollToVerse(verseNumber) {
+    const verseElement = document.getElementById(`verse-${verseNumber}`);
+    if (verseElement) {
+        verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
         }
 
         surahSelector.addEventListener('change', (e) => {
