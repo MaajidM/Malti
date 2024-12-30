@@ -46,14 +46,18 @@
             color: #6B7280;
         }
 
-        .content {
-            background-color: #FFFFFF;
-            border: 0px solid #E0E0E0;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
-        }
+       .content {
+    background-color: #FFFFFF; /* White background for content area */
+    color: #333333; /* Dark gray text */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    word-wrap: break-word;
+    width: auto; /* Automatically adjust width */
+    max-width: 40%; /* Ensure it doesn't exceed the width of its parent container */
+    min-width: 0; /* Prevents the box from shrinking below a certain point */
+    margin: 0 auto; /* Center the content */
+}
 
         .surah-name {
             font-weight: 700;
