@@ -1,10 +1,7 @@
-
-
 <!DOCTYPE html>
 <html lang="mt">
 <head>
     <meta charset="UTF-8">
-      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Il-Quran Imqaddes bil-Malti – A Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli. Explore the Quran's verses and their translations in Maltese.">
     <meta name="keywords" content="Quran, Quran translation, Quran in Maltese, Il-Quran Imqaddes, Islamic, Dr. Muhammad S. Khatib, Dr. Ali F. Dalli, Quran in Malta">
@@ -17,8 +14,6 @@
     <meta name="twitter:title" content="Il-Quran Imqaddes bil-Malti">
     <meta name="twitter:description" content="Maltese translation of the Quran, providing insights into the verses with translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
     <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli | The Holy Quran in Maltese – Translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli</title>
 
     <!-- Favicon Link -->
@@ -184,7 +179,7 @@
 
     <script>
         let quranData = {};
-        let currentSurahIndex = 0;
+        let currentSurahIndex = 0; // Start with Surah Fatiha, which is usually the first surah
         let currentVerseIndex = 0;
         const versesPerPage = 7;
 
@@ -199,7 +194,7 @@
             .then(data => {
                 quranData = data;
                 loadSurahList(); // Populate Surah Selector
-                displaySurah(currentSurahIndex); // Show first Surah initially
+                displaySurah(currentSurahIndex); // Show first Surah (Surah Al-Fatiha) initially
             })
             .catch(error => {
                 console.error('Error loading Quran data:', error);
@@ -214,12 +209,17 @@
 
         // Populate Surah Selector
         function loadSurahList() {
-            Object.keys(quranData).forEach((surahName, index) => {
+            const surahNames = Object.keys(quranData);
+            surahNames.forEach((surahName, index) => {
                 const option = document.createElement('option');
                 option.value = index;
                 option.textContent = surahName;
                 surahSelector.appendChild(option);
             });
+
+            // Set Surah Fatiha as the default selected surah
+            surahSelector.selectedIndex = 0; // Ensure Surah Al-Fatiha (first in the list) is selected by default
+            loadVerseOptions(currentSurahIndex); // Load verses for Surah Fatiha
         }
 
         // Update Verse Selector when a Surah is selected
