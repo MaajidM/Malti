@@ -3,45 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il-Quran Imqaddes bil-Malti</title>
+    <meta name="description" content="Il-Quran Imqaddes bil-Malti – A Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli. Explore the Quran's verses and their translations in Maltese.">
+    <meta name="keywords" content="Quran, Quran translation, Quran in Maltese, Il-Quran Imqaddes, Islamic, Dr. Muhammad S. Khatib, Dr. Ali F. Dalli, Quran in Malta">
+    <meta name="author" content="Dr. Muhammad S. Khatib, Dr. Ali F. Dalli">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Il-Quran Imqaddes bil-Malti – Maltese Translation of the Quran">
+    <meta property="og:description" content="Explore the Quran's verses in Maltese through the translation of Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Il-Quran Imqaddes bil-Malti">
+    <meta name="twitter:description" content="Maltese translation of the Quran, providing insights into the verses with translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
+    <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli | The Holy Quran in Maltese – Translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
+
+    <!-- Fonts and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+
+    <!-- Styles -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #FFFFFF;
             color: #333333;
+            margin: 0;
+            padding: 0;
         }
 
-        .header {
+        .header, .footer {
             background-color: #FFFFFF;
+            color: #333333;
             text-align: center;
             padding: 10px 20px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .header select {
-            margin: 10px 0;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .footer p {
+            font-size: 0.875rem;
+            color: #6B7280;
         }
 
         .content {
+            background-color: #FFFFFF;
+            color: #333333;
+            border-radius: 8px;
             padding: 20px;
-            margin: 0 auto;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
             word-wrap: break-word;
-            max-width: 800px;
-            overflow-wrap: break-word;
+            width: 100%;
+            margin: 0 auto;
+            overflow-y: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
         }
 
         .verse-text {
+            font-weight: 400;
             font-size: 18px;
             line-height: 30px;
             margin-bottom: 10px;
+            word-wrap: break-word;
         }
 
         .surah-name {
-            font-weight: bold;
+            font-weight: 700;
             font-size: 22px;
             margin-bottom: 20px;
             text-align: center;
@@ -49,65 +82,98 @@
 
         .verse-number {
             font-size: 14px;
-            color: #777;
+            color: rgb(119, 122, 123);
             vertical-align: super;
         }
 
-        /* Progress Bar */
-        .progress-bar-container {
-            position: sticky;
-            top: 60px;
-            background-color: #F9F9F9;
-            height: 6px;
-            width: 100%;
-            z-index: 100;
+        select {
+            padding: 10px;
+            background-color: #FAFAFA;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
         }
 
+        select:disabled {
+            background-color: #F0F0F0;
+        }
+
+        /* Progress Bar */
         .progress-bar {
-            background-color: #34D399;
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .progress-bar-inner {
             height: 100%;
-            width: 0%;
-            transition: width 0.2s ease-out;
+            background-color: #4caf50;
+            border-radius: 5px;
+            width: 0;
         }
     </style>
 </head>
 <body>
 
     <!-- Header Section -->
-    <div class="header">
-        <h1 class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</h1>
-        <select id="surahSelector">
-            <option value="" disabled selected>Select Surah</option>
-        </select>
-    </div>
+    <nav class="header p-4 shadow-sm">
+        <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
 
-    <!-- Progress Bar -->
-    <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
+        <!-- Surah and Verse Selectors -->
+        <div class="verse-selector mt-4">
+            <select id="surahSelector" class="p-2 border rounded-md">
+                <option value="" disabled selected>Select Surah</option>
+            </select>
+            <select id="verseSelector" class="p-2 border rounded-md" disabled>
+                <option value="" disabled selected>Select Verse</option>
+            </select>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div id="progressBarInner" class="progress-bar-inner"></div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
-    <div class="content" id="verseContainer"></div>
+    <div class="flex p-8">
+        <div class="flex-1 max-w-3xl mx-auto">
+            <div id="verseContainer" class="content space-y-6"></div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Il-Quran bil-Malti | Open Source</p>
+        <p class="text-xs">"Il-Qoran Imqaddes", Maltese translation by Dr. Muhammad S. Khatib & Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta</p>
+        <p class="text-xs">For more information, visit <a href="https://quran.com" target="_blank" class="text-blue-500 underline">Quran.com</a></p>
+    </footer>
 
     <script>
         let quranData = {};
-        const surahSelector = document.getElementById('surahSelector');
-        const verseContainer = document.getElementById('verseContainer');
-        const progressBar = document.getElementById('progressBar');
+        let currentSurahIndex = 0;
+        let currentVerseIndex = 0;
+        const versesPerPage = 7;
 
-        // Fetch Quran Data
-        fetch('quran.json')
-            .then(response => response.json())
-            .then(data => {
-                quranData = data;
-                loadSurahList();
-            })
-            .catch(error => {
-                console.error('Error loading Quran data:', error);
-                verseContainer.innerHTML = '<p>Failed to load Quran data. Please try again later.</p>';
-            });
+        // Function to fetch and load the Quran data
+        function loadData() {
+            fetch('quran.json')
+                .then(response => response.json())
+                .then(data => {
+                    quranData = data;
+                    loadSurahList();
+                    // Call this after the data is loaded
+                    displaySurah(currentSurahIndex);
+                })
+                .catch(error => {
+                    console.error('Error loading Quran data:', error);
+                    alert('Failed to load Quran data.');
+                });
+        }
 
-        // Load Surah List
+        // Load Surah list
         function loadSurahList() {
             const surahNames = Object.keys(quranData);
             surahNames.forEach((surahName, index) => {
@@ -116,35 +182,67 @@
                 option.textContent = surahName;
                 surahSelector.appendChild(option);
             });
+            // Load the first set of verses when Surah is selected
+            loadVerseOptions(currentSurahIndex);
         }
 
-        // Display Surah
+        // Load the verses for the selected Surah
+        function loadVerseOptions(surahIndex) {
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
+            const surah = quranData[Object.keys(quranData)[surahIndex]];
+            Object.keys(surah).forEach((verseNumber) => {
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = `Verse ${verseNumber}`;
+                verseSelector.appendChild(option);
+            });
+            verseSelector.disabled = false;
+        }
+
+        // Display Surah and verses
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
-            verseContainer.innerHTML = `<div class="surah-name">${surahName}</div>`;
-            Object.entries(surah).forEach(([verseNumber, verse]) => {
+            verseContainer.innerHTML = '';
+            const surahElement = document.createElement('div');
+            surahElement.className = 'surah-name';
+            surahElement.textContent = surahName;
+            verseContainer.appendChild(surahElement);
+
+            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
+            verses.forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
                 verseElement.className = 'verse-text';
                 verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
                 verseContainer.appendChild(verseElement);
             });
+
+            // Update progress bar based on the current Surah index
+            updateProgressBar(surahIndex, Object.keys(quranData).length);
         }
 
-        // Event Listener for Surah Selector
+        // Update the progress bar
+        function updateProgressBar(current, total) {
+            const progress = (current / total) * 100;
+            document.getElementById('progressBarInner').style.width = `${progress}%`;
+        }
+
+        // Handle Surah selection change
         surahSelector.addEventListener('change', (e) => {
-            const surahIndex = parseInt(e.target.value);
-            displaySurah(surahIndex);
+            currentSurahIndex = parseInt(e.target.value);
+            currentVerseIndex = 0;
+            displaySurah(currentSurahIndex);
+            loadVerseOptions(currentSurahIndex);
         });
 
-        // Scroll Progress Bar
-        window.addEventListener('scroll', () => {
-            const totalHeight = verseContainer.scrollHeight - window.innerHeight;
-            const scrollPosition = window.scrollY;
-            const scrollPercentage = (scrollPosition / totalHeight) * 100;
-            progressBar.style.width = `${scrollPercentage}%`;
+        // Handle Verse selection change
+        verseSelector.addEventListener('change', (e) => {
+            currentVerseIndex = parseInt(e.target.value) - 1;
+            displaySurah(currentSurahIndex);
         });
+
+        // Load data when the page is ready
+        loadData();
     </script>
-
 </body>
 </html>
