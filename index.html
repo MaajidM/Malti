@@ -25,12 +25,37 @@
             background-color: #f7f7f7;
             color: #333;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
 
+        /* Header / Menu Bar */
+        .header {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Surah Selector */
+        .surah-selector {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .surah-selector select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Container for Quran content */
         .container {
             background-color: #ffffff;
             padding: 30px;
@@ -48,6 +73,7 @@
             line-height: 24px;
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         /* Verse Styling */
@@ -66,7 +92,7 @@
             vertical-align: super;
         }
 
-        /* Button Styling */
+        /* Navigation Buttons */
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
@@ -93,61 +119,153 @@
             .container {
                 padding: 20px;
             }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navigation-buttons button {
+                margin: 5px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Header/Menu Bar -->
+    <div class="header">
+        Il-Quran Imqaddes bil-Malti
+    </div>
+
+    <!-- Surah Selector -->
+    <div class="surah-selector">
+        <select id="surahSelector" onchange="changeSurah()">
+            <option value="1">1. Al-Fatiha</option>
+            <option value="2">2. Al-Baqara</option>
+            <option value="3">3. Aali 'Imran</option>
+            <!-- Add more Surahs as needed -->
+        </select>
+    </div>
+
+    <!-- Quran Container -->
+    <div class="container" id="verseContainer">
         <!-- Surah Title -->
-        <div class="surah-name">
+        <div class="surah-name" id="surahTitle">
             1. Al-Fatiha
         </div>
 
-        <!-- Verses -->
-        <div class="verse-text">
+        <!-- Verses (Initial content) -->
+        <div class="verse-text" id="verse1">
             F'IsemAlla, Kollu Ħniena, il-Ħanin <sup class="verse-number">1</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse2">
             t-tifħirlil Alla, Sid il-ħolqien <sup class="verse-number">2</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse3">
             Kollu Ħniena, il-Ħanin <sup class="verse-number">3</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse4">
             is-Sultan ta' Jum il-Ħaqq <sup class="verse-number">4</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse5">
             Lilekingimu, u lilek nitolbu għajnuna <sup class="verse-number">5</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse6">
             Mexxina fit-triq id-dritta <sup class="verse-number">6</sup>
         </div>
-        <div class="verse-text">
+        <div class="verse-text" id="verse7">
             triq dawk li xħett fuqhom il-grazzja tiegħek, u mhux ta' dawk li (gibdu) l-għadab (tiegħek) fuqhom, u lanqas tal- mitlufin <sup class="verse-number">7</sup>
         </div>
 
         <!-- Navigation Buttons -->
         <div class="navigation-buttons">
-            <button id="prevButton">Previous</button>
-            <button id="nextButton">Next</button>
+            <button id="prevButton" onclick="navigate('prev')">Previous</button>
+            <button id="nextButton" onclick="navigate('next')">Next</button>
         </div>
     </div>
 
     <script>
-        // Example script for handling button click events (if desired)
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
+        // Surah verses data (this can be dynamically loaded)
+        const versesData = {
+            1: [
+                "F'IsemAlla, Kollu Ħniena, il-Ħanin",
+                "t-tifħirlil Alla, Sid il-ħolqien",
+                "Kollu Ħniena, il-Ħanin",
+                "is-Sultan ta' Jum il-Ħaqq",
+                "Lilekingimu, u lilek nitolbu għajnuna",
+                "Mexxina fit-triq id-dritta",
+                "triq dawk li xħett fuqhom il-grazzja tiegħek, u mhux ta' dawk li (gibdu) l-għadab (tiegħek) fuqhom, u lanqas tal- mitlufin"
+            ],
+            2: [
+                "Verse 1 for Surah 2",
+                "Verse 2 for Surah 2",
+                "Verse 3 for Surah 2",
+                // Add more verses for Surah 2 here
+            ],
+            3: [
+                "Verse 1 for Surah 3",
+                "Verse 2 for Surah 3",
+                "Verse 3 for Surah 3",
+                // Add more verses for Surah 3 here
+            ]
+        };
 
-        prevButton.addEventListener('click', () => {
-            // Logic to navigate to the previous verse or Surah
-            alert("Previous Verse");
-        });
+        let currentSurah = 1;
+        let currentVerse = 0;
 
-        nextButton.addEventListener('click', () => {
-            // Logic to navigate to the next verse or Surah
-            alert("Next Verse");
-        });
+        // Change Surah based on user selection
+        function changeSurah() {
+            const surahSelector = document.getElementById('surahSelector');
+            const selectedSurah = parseInt(surahSelector.value);
+            currentSurah = selectedSurah;
+            currentVerse = 0; // Reset verse to first verse
+            updateVerse();
+        }
+
+        // Update verse content based on currentSurah and currentVerse
+        function updateVerse() {
+            const verseContainer = document.getElementById('verseContainer');
+            const surahTitle = document.getElementById('surahTitle');
+            const verses = versesData[currentSurah];
+            
+            surahTitle.innerHTML = `${currentSurah}. ${getSurahName(currentSurah)}`;
+            
+            // Display current verse
+            const verseTexts = verseContainer.getElementsByClassName('verse-text');
+            for (let i = 0; i < verseTexts.length; i++) {
+                if (i < verses.length) {
+                    verseTexts[i].innerHTML = `${verses[i]} <sup class="verse-number">${i + 1}</sup>`;
+                } else {
+                    verseTexts[i].style.display = 'none'; // Hide extra verses if there are no more
+                }
+            }
+        }
+
+        // Get Surah name based on Surah number
+        function getSurahName(surahNumber) {
+            const surahNames = [
+                "Al-Fatiha",
+                "Al-Baqara",
+                "Aali 'Imran"
+                // Add more Surah names as required
+            ];
+            return surahNames[surahNumber - 1];
+        }
+
+        // Navigate between verses
+        function navigate(direction) {
+            const verses = versesData[currentSurah];
+            if (direction === 'next' && currentVerse < verses.length - 1) {
+                currentVerse++;
+            } else if (direction === 'prev' && currentVerse > 0) {
+                currentVerse--;
+            }
+            updateVerse();
+        }
+
+        // Initialize the page with the first Surah (Al-Fatiha)
+        updateVerse();
     </script>
 
 </body>
