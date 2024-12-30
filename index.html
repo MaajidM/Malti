@@ -15,6 +15,8 @@
     <meta name="twitter:title" content="Il-Quran Imqaddes bil-Malti">
     <meta name="twitter:description" content="Maltese translation of the Quran, providing insights into the verses with translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Quran, Quran translation, Quran in Maltese, Il-Quran Imqaddes, Islamic, Dr. Muhammad S. Khatib, Dr. Ali F. Dalli, Quran in Malta, Quranic verses, Quran translation in Maltese, Holy Quran, Quran in Maltese language, Islamic teachings, Quran interpretation, Surah Al-Fatiha, Surah Al-Baqarah, Islamic education, Quranic knowledge, Islamic book, Quran study, Quran recitation, Quran and translation, Quranic studies, Islamic texts, Quran for beginners, Quranic wisdom, Quranic guidance, Surah Al-Ikhlas, Surah Al-Fil, Surah Al-Nas, Surah Al-Buruj, Islamic principles, Islamic beliefs, Malta Quran translation, Quranic commentary, Quran in modern language, Quranic meanings, Quranic translation in English, Quranic translation in Arabic, Quranic translation in Urdu, Muslim community, Quranic research, Quranic reflection, Quranic teachings in Maltese, Islamic traditions, Quranic content, Quran for all, Quran in every language, Quran verse by verse, Quran translation guide, Quran and society, Quran and daily life, Quran interpretation by scholars, Quranic linguistics, and Quranic literature.">
 
     <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli | The Holy Quran in Maltese – Translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli</title>
 
@@ -28,41 +30,41 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FFFFFF;
-            color: #333333;
+            background-color: #FFFFFF; /* Light gray background */
+            color: #333333; /* Dark gray text */
         }
 
         .header {
-            background-color: #FFFFFF;
-            color: #333333;
+            background-color: #FFFFFF; /* White background for header */
+            color: #333333; /* Dark gray text */
             text-align: center;
-            padding: 10px 20px;
+            padding: 10px 20px; /* Make the header smaller */
         }
 
         .footer {
-            background-color: #FFFFFF;
+            background-color: #FFFFFF; /* White background for footer */
             text-align: center;
             padding: 10px;
-            color: #333333;
+            color: #333333; /* Dark gray text */
         }
 
         .content {
-            background-color: #FFFFFF;
-            color: #333333;
-            border: 1px solid #E0E0E0;
+            background-color: #FFFFFF; /* White background for content area */
+            color: #333333; /* Dark gray text */
+            border: 1px solid #E0E0E0; /* Light gray border */
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
             word-wrap: break-word;
         }
 
         .verse-number {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 36px;
-            color: rgb(119, 122, 123);
-            vertical-align: super;
+            font-family: 'Inter', sans-serif; /* Inter font */
+            font-weight: 400; /* Normal weight */
+            font-size: 14px; /* Font size */
+            line-height: 36px; /* Line height */
+            color: rgb(119, 122, 123); /* Color */
+            vertical-align: super; /* Make the verse number appear as superscript */
         }
 
         .verse-text {
@@ -94,8 +96,8 @@
         }
 
         .active {
-            background-color: #E2F4EA;
-            color: #006F3C;
+            background-color: #E2F4EA; /* Soft green highlight */
+            color: #006F3C; /* Dark green text color */
         }
 
         button:hover {
@@ -125,49 +127,37 @@
             -moz-appearance: none;
             appearance: none;
             background-color: transparent;
-            border: none;
-            border-bottom: 2px solid #000;
+            border: none; /* No borders on the sides */
+            border-bottom: 2px solid #000; /* Only bottom border */
             font-size: 14px;
             color: #000;
-            padding: 4px 16px 4px 0;
-            width: 100%;
+            padding: 4px 16px 4px 0; /* Adjust padding for compact look */
+            width: 140px;
             cursor: pointer;
             box-sizing: border-box;
-            border-radius: 0;
+            border-radius: 0; /* Crisp rectangle with no rounded corners */
         }
 
         select:focus {
             outline: none;
-            border-bottom: 2px solid #000;
+            border-bottom: 2px solid #000; /* Keeps the bottom border on focus */
         }
 
         .select-container {
             position: relative;
             display: inline-block;
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
+            width: auto;
         }
 
         .select-container::after {
-            content: '\25BC';
+            content: '\25BC'; /* Downward triangle (Unicode character for arrow) */
             position: absolute;
             top: 50%;
             right: 8px;
-            transform: translateY(-50%);
+            transform: translateY(-50%); /* Center the arrow vertically */
             pointer-events: none;
-            font-size: 14px;
+            font-size: 14px; /* Adjusted size for the arrow */
             color: #000;
-        }
-
-        @media (max-width: 768px) {
-            .select-container {
-                width: 90%;
-            }
-
-            select {
-                font-size: 16px;
-            }
         }
     </style>
 </head>
@@ -175,55 +165,50 @@
 
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+            <!-- Make the title clickable and redirect to the home page -->
             <a href="/" class="text-xl font-semibold text-center w-full">
                 Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese
             </a>
         </div>
+        <!-- Surah and Verse Selectors below the header and in the center -->
         <div class="verse-selector">
-            <div class="select-container">
-                <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
-                    <option value="" disabled selected>Select Surah</option>
-                </select>
-            </div>
-            <div class="select-container">
-                <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
-                    <option value="" disabled selected>Select Verse</option>
-                </select>
-            </div>
+            <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
+                <option value="" disabled selected>Select Surah</option>
+            </select>
+            <select id="verseSelector" class="p-2 border rounded-md bg-white text-gray-700" disabled>
+                <option value="" disabled selected>Select Verse</option>
+            </select>
         </div>
     </nav>
 
     <div class="flex">
+        <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
                 <div id="verseContainer" class="content space-y-6">
+                    <!-- Verses will be loaded here -->
                 </div>
                 <div class="navigation-buttons">
-                    <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</button>
-                    <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</button>
+                    <button id="previousButton" class="p-2 border rounded-md bg-gray-200 text-gray-700">Previous</button>
+                    <button id="nextButton" class="p-2 border rounded-md bg-gray-200 text-gray-700">Next</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2024 Il-Quran bil-Malti | All Rights Reserved</p>
-        <p class="text-xs text-center text-gray-500">
-            "Il-Qoran Imqaddes", Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta
-        </p>
-        <p class="text-xs text-center text-gray-500">
-            For more information, visit <a href="https://quran.com" target="_blank" class="text-blue-500 underline">Quran.com</a>
-        </p>
-    </footer>
-
     <script>
-        let quranData = {};
+        let quranData = null;
         let currentSurahIndex = 0;
         let currentVerseIndex = 0;
-        const versesPerPage = 7;
 
+        // Load Quran data with error handling
         fetch('quran.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Quran data: Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 quranData = data;
                 loadSurahList();
@@ -234,40 +219,45 @@
                 alert('Failed to load Quran data. Please check the console for details.');
             });
 
-        const surahSelector = document.getElementById('surahSelector');
-        const verseSelector = document.getElementById('verseSelector');
-        const verseContainer = document.getElementById('verseContainer');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-
+        // Function to load Surah List
         function loadSurahList() {
+            const surahSelector = document.getElementById("surahSelector");
             quranData.surahs.forEach((surah, index) => {
-                const option = document.createElement('option');
+                const option = document.createElement("option");
                 option.value = index;
                 option.textContent = surah.name;
                 surahSelector.appendChild(option);
             });
 
-            surahSelector.addEventListener('change', (e) => {
-                currentSurahIndex = parseInt(e.target.value);
-                currentVerseIndex = 0; // Reset to first verse
+            surahSelector.addEventListener("change", (event) => {
+                currentSurahIndex = parseInt(event.target.value);
+                currentVerseIndex = 0;
                 displaySurah(currentSurahIndex);
-                loadVerseOptions(currentSurahIndex);
             });
-
-            loadVerseOptions(currentSurahIndex);
         }
 
-        function loadVerseOptions(surahIndex) {
-            const verses = quranData.surahs[surahIndex].verses;
-            verseSelector.innerHTML = '';
-            const option = document.createElement('option');
-            option.value = '';
-            option.textContent = 'Select Verse';
-            verseSelector.appendChild(option);
+        // Function to display Surah and its verses
+        function displaySurah(surahIndex) {
+            const verseContainer = document.getElementById("verseContainer");
+            const surah = quranData.surahs[surahIndex];
+            verseContainer.innerHTML = ''; // Clear previous verses
 
-            verses.forEach((verse, index) => {
-                const option = document.createElement('option');
+            const surahName = document.createElement("h2");
+            surahName.classList.add("surah-name");
+            surahName.textContent = surah.name;
+            verseContainer.appendChild(surahName);
+
+            const verseSelector = document.getElementById("verseSelector");
+            verseSelector.innerHTML = '';
+            const firstOption = document.createElement("option");
+            firstOption.value = '';
+            firstOption.disabled = true;
+            firstOption.selected = true;
+            firstOption.textContent = 'Select Verse';
+            verseSelector.appendChild(firstOption);
+
+            surah.verses.forEach((verse, index) => {
+                const option = document.createElement("option");
                 option.value = index;
                 option.textContent = `Verse ${index + 1}`;
                 verseSelector.appendChild(option);
@@ -275,62 +265,53 @@
 
             verseSelector.disabled = false;
 
-            verseSelector.addEventListener('change', (e) => {
-                currentVerseIndex = parseInt(e.target.value);
+            verseSelector.addEventListener("change", (event) => {
+                currentVerseIndex = parseInt(event.target.value);
                 displayVerse(currentSurahIndex, currentVerseIndex);
             });
+
+            displayVerse(surahIndex, currentVerseIndex);
         }
 
-        function displaySurah(surahIndex) {
-            const surah = quranData.surahs[surahIndex];
-            verseContainer.innerHTML = '';
-
-            surah.verses.slice(0, versesPerPage).forEach((verse, index) => {
-                displayVerseContent(surahIndex, index);
-            });
-        }
-
-        function displayVerseContent(surahIndex, verseIndex) {
+        // Function to display the selected verse
+        function displayVerse(surahIndex, verseIndex) {
+            const verseContainer = document.getElementById("verseContainer");
             const surah = quranData.surahs[surahIndex];
             const verse = surah.verses[verseIndex];
+            const verseElement = document.createElement("p");
+            verseElement.classList.add("verse-text");
 
-            const verseElement = document.createElement('div');
-            verseElement.classList.add('verse-container');
-            verseElement.innerHTML = `
-                <span class="verse-number">${verse.number}</span>
-                <span class="verse-text">${verse.text}</span>
-            `;
-
+            // Display verse number and text
+            verseElement.innerHTML = `<span class="verse-number">${verse.number}</span> ${verse.text}`;
             verseContainer.appendChild(verseElement);
         }
 
-        function displayVerse(surahIndex, verseIndex) {
-            const surah = quranData.surahs[surahIndex];
-            const verse = surah.verses[verseIndex];
-
-            verseContainer.innerHTML = `
-                <div class="verse-container">
-                    <span class="verse-number">${verse.number}</span>
-                    <span class="verse-text">${verse.text}</span>
-                </div>
-            `;
-        }
-
-        prevButton.addEventListener('click', () => {
+        // Add navigation functionality
+        document.getElementById("previousButton").addEventListener("click", () => {
             if (currentVerseIndex > 0) {
                 currentVerseIndex--;
                 displayVerse(currentSurahIndex, currentVerseIndex);
+                document.getElementById("verseSelector").value = currentVerseIndex;
+            } else if (currentSurahIndex > 0) {
+                currentSurahIndex--;
+                currentVerseIndex = quranData.surahs[currentSurahIndex].verses.length - 1;
+                displaySurah(currentSurahIndex);
+                document.getElementById("verseSelector").value = currentVerseIndex;
             }
         });
 
-        nextButton.addEventListener('click', () => {
-            const surah = quranData.surahs[currentSurahIndex];
-            if (currentVerseIndex < surah.verses.length - 1) {
+        document.getElementById("nextButton").addEventListener("click", () => {
+            if (currentVerseIndex < quranData.surahs[currentSurahIndex].verses.length - 1) {
                 currentVerseIndex++;
                 displayVerse(currentSurahIndex, currentVerseIndex);
+                document.getElementById("verseSelector").value = currentVerseIndex;
+            } else if (currentSurahIndex < quranData.surahs.length - 1) {
+                currentSurahIndex++;
+                currentVerseIndex = 0;
+                displaySurah(currentSurahIndex);
+                document.getElementById("verseSelector").value = currentVerseIndex;
             }
         });
-
     </script>
 </body>
 </html>
