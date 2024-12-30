@@ -15,13 +15,15 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F5F5F5; /* Light gray background */
-            color: #333333; /* Dark gray text */
+            background-color: #F5F5F5;
+            color: #333333;
+            display: flex;
+            min-height: 100vh;
         }
 
         .sidebar {
-            background-color: #FAFAFA; /* Slightly lighter gray for sidebar */
-            color: #333333; /* Dark gray text */
+            background-color: #FAFAFA;
+            color: #333333;
             width: 240px;
             height: 100%;
             position: fixed;
@@ -29,39 +31,47 @@
             left: 0;
             padding: 20px;
             overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
 
         .header {
-            background-color: #FFFFFF; /* White background for header */
-            color: #333333; /* Dark gray text */
+            background-color: #FFFFFF;
+            color: #333333;
             text-align: center;
-            padding: 10px 20px; /* Make the header smaller */
+            padding: 10px 20px;
+            width: 100%;
+            z-index: 10;
         }
 
         .footer {
-            background-color: #FFFFFF; /* White background for footer */
+            background-color: #FFFFFF;
             text-align: center;
             padding: 10px;
-            color: #333333; /* Dark gray text */
+            color: #333333;
         }
 
         .content {
-            background-color: #FFFFFF; /* White background for content area */
-            color: #333333; /* Dark gray text */
-            border: 1px solid #E0E0E0; /* Light gray border */
+            background-color: #FFFFFF;
+            color: #333333;
+            border: 1px solid #E0E0E0;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            margin-left: 280px; /* Space for sidebar */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-left: 280px;
+            flex-grow: 1;
         }
 
         .verse-number {
-            font-family: 'Inter', sans-serif; /* Inter font */
-            font-weight: 400; /* Normal weight */
-            font-size: 14px; /* Font size */
-            line-height: 36px; /* Line height */
-            color: rgb(119, 122, 123); /* Color */
-            vertical-align: super; /* Make the verse number appear as superscript */
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 36px;
+            color: rgb(119, 122, 123);
+            vertical-align: super;
         }
 
         .verse-text {
@@ -93,8 +103,8 @@
         }
 
         .active {
-            background-color: #E2F4EA; /* Soft green highlight */
-            color: #006F3C; /* Dark green text color */
+            background-color: #E2F4EA;
+            color: #006F3C;
         }
 
         button:hover {
@@ -105,10 +115,6 @@
             display: block;
             cursor: pointer;
             margin-right: 10px;
-        }
-
-        .sidebar.hidden {
-            display: none;
         }
 
         #surahList button {
@@ -126,9 +132,45 @@
         #surahList button:hover {
             background-color: #e9e9e9;
         }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 10;
+            }
+        }
+
+        /* Mobile Sidebar Toggler */
+        .menu-button {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
 
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
@@ -273,5 +315,6 @@
             sidebar.classList.toggle('hidden');
         });
     </script>
+
 </body>
 </html>
