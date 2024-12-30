@@ -58,13 +58,15 @@
             flex-direction: column;
         }
 
-        .verse-text {
-            font-weight: 400;
-            font-size: 18px;
-            line-height: 30px;
-            margin-bottom: 10px;
-            word-wrap: break-word;
-        }
+       /* Verse text styling for a smooth flow */
+.verse-text {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 10px; /* Minimized spacing between verses */
+    word-wrap: break-word; /* Ensure long words break properly */
+    text-align: justify; /* Align text for a clean flow */
+}
 
         .surah-name {
             font-weight: 700;
@@ -105,7 +107,7 @@
         select:disabled {
             background-color: #F0F0F0;
         }
-/* Styling the floating buttons */
+/* Floating button styling */
 .floating-btn {
     position: fixed;
     top: 50%;
@@ -115,7 +117,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Reduced shadow intensity */
     z-index: 1000;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -138,7 +140,7 @@
 /* Hover effect */
 .floating-btn:hover {
     background-color: #F3F4F6;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow on hover */
 }
 
 /* Adjust buttons for smaller screens */
