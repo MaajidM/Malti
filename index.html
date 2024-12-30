@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Malti Quran</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --primary-color: #2D3748;
@@ -16,14 +15,12 @@
             --text-secondary: #4A5568;
             --shadow-color: rgba(0, 0, 0, 0.1);
         }
-
         * {
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
-
         body {
             font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--background-color);
@@ -33,7 +30,6 @@
             line-height: 1.6;
             letter-spacing: -0.011em;
         }
-
         .header {
             background-color: var(--background-color);
             padding: 1.5rem;
@@ -42,7 +38,6 @@
             top: 0;
             z-index: 100;
         }
-
         .site-title {
             text-align: center;
             font-size: 1.5rem;
@@ -50,7 +45,6 @@
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
-
         .verse-selector {
             display: flex;
             gap: 1rem;
@@ -60,7 +54,6 @@
             margin: 0 auto;
             flex-wrap: wrap;
         }
-
         select {
             padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
@@ -72,30 +65,20 @@
             min-width: 200px;
             cursor: pointer;
             appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 1em;
             padding-right: 2.5rem;
         }
-
         select:hover {
             border-color: var(--accent-color);
         }
-
-        select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-        }
-
         .content {
             max-width: 800px;
             margin: 2rem auto;
             padding: 0 1.5rem;
         }
-
         .surah-name {
             font-size: 2rem;
             font-weight: 700;
@@ -104,52 +87,19 @@
             color: var(--text-primary);
             letter-spacing: -0.02em;
         }
-
         .verse-text {
             font-size: 1.25rem;
             line-height: 1.8;
             margin-bottom: 2rem;
             padding: 1rem;
             border-radius: 0.5rem;
-            transition: background-color 0.2s;
             color: var(--text-primary);
             font-weight: 400;
         }
-
-        .verse-text:hover {
-            background-color: rgba(74, 144, 226, 0.05);
-        }
-
-        .verse-number {
-            font-size: 0.875rem;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-
         .footer {
             text-align: center;
             padding: 2rem 1.5rem;
             border-top: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 768px) {
-            .verse-selector {
-                flex-direction: column;
-            }
-
-            select {
-                width: 100%;
-            }
-
-            .verse-text {
-                font-size: 1.125rem;
-                padding: 0.75rem;
-            }
-
-            .surah-name {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
@@ -165,93 +115,58 @@
             </select>
         </div>
     </nav>
-
     <main class="content" id="verseContainer">
         <div class="loading">Loading...</div>
     </main>
-
     <footer class="footer">
         <p>© 2024 Il-Quran bil-Malti</p>
     </footer>
-
     <script>
         const surahSelector = document.getElementById('surahSelector');
         const verseSelector = document.getElementById('verseSelector');
         const verseContainer = document.getElementById('verseContainer');
-        
         let quranData = {};
 
-async function loadData() {
-    try {
-        const response = await fetch('./quran.json');
-        if (!response.ok) throw new Error(`Failed to load Quran data: ${response.status}`);
-        const data = await response.json();
-        quranData = data;
-        initializeSurahSelector();
-        displaySurah(Object.keys(data)[0]);
-    } catch (error) {
-        verseContainer.innerHTML = `<div class="error">Failed to load Quran data: ${error.message}</div>`;
-        console.error(error);
-    }
-}
-
-function initializeSurahSelector() {
-    surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
-    Object.keys(quranData).forEach((surahName) => {
-        const option = document.createElement('option');
-        option.value = surahName;
-        option.textContent = surahName;
-        surahSelector.appendChild(option);
-    });
-    surahSelector.value = Object.keys(quranData)[0];
-    updateVerseSelector(Object.keys(quranData)[0]);
-}
-
-function updateVerseSelector(surahName) {
-    const surah = quranData[surahName];
-    verseSelector.innerHTML = '<option value="" disabled>Select Verse</option>';
-    
-    if (surah) {
-        Object.keys(surah).forEach((verseNumber) => {
-            const option = document.createElement('option');
-            option.value = verseNumber;
-            option.textContent = `Verse ${verseNumber}`;
-            verseSelector.appendChild(option);
-        });
-        verseSelector.disabled = false;
-    }
-}
-
-surahSelector.addEventListener('change', (e) => {
-    const selectedSurah = e.target.value;
-    updateVerseSelector(selectedSurah);
-    displaySurah(selectedSurah);
-});
-
-verseSelector.addEventListener('change', (e) => {
-    scrollToVerse(e.target.value);
-});
-
-function scrollToVerse(verseNumber) {
-    const verseElement = document.getElementById(`verse-${verseNumber}`);
-    if (verseElement) {
-        verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-}
-
+        async function loadData() {
+            try {
+                const response = await fetch('./quran.json');
+                if (!response.ok) throw new Error('Failed to fetch Quran data.');
+                const data = await response.json();
+                quranData = data;
+                initializeSurahSelector();
+                displaySurah(Object.keys(data)[0]);
+            } catch (error) {
+                verseContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+                console.error(error);
+            }
         }
 
-        surahSelector.addEventListener('change', (e) => {
-            const selectedSurah = e.target.value;
-            updateVerseSelector(selectedSurah);
-            displaySurah(selectedSurah);
+        function initializeSurahSelector() {
+            surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
+            Object.keys(quranData).forEach((surahName) => {
+                const option = document.createElement('option');
+                option.value = surahName;
+                option.textContent = surahName;
+                surahSelector.appendChild(option);
+            });
+        }
+
+        function displaySurah(surahName) {
+            const verses = quranData[surahName];
+            verseContainer.innerHTML = `<h2 class="surah-name">${surahName}</h2>`;
+            Object.entries(verses).forEach(([verseNumber, verseData]) => {
+                const div = document.createElement('div');
+                div.classList.add('verse-text');
+                div.innerHTML = `${verseData.Translation} <span class="verse-number">(${verseNumber})</span>`;
+                verseContainer.appendChild(div);
+            });
+        }
+
+        surahSelector.addEventListener('change', () => {
+            const surahName = surahSelector.value;
+            displaySurah(surahName);
         });
 
-        verseSelector.addEventListener('change', (e) => {
-            scrollToVerse(e.target.value);
-        });
-
-        // Initialize the app
         loadData();
     </script>
 </body>
