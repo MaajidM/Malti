@@ -89,32 +89,35 @@
             background-color: #E8F5E9;
         }
 
-        .surah-verse-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
         #menuButton {
             display: block;
             cursor: pointer;
             margin-right: 10px;
         }
 
-        /* Styling for the Select elements */
+        .sidebar.hidden {
+            display: none;
+        }
+
+        .verse-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 10px;
+        }
+
         select {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            color: #333;
+            padding: 10px;
+            background-color: #FAFAFA;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
             font-size: 16px;
+            color: #333333;
         }
 
         select:disabled {
-            background-color: #e0e0e0;
+            background-color: #F0F0F0;
         }
     </style>
 </head>
@@ -122,13 +125,13 @@
 
     <nav class="header p-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <h1 class="text-xl font-semibold text-center w-full">Il-Quran Imqaddes bil-Malti</h1>
+            <!-- Make the title clickable and redirect to the home page -->
+            <a href="/" class="text-xl font-semibold text-center w-full">
+                Il-Quran Imqaddes bil-Malti
+            </a>
         </div>
-    </nav>
-
-    <div class="flex flex-col items-center">
-        <!-- Surah and Verse Selectors -->
-        <div class="surah-verse-container">
+        <!-- Surah and Verse Selectors below the header and in the center -->
+        <div class="verse-selector">
             <select id="surahSelector" class="p-2 border rounded-md bg-white text-gray-700">
                 <option value="" disabled selected>Select Surah</option>
             </select>
@@ -136,7 +139,9 @@
                 <option value="" disabled selected>Select Verse</option>
             </select>
         </div>
+    </nav>
 
+    <div class="flex">
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="max-w-3xl mx-auto">
