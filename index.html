@@ -1,165 +1,25 @@
 <!DOCTYPE html>
 <html lang="mt">
 <head>
-      <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Malti Quran - Quran translated into Maltese, providing verse-by-verse translation with easy navigation.">
     <meta name="keywords" content="Quran, Malti Quran, Quran translation, Quran in Maltese, Islamic, Quran study">
     <meta name="author" content="Il-Quran bil-Malti">
     <meta property="og:title" content="Malti Quran">
     <meta property="og:description" content="Explore the Quran in Maltese, with easy navigation and verse translations.">
-    <meta property="og:image" content="path_to_image.jpg"> <!-- Replace with the actual image URL -->
-    <meta property="og:url" content="https://maltiquran.com"> <!-- Replace with the actual URL -->
+    <meta property="og:image" content="path_to_image.jpg">
+    <meta property="og:url" content="https://maltiquran.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Malti Quran">
     <meta name="twitter:description" content="Explore the Quran in Maltese, with easy navigation and verse translations.">
-    <meta name="twitter:image" content="path_to_image.jpg"> <!-- Replace with the actual image URL -->
+    <meta name="twitter:image" content="path_to_image.jpg">
     <meta name="theme-color" content="#ffffff">
     <title>Malti Quran</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Replace with your favicon URL -->
-    <title>Malti Quran</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        :root {
-            --primary-color: #2D3748;
-            --background-color: #FFFFFF;
-            --border-color: #E2E8F0;
-            --accent-color: #4A90E2;
-            --text-primary: #1A202C;
-            --text-secondary: #4A5568;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-        }
-
-        body {
-            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            letter-spacing: -0.011em;
-        }
-
-        .header {
-            background-color: var(--background-color);
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px var(--shadow-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .site-title {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .verse-selector {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            padding: 0.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        select {
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            background-color: var(--background-color);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 500;
-            min-width: 200px;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-            padding-right: 2.5rem;
-        }
-
-        select:hover {
-            border-color: var(--accent-color);
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-        }
-
-        .content {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        .surah-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin: 2rem 0;
-            color: var(--text-primary);
-        }
-
-        .verse-text {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-            color: var(--text-primary);
-            font-weight: 400;
-        }
-
-        .verse-text:hover {
-            background-color: rgba(74, 144, 226, 0.05);
-        }
-
-        .verse-number {
-            font-size: 0.75rem;
-            color: var(--accent-color);
-            font-weight: 600;
-            vertical-align: super;
-            margin-left: 0.25rem;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem 1.5rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 768px) {
-            .verse-selector {
-                flex-direction: column;
-            }
-
-            select {
-                width: 100%;
-            }
-
-            .verse-text {
-                font-size: 1.125rem;
-                padding: 0.75rem;
-            }
-        }
+        /* Your existing CSS */
     </style>
 </head>
 <body>
@@ -174,9 +34,40 @@
             </select>
         </div>
     </nav>
+
+    <!-- Default content for Surah Al-Fatiha -->
     <main class="content" id="verseContainer">
-        <div class="loading">Loading...</div>
+        <div class="surah-name">Al-Fatiha</div>
+        <div class="verse-text" id="verse-1">
+            Bismillahi r-Rahmani r-Rahim
+            <sup class="verse-number">1</sup>
+        </div>
+        <div class="verse-text" id="verse-2">
+            Alhamdu lillahi rabbil 'alamin
+            <sup class="verse-number">2</sup>
+        </div>
+        <div class="verse-text" id="verse-3">
+            Ar-Rahmani r-Rahim
+            <sup class="verse-number">3</sup>
+        </div>
+        <div class="verse-text" id="verse-4">
+            Maliki yawmid-din
+            <sup class="verse-number">4</sup>
+        </div>
+        <div class="verse-text" id="verse-5">
+            Iyyaka na'budu wa iyyaka nasta'in
+            <sup class="verse-number">5</sup>
+        </div>
+        <div class="verse-text" id="verse-6">
+            Ihdinas siratal mustaqim
+            <sup class="verse-number">6</sup>
+        </div>
+        <div class="verse-text" id="verse-7">
+            Siratal ladheena an'amta 'alayhim ghayril maghdubi 'alayhim wa lad-dallin
+            <sup class="verse-number">7</sup>
+        </div>
     </main>
+
     <footer class="footer">
         <p>© 2024 Il-Quran bil-Malti</p>
     </footer>
@@ -228,7 +119,6 @@
             
             verseContainer.innerHTML = content;
 
-            // Update verse selector
             verseSelector.innerHTML = `<option value="" disabled selected>Select Verse</option>`;
             Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
@@ -239,7 +129,6 @@
             verseSelector.disabled = false;
         }
 
-        // Event listener for verse selector (optional)
         verseSelector.addEventListener('change', () => {
             const verseNumber = verseSelector.value;
             const selectedVerse = document.getElementById(`verse-${verseNumber}`);
@@ -248,10 +137,8 @@
             }
         });
 
-        // Initialize and load data
         loadData();
 
-        // Event listener for Surah selector
         surahSelector.addEventListener('change', () => {
             const surahName = surahSelector.value;
             displaySurah(surahName);
