@@ -26,19 +26,20 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             flex-direction: column;
             min-height: 100vh;
-            padding-top: 60px; /* Adjusted space for smaller floating header */
+            padding-top: 80px; /* Adjusted to provide space for header */
         }
 
         .container {
             width: 100%;
-            max-width: 1024px;
+            max-width: 800px; /* Adjusted for a more readable width */
             padding: 20px;
             background-color: #FFFFFF;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
+            margin-top: 20px;
         }
 
         .header {
@@ -49,14 +50,14 @@
             background-color: #FFFFFF;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 10px 0; /* Reduced padding */
+            padding: 5px 0; /* Reduced padding */
             text-align: center;
             width: 100%;
             transition: box-shadow 0.3s ease;
         }
 
         .header h1 {
-            font-size: 1.8rem; /* Smaller font size */
+            font-size: 1.6rem; /* Further reduced header font size */
             font-weight: 700;
             color: #333333;
             margin: 0;
@@ -89,6 +90,7 @@
             line-height: 30px;
             color: #333333;
             margin-bottom: 20px;
+            white-space: pre-line; /* Ensures text is continuous */
         }
 
         .verse-number {
@@ -98,9 +100,10 @@
 
         .surah-name {
             font-weight: 700;
-            font-size: 22px;
+            font-size: 24px;
             color: #333333;
             text-align: center;
+            margin-top: 20px;
             margin-bottom: 20px;
         }
 
@@ -158,6 +161,7 @@
     </div>
 
     <div class="container">
+        <div id="surahName" class="surah-name"></div>
         <div id="verseContainer"></div>
 
         <div class="navigation-buttons">
@@ -198,6 +202,7 @@
         const verseContainer = document.getElementById('verseContainer');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
+        const surahName = document.getElementById('surahName');
 
         // Populate Surah Selector
         function loadSurahList() {
@@ -211,15 +216,13 @@
 
         // Display selected Surah and Verses
         function displaySurah(surahIndex) {
-            const surahName = Object.keys(quranData)[surahIndex];
-            const surah = quranData[surahName];
+            const surahNameText = Object.keys(quranData)[surahIndex];
+            const surah = quranData[surahNameText];
+
+            // Update Surah name
+            surahName.textContent = surahNameText;
 
             verseContainer.innerHTML = ''; // Clear previous content
-
-            const surahElement = document.createElement('div');
-            surahElement.className = 'surah-name';
-            surahElement.textContent = surahName;
-            verseContainer.appendChild(surahElement);
 
             let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
