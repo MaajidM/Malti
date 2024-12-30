@@ -19,9 +19,6 @@
     <!-- Favicon -->
     <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
 
-    <!-- Analytics Script -->
-    <script async src="https://cdn.vercel.com/analytics.js"></script>
-
     <!-- Fonts and Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -32,6 +29,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #FFFFFF;
             color: #333333;
+            margin: 0;
+            padding: 0;
         }
 
         .header, .footer {
@@ -60,6 +59,7 @@
             height: auto;
             display: flex;
             flex-direction: column;
+            position: relative; /* Allow floating buttons to be placed */
         }
 
         .verse-text {
@@ -119,18 +119,19 @@
         }
 
         .floating-buttons button {
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 10px 15px;
-            font-size: 20px;
-            border: none;
+            background-color: white;
+            color: black;
+            padding: 15px;
+            font-size: 24px;
+            border: 2px solid #333;
             border-radius: 50%;
             margin: 10px;
             cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .floating-buttons button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #f0f0f0;
         }
 
         .floating-buttons .prev-button {
@@ -175,7 +176,8 @@
         let currentVerseIndex = 0;
         const versesPerPage = 7;
 
-        fetch('quran.json')
+        // Use the correct file path for the Quran data
+        fetch('quran.json') // Ensure the file path is correct
             .then(response => response.json())
             .then(data => {
                 quranData = data;
