@@ -6,6 +6,7 @@
     <title>Il-Quran bil-Malti</title>
     <!-- Include Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         /* Apply Inter font to the entire page */
@@ -18,12 +19,6 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Sidebar Hidden */
-        .sidebar.hidden {
-            transform: translateX(-100%);
         }
 
         /* Header Styles */
@@ -78,19 +73,6 @@
         .verse-container {
             white-space: normal;
         }
-
-        /* Button Styles */
-        .nav-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .nav-btn:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -123,10 +105,6 @@
                 <div id="verseContainer" class="content space-y-6">
                     <!-- Verses will be loaded here -->
                 </div>
-                <div id="pagination" class="flex justify-between mt-4">
-                    <button id="prevBtn" class="nav-btn">Previous</button>
-                    <button id="nextBtn" class="nav-btn">Next</button>
-                </div>
             </div>
         </div>
     </div>
@@ -137,8 +115,6 @@
 
     <script>
         let quranData = {};
-        let currentPage = 1;  // Keeps track of current page
-        const versesPerPage = 7;
 
         // Fetch the external Quran data from a JSON file
         fetch('quran.json')
@@ -177,45 +153,23 @@
             // Add Surah name above the text in the middle
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
-            surahElement.textContent = surahName;
+            surahElement.textContent = surahName;  // Surah name as the title
             verseContainer.appendChild(surahElement);
 
-            // Get the entries (verses) and slice them according to currentPage and versesPerPage
-            const verses = Object.entries(surah);
-            const startIndex = (currentPage - 1) * versesPerPage;
-            const endIndex = startIndex + versesPerPage;
-            const pageVerses = verses.slice(startIndex, endIndex);
-
-            // Add verses to the verseContainer
-            pageVerses.forEach(([verseNumber, verse]) => {
-                const verseElement = document.createElement('div');
-                verseElement.className = 'verse-text';
-                verseElement.innerHTML = `${verse.maltese}<sup class="verse-number">${verseNumber}</sup>`;
-                verseContainer.appendChild(verseElement);
+            // Create a block of text with continuous flow
+            let fullText = '';
+            Object.entries(surah).forEach(([verseNumber, verse]) => {
+                // Add each verse with a small superscript verse number and continuous text flow
+                fullText += `<span class="verse-text">${verse.maltese}<sup class="verse-number">${verseNumber}</sup></span> `;
             });
 
-            // Update the pagination buttons
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = endIndex >= verses.length;
+            verseContainer.innerHTML += fullText; // Append verses after the surah name
         }
 
         // Sidebar Toggle
         document.getElementById('menuButton').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('hidden');
-        });
-
-        // Pagination Buttons
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displaySurah(Object.keys(quranData)[0]); // Update with the same surah
-            }
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentPage++;
-            displaySurah(Object.keys(quranData)[0]); // Update with the same surah
         });
     </script>
 
