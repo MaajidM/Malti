@@ -105,30 +105,34 @@
         select:disabled {
             background-color: #F0F0F0;
         }
-
-      /* Styling the floating buttons */
+/* Styling the floating buttons */
 .floating-btn {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
     background-color: #FFFFFF;
     border: 1px solid #D1D5DB;
-    padding: 20px; /* Increase padding to make the button larger */
+    width: 60px; /* Fixed width */
+    height: 60px; /* Fixed height, same as width */
     border-radius: 50%; /* Perfectly circular */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow */
     z-index: 1000;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+    display: flex;
+    align-items: center; /* Center the content vertically */
+    justify-content: center; /* Center the content horizontally */
+    font-size: 20px; /* Font size for icons or text inside the button */
 }
 
 /* Left button */
 #prevButton {
-    left: 10%; /* Position the button 10% from the left */
+    left: 15%; /* Adjust the position to bring it closer to text */
 }
 
 /* Right button */
 #nextButton {
-    right: 10%; /* Position the button 10% from the right */
+    right: 15%; /* Adjust the position to bring it closer to text */
 }
 
 /* Hover effect */
@@ -136,6 +140,7 @@
     background-color: #F3F4F6;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
 }
+
 
     </style>
 </head>
