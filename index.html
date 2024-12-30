@@ -6,7 +6,6 @@
     <title>Il-Quran bil-Malti</title>
     <!-- Include Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         /* Apply Inter font to the entire page */
@@ -19,6 +18,12 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: #FFFFFF;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Sidebar Hidden */
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
 
         /* Header Styles */
