@@ -106,34 +106,37 @@
             background-color: #F0F0F0;
         }
 
-        /* Styling the floating buttons */
-        .floating-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #FFFFFF;
-            border: 0px solid #D1D5DB;
-            padding: 10px 15px;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+      /* Styling the floating buttons */
+.floating-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    padding: 20px; /* Increase padding to make the button larger */
+    border-radius: 50%; /* Perfectly circular */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+    z-index: 1000;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
 
-        /* Left button */
-        #prevButton {
-            left: 15px;
-        }
+/* Left button */
+#prevButton {
+    left: 10%; /* Position the button 10% from the left */
+}
 
-        /* Right button */
-        #nextButton {
-            right: 15px;
-        }
+/* Right button */
+#nextButton {
+    right: 10%; /* Position the button 10% from the right */
+}
 
-        .floating-btn:hover {
-            background-color: #F3F4F6;
-        }
+/* Hover effect */
+.floating-btn:hover {
+    background-color: #F3F4F6;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
     </style>
 </head>
 <body>
