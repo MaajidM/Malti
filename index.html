@@ -19,9 +19,6 @@
     <!-- Favicon -->
     <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
 
-    <!-- Analytics Script -->
-    <script async src="https://cdn.vercel.com/analytics.js"></script>
-
     <!-- Fonts and Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -57,7 +54,6 @@
             max-width: 100%;
             margin: 0 auto;
             overflow-y: auto;
-            height: auto;
             display: flex;
             flex-direction: column;
         }
@@ -110,41 +106,33 @@
             background-color: #F0F0F0;
         }
 
-        /* Floating Navigation Buttons */
-        .floating-buttons {
+        /* Styling the floating buttons */
+        .floating-btn {
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 100;
-        }
-
-        .floating-buttons button {
-            background-color: white;
-            color: black;
-            padding: 12px;
-            font-size: 24px;
-            border: 1px solid #333;
+            background-color: #FFFFFF;
+            border: 0px solid #D1D5DB;
+            padding: 10px 15px;
             border-radius: 50%;
-            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: background-color 0.3s ease;
         }
 
-        .floating-buttons button:hover {
-            background-color: #f0f0f0;
+        /* Left button */
+        #prevButton {
+            left: 15px;
         }
 
-        .floating-buttons .prev-button {
-            left: 10px;
+        /* Right button */
+        #nextButton {
+            right: 15px;
         }
 
-        .floating-buttons .next-button {
-            right: 10px;
+        .floating-btn:hover {
+            background-color: #F3F4F6;
         }
     </style>
 </head>
@@ -153,6 +141,7 @@
     <!-- Header Section -->
     <nav class="header p-4 shadow-sm">
         <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
+
         <div class="verse-selector mt-4">
             <select id="surahSelector" class="p-2 border rounded-md">
                 <option value="" disabled selected>Select Surah</option>
@@ -170,18 +159,16 @@
         </div>
     </div>
 
-    <!-- Floating Buttons -->
-    <div class="floating-buttons">
-        <button id="prevButton" class="prev-button">&lt;</button>
-        <button id="nextButton" class="next-button">&gt;</button>
-    </div>
-
     <!-- Footer Section -->
     <footer class="footer">
         <p>&copy; 2024 Il-Quran bil-Malti | Open Source</p>
         <p class="text-xs">"Il-Qoran Imqaddes", Maltese translation by Dr. Muhammad S. Khatib & Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta</p>
         <p class="text-xs">For more information, visit <a href="https://quran.com" target="_blank" class="text-blue-500 underline">Quran.com</a></p>
     </footer>
+
+    <!-- Floating Buttons -->
+    <button id="prevButton" class="floating-btn">&lt;</button>
+    <button id="nextButton" class="floating-btn">&gt;</button>
 
     <script>
         let quranData = {};
@@ -248,16 +235,15 @@
             });
         }
 
-        surahSelector.addEventListener('change', (e) => {
-            currentSurahIndex = parseInt(e.target.value);
-            currentVerseIndex = 0;
-            displaySurah(currentSurahIndex);
-            loadVerseOptions(currentSurahIndex);
-        });
-
-        verseSelector.addEventListener('change', (e) => {
-            currentVerseIndex = parseInt(e.target.value) - 1;
-            displaySurah(currentSurahIndex);
+        prevButton.addEventListener('click', () => {
+            if (currentVerseIndex > 0) {
+                currentVerseIndex -= versesPerPage;
+                displaySurah(currentSurahIndex);
+            } else if (currentSurahIndex > 0) {
+                currentSurahIndex--;
+                currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
+                displaySurah(currentSurahIndex);
+            }
         });
 
         nextButton.addEventListener('click', () => {
@@ -268,17 +254,6 @@
             } else if (currentSurahIndex < Object.keys(quranData).length - 1) {
                 currentSurahIndex++;
                 currentVerseIndex = 0;
-                displaySurah(currentSurahIndex);
-            }
-        });
-
-        prevButton.addEventListener('click', () => {
-            if (currentVerseIndex > 0) {
-                currentVerseIndex -= versesPerPage;
-                displaySurah(currentSurahIndex);
-            } else if (currentSurahIndex > 0) {
-                currentSurahIndex--;
-                currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
                 displaySurah(currentSurahIndex);
             }
         });
