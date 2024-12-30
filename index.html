@@ -19,6 +19,9 @@
     <!-- Favicon -->
     <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
 
+    <!-- Analytics Script -->
+    <script async src="https://cdn.vercel.com/analytics.js"></script>
+
     <!-- Fonts and Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -29,8 +32,6 @@
             font-family: 'Inter', sans-serif;
             background-color: #FFFFFF;
             color: #333333;
-            margin: 0;
-            padding: 0;
         }
 
         .header, .footer {
@@ -59,7 +60,6 @@
             height: auto;
             display: flex;
             flex-direction: column;
-            position: relative; /* Allow floating buttons to be placed */
         }
 
         .verse-text {
@@ -121,13 +121,18 @@
         .floating-buttons button {
             background-color: white;
             color: black;
-            padding: 15px;
+            padding: 12px;
             font-size: 24px;
-            border: 2px solid #333;
+            border: 1px solid #333;
             border-radius: 50%;
             margin: 10px;
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .floating-buttons button:hover {
@@ -148,6 +153,14 @@
     <!-- Header Section -->
     <nav class="header p-4 shadow-sm">
         <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
+        <div class="verse-selector mt-4">
+            <select id="surahSelector" class="p-2 border rounded-md">
+                <option value="" disabled selected>Select Surah</option>
+            </select>
+            <select id="verseSelector" class="p-2 border rounded-md" disabled>
+                <option value="" disabled selected>Select Verse</option>
+            </select>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -157,7 +170,7 @@
         </div>
     </div>
 
-    <!-- Floating Navigation Buttons -->
+    <!-- Floating Buttons -->
     <div class="floating-buttons">
         <button id="prevButton" class="prev-button">&lt;</button>
         <button id="nextButton" class="next-button">&gt;</button>
@@ -176,8 +189,7 @@
         let currentVerseIndex = 0;
         const versesPerPage = 7;
 
-        // Use the correct file path for the Quran data
-        fetch('quran.json') // Ensure the file path is correct
+        fetch('quran.json')
             .then(response => response.json())
             .then(data => {
                 quranData = data;
@@ -189,9 +201,34 @@
                 alert('Failed to load Quran data.');
             });
 
+        const surahSelector = document.getElementById('surahSelector');
+        const verseSelector = document.getElementById('verseSelector');
+        const verseContainer = document.getElementById('verseContainer');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
-        const verseContainer = document.getElementById('verseContainer');
+
+        function loadSurahList() {
+            const surahNames = Object.keys(quranData);
+            surahNames.forEach((surahName, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = surahName;
+                surahSelector.appendChild(option);
+            });
+            loadVerseOptions(currentSurahIndex);
+        }
+
+        function loadVerseOptions(surahIndex) {
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
+            const surah = quranData[Object.keys(quranData)[surahIndex]];
+            Object.keys(surah).forEach((verseNumber) => {
+                const option = document.createElement('option');
+                option.value = verseNumber;
+                option.textContent = `Verse ${verseNumber}`;
+                verseSelector.appendChild(option);
+            });
+            verseSelector.disabled = false;
+        }
 
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
@@ -210,6 +247,18 @@
                 verseContainer.appendChild(verseElement);
             });
         }
+
+        surahSelector.addEventListener('change', (e) => {
+            currentSurahIndex = parseInt(e.target.value);
+            currentVerseIndex = 0;
+            displaySurah(currentSurahIndex);
+            loadVerseOptions(currentSurahIndex);
+        });
+
+        verseSelector.addEventListener('change', (e) => {
+            currentVerseIndex = parseInt(e.target.value) - 1;
+            displaySurah(currentSurahIndex);
+        });
 
         nextButton.addEventListener('click', () => {
             const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
