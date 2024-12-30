@@ -222,15 +222,23 @@
             const numberOfVerses = Object.keys(surah).length;
             const options = Array.from({ length: numberOfVerses }, (_, i) => i + 1);
 
-            surahSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
+            const verseSelector = document.createElement('select');
+            verseSelector.id = 'verseSelector';
+            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
+
             options.forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber - 1;
                 option.textContent = `Verse ${verseNumber}`;
-                surahSelector.appendChild(option);
+                verseSelector.appendChild(option);
             });
 
-            surahSelector.value = currentVerseIndex + 1; // Reflect current verse selection
+            surahSelector.parentElement.appendChild(verseSelector);  // Add Verse Selector below Surah Selector
+
+            verseSelector.addEventListener('change', function () {
+                currentVerseIndex = parseInt(this.value);
+                displaySurah(currentSurahIndex);
+            });
         }
 
         // Display selected Surah and Verses
