@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: 'Noto Sans', sans-serif;
+            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--background-color);
             color: var(--text-primary);
             margin: 0;
@@ -100,7 +100,6 @@
             text-align: center;
             margin: 2rem 0;
             color: var(--text-primary);
-            letter-spacing: -0.02em;
         }
 
         .verse-text {
@@ -166,6 +165,7 @@
     <footer class="footer">
         <p>© 2024 Il-Quran bil-Malti</p>
     </footer>
+
     <script>
         const surahSelector = document.getElementById('surahSelector');
         const verseSelector = document.getElementById('verseSelector');
@@ -179,6 +179,7 @@
                 const data = await response.json();
                 quranData = data;
                 initializeSurahSelector();
+                displaySurah(Object.keys(data)[0]);
             } catch (error) {
                 verseContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
                 console.error(error);
@@ -186,7 +187,7 @@
         }
 
         function initializeSurahSelector() {
-            surahSelector.innerHTML = '<option value="" disabled selected>Select Surah</option>';
+            surahSelector.innerHTML = '<option value="" disabled>Select Surah</option>';
             Object.keys(quranData).forEach((surahName) => {
                 const option = document.createElement('option');
                 option.value = surahName;
@@ -200,38 +201,46 @@
             const surah = quranData[surahName];
             if (!surah) return;
 
-            const verses = Object.entries(surah);
+            const content = `
+                <div class="surah-name">${surahName}</div>
+                ${Object.entries(surah).map(([verseNumber, verse]) => `
+                    <div class="verse-text" id="verse-${verseNumber}">
+                        ${verse.Translation || "Translation missing"}
+                        <sup class="verse-number">${verseNumber}</sup>
+                    </div>
+                `).join('')}
+            `;
+            
+            verseContainer.innerHTML = content;
+
+            // Update verse selector
             verseSelector.innerHTML = `<option value="" disabled selected>Select Verse</option>`;
-            verses.forEach(([verseNumber]) => {
+            Object.keys(surah).forEach((verseNumber) => {
                 const option = document.createElement('option');
                 option.value = verseNumber;
                 option.textContent = `Verse ${verseNumber}`;
                 verseSelector.appendChild(option);
             });
             verseSelector.disabled = false;
-
-            const content = `
-                <div class="surah-name">${surahName}</div>
-                ${verses.map(([verseNumber, verse]) => `
-                    <div class="verse-text" id="verse-${verseNumber}">
-                        ${verse.maltese}<sup class="verse-number">${verseNumber}</sup>
-                    </div>
-                `).join('')}
-            `;
-            verseContainer.innerHTML = content;
         }
 
+        // Event listener for verse selector (optional)
+        verseSelector.addEventListener('change', () => {
+            const verseNumber = verseSelector.value;
+            const selectedVerse = document.getElementById(`verse-${verseNumber}`);
+            if (selectedVerse) {
+                selectedVerse.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        // Initialize and load data
+        loadData();
+
+        // Event listener for Surah selector
         surahSelector.addEventListener('change', () => {
             const surahName = surahSelector.value;
             displaySurah(surahName);
         });
-
-        verseSelector.addEventListener('change', () => {
-            const verseNumber = verseSelector.value;
-            document.getElementById(`verse-${verseNumber}`).scrollIntoView({ behavior: 'smooth' });
-        });
-
-        loadData();
     </script>
 </body>
 </html>
