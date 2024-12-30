@@ -46,30 +46,25 @@
             color: #6B7280;
         }
 
-        /* Adjust the container to allow continuous flow */
+        /* Adjust the container for continuous flow */
         .content {
             background-color: #FFFFFF;
             color: #333333;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
-            overflow-y: auto; /* Allow vertical scrolling */
-            height: auto; /* Adjust height to make content scrollable */
-            display: flex;
-            flex-direction: column;
+            word-wrap: break-word;
         }
 
         .verse-text {
             font-weight: 400;
             font-size: 18px;
             line-height: 30px;
-            margin-bottom: 0; /* Remove margin between verses */
-            white-space: nowrap; /* Prevent line breaks in the verse text */
-            word-wrap: normal; /* Prevent word breaking */
+            margin-bottom: 0;
+            white-space: normal; /* Allow line breaks */
         }
 
         .surah-name {
@@ -132,7 +127,7 @@
     <!-- Main Content -->
     <div class="flex p-8">
         <div class="flex-1 max-w-3xl mx-auto">
-            <div id="verseContainer" class="content space-y-6"></div>
+            <div id="verseContainer" class="content"></div>
             <div class="navigation-buttons">
                 <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">&lt; PREV</button>
                 <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">NEXT &gt;</button>
@@ -203,7 +198,7 @@
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Concatenate all the verses and display them in a continuous flow
+            // Concatenate all the verses and display them continuously without line breaks
             let versesText = '';
             let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
@@ -212,7 +207,7 @@
             
             const verseElement = document.createElement('div');
             verseElement.className = 'verse-text';
-            verseElement.innerHTML = versesText; // Combine all verses
+            verseElement.innerHTML = versesText; // Combine all verses in one block
             verseContainer.appendChild(verseElement);
         }
 
