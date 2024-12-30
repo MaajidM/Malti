@@ -183,7 +183,7 @@
 
 async function loadData() {
     try {
-        const response = await fetch('quran.json');
+        const response = await fetch('./quran.json');
         if (!response.ok) throw new Error(`Failed to load Quran data: ${response.status}`);
         const data = await response.json();
         quranData = data;
