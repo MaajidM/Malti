@@ -3,27 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Il-Quran Imqaddes bil-Malti – A Maltese translation of the Quran by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli. Explore the Quran's verses and their translations in Maltese.">
-    <meta name="keywords" content="Quran, Quran translation, Quran in Maltese, Il-Quran Imqaddes, Islamic, Dr. Muhammad S. Khatib, Dr. Ali F. Dalli, Quran in Malta">
-    <meta name="author" content="Dr. Muhammad S. Khatib, Dr. Ali F. Dalli">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Il-Quran Imqaddes bil-Malti – Maltese Translation of the Quran">
-    <meta property="og:description" content="Explore the Quran's verses in Maltese through the translation of Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Il-Quran Imqaddes bil-Malti">
-    <meta name="twitter:description" content="Maltese translation of the Quran, providing insights into the verses with translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico">
-    <title>Il-Quran Imqaddes bil-Malti – Traduzzjoni ta' Dr. Muhammad S. Khatib u Dr. Ali F. Dalli | The Holy Quran in Maltese – Translation by Dr. Muhammad S. Khatib and Dr. Ali F. Dalli</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="https://raw.githubusercontent.com/MaajidM/Malti/refs/heads/main/favicon.ico" type="image/x-icon">
-
-    <!-- Fonts and Tailwind CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Il-Quran Imqaddes bil-Malti</title>
+    <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-
-    <!-- Styles -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -33,155 +15,60 @@
 
         .header, .footer {
             background-color: #FFFFFF;
-            color: #333333;
             text-align: center;
-            padding: 10px 20px;
         }
 
-        .footer p {
-            font-size: 0.875rem;
-            color: #6B7280;
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn {
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-btn:hover {
+            background-color: #d1d5db;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .content {
-            background-color: #FFFFFF;
-            color: #333333;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
-            width: 100%;
-            max-width: 100%;
+            max-width: 900px;
             margin: 0 auto;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
         }
 
-       /* Verse text styling for a smooth flow */
-.verse-text {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 30px;
-    margin-bottom: 10px; /* Minimized spacing between verses */
-    word-wrap: break-word; /* Ensure long words break properly */
-    text-align: justify; /* Align text for a clean flow */
-}
+        .verse-text {
+            margin-bottom: 15px;
+        }
 
         .surah-name {
-            font-weight: 700;
-            font-size: 22px;
-            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 24px;
             text-align: center;
+            margin-bottom: 20px;
         }
-
-        .verse-number {
-            font-size: 14px;
-            color: rgb(119, 122, 123);
-            vertical-align: super;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .active {
-            background-color: #E2F4EA;
-            color: #006F3C;
-        }
-
-        button:hover {
-            background-color: #E8F5E9;
-        }
-
-        select {
-            padding: 10px;
-            background-color: #FAFAFA;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        select:disabled {
-            background-color: #F0F0F0;
-        }
-/* Floating button styling */
-.floating-btn {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #FFFFFF;
-    border: 1px solid #D1D5DB;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Reduced shadow intensity */
-    z-index: 1000;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-/* Left button */
-#prevButton {
-    left: 15%; /* Default position */
-}
-
-/* Right button */
-#nextButton {
-    right: 15%; /* Default position */
-}
-
-/* Hover effect */
-.floating-btn:hover {
-    background-color: #F3F4F6;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow on hover */
-}
-
-/* Adjust buttons for smaller screens */
-@media (max-width: 768px) {
-    #prevButton, #nextButton {
-        width: 50px; /* Slightly smaller buttons */
-        height: 50px;
-    }
-
-    #prevButton {
-        left: 5%; /* Move closer to screen edges */
-    }
-
-    #nextButton {
-        right: 5%; /* Move closer to screen edges */
-    }
-}
-
-@media (max-width: 480px) {
-    #prevButton, #nextButton {
-        width: 40px; /* Even smaller buttons */
-        height: 40px;
-        font-size: 16px; /* Adjust font size for smaller buttons */
-    }
-
-    #prevButton {
-        left: 2%; /* Hug the edges to avoid covering text */
-    }
-
-    #nextButton {
-        right: 2%;
-    }
-}
-
     </style>
 </head>
 <body>
-
-    <!-- Header Section -->
+    <!-- Header -->
     <nav class="header p-4 shadow-sm">
-        <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
+        <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti</a>
 
         <div class="verse-selector mt-4">
             <select id="surahSelector" class="p-2 border rounded-md">
@@ -191,26 +78,23 @@
                 <option value="" disabled selected>Select Verse</option>
             </select>
         </div>
+
+        <!-- Navigation Bar -->
+        <div class="nav-buttons">
+            <button id="prevButton" class="nav-btn">&lt; PREV</button>
+            <button id="nextButton" class="nav-btn">NEXT &gt;</button>
+        </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="flex p-8">
-        <div class="flex-1 max-w-3xl mx-auto">
-            <div id="verseContainer" class="content space-y-6"></div>
-        </div>
-    </div>
+    <div class="content" id="verseContainer"></div>
 
-    <!-- Footer Section -->
-    <footer class="footer">
+    <!-- Footer -->
+    <footer class="footer p-4">
         <p>&copy; 2024 Il-Quran bil-Malti | Open Source</p>
-        <p class="text-xs">"Il-Qoran Imqaddes", Maltese translation by Dr. Muhammad S. Khatib & Dr. Ali F. Dalli (2008), published by the Islamic Centre of Malta</p>
-        <p class="text-xs">For more information, visit <a href="https://quran.com" target="_blank" class="text-blue-500 underline">Quran.com</a></p>
     </footer>
 
-    <!-- Floating Buttons -->
-    <button id="prevButton" class="floating-btn">&lt;</button>
-    <button id="nextButton" class="floating-btn">&gt;</button>
-
+    <!-- Script -->
     <script>
         let quranData = {};
         let currentSurahIndex = 0;
@@ -267,22 +151,31 @@
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
+            const verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
                 verseElement.className = 'verse-text';
-                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
+                verseElement.innerHTML = `${verse.maltese} <sup>${verseNumber}</sup>`;
                 verseContainer.appendChild(verseElement);
             });
         }
 
+        surahSelector.addEventListener('change', (e) => {
+            currentSurahIndex = parseInt(e.target.value);
+            currentVerseIndex = 0;
+            displaySurah(currentSurahIndex);
+            loadVerseOptions(currentSurahIndex);
+        });
+
+        verseSelector.addEventListener('change', (e) => {
+            currentVerseIndex = parseInt(e.target.value) - 1;
+            displaySurah(currentSurahIndex);
+        });
+
         prevButton.addEventListener('click', () => {
+            const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
             if (currentVerseIndex > 0) {
                 currentVerseIndex -= versesPerPage;
-                displaySurah(currentSurahIndex);
-            } else if (currentSurahIndex > 0) {
-                currentSurahIndex--;
-                currentVerseIndex = Object.keys(quranData[Object.keys(quranData)[currentSurahIndex]]).length - versesPerPage;
                 displaySurah(currentSurahIndex);
             }
         });
@@ -291,10 +184,6 @@
             const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
             if (currentVerseIndex + versesPerPage < Object.keys(surah).length) {
                 currentVerseIndex += versesPerPage;
-                displaySurah(currentSurahIndex);
-            } else if (currentSurahIndex < Object.keys(quranData).length - 1) {
-                currentSurahIndex++;
-                currentVerseIndex = 0;
                 displaySurah(currentSurahIndex);
             }
         });
