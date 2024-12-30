@@ -46,25 +46,28 @@
             color: #6B7280;
         }
 
-        /* Adjust the container for continuous flow */
         .content {
             background-color: #FFFFFF;
             color: #333333;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
-            word-wrap: break-word;
+            overflow-y: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .verse-text {
             font-weight: 400;
             font-size: 18px;
             line-height: 30px;
-            margin-bottom: 0;
-            white-space: normal; /* Allow line breaks */
+            margin-bottom: 10px;
+            word-wrap: break-word;
         }
 
         .surah-name {
@@ -107,36 +110,35 @@
             background-color: #F0F0F0;
         }
 
-        /* Responsive Design */
-        @media (max-width: 640px) {
-            .header, .footer {
-                padding: 8px;
-            }
-            .verse-text {
-                font-size: 16px;
-                line-height: 24px;
-            }
-            .surah-name {
-                font-size: 18px;
-            }
-            .navigation-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
+        /* Floating Navigation Buttons */
+        .floating-buttons {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
         }
 
-        @media (min-width: 640px) and (max-width: 1024px) {
-            .verse-text {
-                font-size: 18px;
-                line-height: 28px;
-            }
+        .floating-buttons button {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50%;
+            margin: 10px;
+            cursor: pointer;
         }
 
-        @media (min-width: 1024px) {
-            .content {
-                max-width: 90%;
-            }
+        .floating-buttons button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .floating-buttons .prev-button {
+            left: 10px;
+        }
+
+        .floating-buttons .next-button {
+            right: 10px;
         }
     </style>
 </head>
@@ -145,26 +147,19 @@
     <!-- Header Section -->
     <nav class="header p-4 shadow-sm">
         <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
-
-        <div class="verse-selector mt-4">
-            <select id="surahSelector" class="p-2 border rounded-md">
-                <option value="" disabled selected>Select Surah</option>
-            </select>
-            <select id="verseSelector" class="p-2 border rounded-md" disabled>
-                <option value="" disabled selected>Select Verse</option>
-            </select>
-        </div>
     </nav>
 
     <!-- Main Content -->
     <div class="flex p-8">
         <div class="flex-1 max-w-3xl mx-auto">
-            <div id="verseContainer" class="content"></div>
-            <div class="navigation-buttons">
-                <button id="prevButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">&lt; PREV</button>
-                <button id="nextButton" class="p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">NEXT &gt;</button>
-            </div>
+            <div id="verseContainer" class="content space-y-6"></div>
         </div>
+    </div>
+
+    <!-- Floating Navigation Buttons -->
+    <div class="floating-buttons">
+        <button id="prevButton" class="prev-button">&lt;</button>
+        <button id="nextButton" class="next-button">&gt;</button>
     </div>
 
     <!-- Footer Section -->
@@ -192,68 +187,27 @@
                 alert('Failed to load Quran data.');
             });
 
-        const surahSelector = document.getElementById('surahSelector');
-        const verseSelector = document.getElementById('verseSelector');
-        const verseContainer = document.getElementById('verseContainer');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
-
-        function loadSurahList() {
-            const surahNames = Object.keys(quranData);
-            surahNames.forEach((surahName, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = surahName;
-                surahSelector.appendChild(option);
-            });
-            loadVerseOptions(currentSurahIndex);
-        }
-
-        function loadVerseOptions(surahIndex) {
-            verseSelector.innerHTML = '<option value="" disabled selected>Select Verse</option>';
-            const surah = quranData[Object.keys(quranData)[surahIndex]];
-            Object.keys(surah).forEach((verseNumber) => {
-                const option = document.createElement('option');
-                option.value = verseNumber;
-                option.textContent = `Verse ${verseNumber}`;
-                verseSelector.appendChild(option);
-            });
-            verseSelector.disabled = false;
-        }
+        const verseContainer = document.getElementById('verseContainer');
 
         function displaySurah(surahIndex) {
             const surahName = Object.keys(quranData)[surahIndex];
             const surah = quranData[surahName];
-            verseContainer.innerHTML = ''; // Clear previous content
+            verseContainer.innerHTML = '';
             const surahElement = document.createElement('div');
             surahElement.className = 'surah-name';
             surahElement.textContent = surahName;
             verseContainer.appendChild(surahElement);
 
-            // Concatenate all the verses and display them continuously without line breaks
-            let versesText = '';
             let verses = Object.entries(surah).slice(currentVerseIndex, currentVerseIndex + versesPerPage);
             verses.forEach(([verseNumber, verse]) => {
-                versesText += `${verse.maltese} <sup class="verse-number">${verseNumber}</sup> `;
+                const verseElement = document.createElement('div');
+                verseElement.className = 'verse-text';
+                verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
+                verseContainer.appendChild(verseElement);
             });
-            
-            const verseElement = document.createElement('div');
-            verseElement.className = 'verse-text';
-            verseElement.innerHTML = versesText; // Combine all verses in one block
-            verseContainer.appendChild(verseElement);
         }
-
-        surahSelector.addEventListener('change', (e) => {
-            currentSurahIndex = parseInt(e.target.value);
-            currentVerseIndex = 0;
-            displaySurah(currentSurahIndex);
-            loadVerseOptions(currentSurahIndex);
-        });
-
-        verseSelector.addEventListener('change', (e) => {
-            currentVerseIndex = parseInt(e.target.value) - 1;
-            displaySurah(currentSurahIndex);
-        });
 
         nextButton.addEventListener('click', () => {
             const surah = quranData[Object.keys(quranData)[currentSurahIndex]];
