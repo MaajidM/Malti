@@ -119,7 +119,7 @@
 
     <!-- Header Section -->
     <nav class="header p-4 shadow-sm">
-        <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti <br> The Holy Quran in Maltese</a>
+        <a href="/" class="text-xl font-semibold">Il-Quran Imqaddes bil-Malti | The Holy Quran in Maltese</a>
 
         <!-- Surah and Verse Selectors -->
         <div class="verse-selector mt-4">
@@ -212,6 +212,7 @@
             Object.entries(surah).forEach(([verseNumber, verse]) => {
                 const verseElement = document.createElement('div');
                 verseElement.className = 'verse-text';
+                verseElement.id = `verse-${verseNumber}`; // Set unique ID for each verse
                 verseElement.innerHTML = `${verse.maltese} <sup class="verse-number">${verseNumber}</sup>`;
                 verseContainer.appendChild(verseElement);
             });
@@ -237,7 +238,12 @@
         // Handle Verse selection change
         verseSelector.addEventListener('change', (e) => {
             currentVerseIndex = parseInt(e.target.value) - 1;
-            displaySurah(currentSurahIndex);
+            // Scroll to the selected verse
+            const verseId = `verse-${e.target.value}`;
+            const verseElement = document.getElementById(verseId);
+            if (verseElement) {
+                verseElement.scrollIntoView({ behavior: 'smooth' });
+            }
         });
 
         // Load data when the page is ready
