@@ -124,7 +124,7 @@
             margin-top: 10px;
         }
 
-  select {
+select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -156,17 +156,14 @@ select:focus {
 }
 
 .select-container::after {
-    content: '';
+    content: '\25BC'; /* Downward triangle (Unicode character for arrow) */
     position: absolute;
     top: 50%;
     right: 8px;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #000; /* Downward-facing triangle */
-    transform: translateY(-50%);
+    transform: translateY(-50%); /* Center the arrow vertically */
     pointer-events: none;
+    font-size: 14px; /* Adjusted size for the arrow */
+    color: #000;
 }
 
 
